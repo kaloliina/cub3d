@@ -18,32 +18,29 @@ if we encounter something that is not 1, 0, N S E W, then we know we failed*/
 //maybe we can check if we are on the top, bottom or left edge, then return false
 //otherwise check if we have encountered ' ' and then say its not enclosed
 #include <stdio.h>
-static bool	fill(char **tab, int player_x, int player_y,
+//validation height needs to be the highest height possible in the map
+//maybe also need to hceck if tab[player_y] is not null
+//also need to maybe put the space or null terminator check inside the first check as well
+static void	fill(char **tab, int player_x, int player_y,
 t_map_validation *validation)
 {
-	if (player_x < 0 || player_y < 0 || player_y >= validation->height)
+	if (player_y < 0 || player_x < 0 || player_y >= validation->height || player_x >= ft_strlen(tab[player_y]))
 	{
-		printf("hereee??\n");
-		return (false);
+		//outofbounds
+		return ;
 	}
-	if (tab[player_y][player_x] != '0' && tab[player_y][player_x] != '1'
-		&& tab[player_y][player_x] != 'N' && tab[player_y][player_x] != 'S'
-		&& tab[player_y][player_x] != 'E' && tab[player_y][player_x] != 'W')
+	if (tab[player_y][player_x] == ' ' || tab[player_y][player_x] == '\0')
 	{
-		printf("the map is not enclosed...\n");
-		exit (1);
-		return (false);
+		//outofbounds
+		return ;
 	}
-	if (tab[player_y][player_x] == 'C')
-		validation->collectable_reached++;
-	if (tab[player_y][player_x] == 'E')
-		validation->exit_reached++;
-	tab[player_y][player_x] = '1';
+	if (tab[y][x] == '1' || tab[y][x] == 'F')
+		return ;
+	tab[player_y][player_x] = 'F'
 	fill(tab, player_x + 1, player_y, validation);
 	fill(tab, player_x - 1, player_y, validation);
 	fill(tab, player_x, player_y + 1, validation);
 	fill(tab, player_x, player_y - 1, validation);
-	return (true);
 }
 #include <stdio.h>
 static void	flood_fill(t_game *game, t_map_validation *validation)

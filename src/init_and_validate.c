@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:00:59 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/09 16:29:57 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:38:03 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,47 @@ if we encounter something that is not 1, 0, N S E W, then we know we failed*/
 //validation height needs to be the highest height possible in the map
 //maybe also need to hceck if tab[player_y] is not null
 //also need to maybe put the space or null terminator check inside the first check as well
-static void	fill(char **tab, int player_x, int player_y,
-t_map_validation *validation)
+static bool	fill(char **tab, int player_x, int player_y,
+t_map_validation *validation, char prev)
 {
-	if (player_y < 0 || player_x < 0 || player_y >= validation->height || player_x >= ft_strlen(tab[player_y]))
+//	printf("y: %d, x: %d\n", player_y, player_x);
+//	printf("%c\n", tab[player_y][player_x]);
+	if (player_y < 0 || player_x < 0 || tab[player_y] == NULL || tab[player_y][player_x] == '\0')
 	{
-		//outofbounds
-		return ;
+		if (prev != 'w')
+		{
+			printf("this was not enclosed...\n");
+			validation->is_enclosed = false;
+		}
+		return (false);
 	}
-	if (tab[player_y][player_x] == ' ' || tab[player_y][player_x] == '\0')
+	if (tab[player_y][player_x] == ' ' && prev == 'v')
 	{
-		//outofbounds
-		return ;
+//this is more like if there is a space that you can walk on
+		printf("theres a space somewhere inside\n");
+		return (false);
 	}
-	if (tab[y][x] == '1' || tab[y][x] == 'F')
-		return ;
-	tab[player_y][player_x] = 'F'
-	fill(tab, player_x + 1, player_y, validation);
-	fill(tab, player_x - 1, player_y, validation);
-	fill(tab, player_x, player_y + 1, validation);
-	fill(tab, player_x, player_y - 1, validation);
+	if (tab[player_y][player_x] == ' ' && prev != 'w')
+	{
+//this is more like if there is a space that you can walk on
+		printf("the map is maybe not enclosed\n");
+		return (false);
+	}
+	if (tab[player_y][player_x] == 'v' || tab[player_y][player_x] == 'w')
+		return (true);
+	if (tab[player_y][player_x] == '1')
+		tab[player_y][player_x] = 'w';
+	else if (tab[player_y][player_x] == '0')
+		tab[player_y][player_x] = 'v';
+	else if (tab[player_y][player_x] == 'N')
+		tab[player_y][player_x] = 'v';
+	else
+		return (false);
+	fill(tab, player_x + 1, player_y, validation, tab[player_y][player_x]);
+	fill(tab, player_x - 1, player_y, validation, tab[player_y][player_x]);
+	fill(tab, player_x, player_y + 1, validation, tab[player_y][player_x]);
+	fill(tab, player_x, player_y - 1, validation, tab[player_y][player_x]);
+	return (true);
 }
 #include <stdio.h>
 static void	flood_fill(t_game *game, t_map_validation *validation)
@@ -52,12 +73,13 @@ static void	flood_fill(t_game *game, t_map_validation *validation)
 	tab = malloc(sizeof(char *) * (game->height + 1));
 	if (tab == NULL)
 		cleanup_and_exit(game, ERRGEN, 0);
+//this one needs a proper check
 	validation->height = game->height;
 	while (y < game->height)
 	{
 		tab[y] = ft_strdup(game->map[y]);
 //this is for debugging purposes
-		printf("%s\n", tab[y]);
+//		printf("%s\n", tab[y]);
 		if (tab[y] == NULL)
 		{
 			free_floodmap(tab);
@@ -66,7 +88,7 @@ static void	flood_fill(t_game *game, t_map_validation *validation)
 		y++;
 	}
 	tab[y] = NULL;
-	fill(tab, game->player.x, game->player.y, validation);
+	fill(tab, game->player.x, game->player.y, validation, '1');
 	free_floodmap(tab);
 }
 
@@ -119,7 +141,7 @@ void	initialize_and_validate(t_game *game)
 		{
 			if (game->map[game->height][game->width] == 'C')
 				game->collectables++;
-			if (game->map[game->height][game->width] == 'P')
+			if (game->map[game->height][game->width] == 'N')
 			{
 				game->player.y = game->height;
 				game->player.x = game->width;

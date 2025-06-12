@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/12 16:40:08 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/12 17:23:17 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define ERRARGC "Warning: Program expects one argument to a valid map."
 # define ERRGEN "Warning: Operation failed."
 # define ERRRGB "Warning: Expected 3 colours in the range of 0 - 255."
+# define ERRMISSINFO "Warning: Could not find the required information in the specified file."
 
 # define ERRC "Warning: No collectables found on the map!"
 # define ERRE "Warning: Invalid amount of exits on the map!"

@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:02:12 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/12 17:14:56 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/12 17:23:44 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ static char	*extract_info(t_game *game, char *buffer)
 	while (i < 6)
 	{
 		temp = ft_strnstr(buffer, information[i], MAX_BUFFER_SIZE);
+		if (temp == NULL)
+			cleanup_and_exit(game, ERRMISSINFO, 0);
 		if (index == -1 || index > (int)ft_strlen(temp))
 			index = ft_strlen(ft_strchr(temp, '\n'));
 		if (i < 4)

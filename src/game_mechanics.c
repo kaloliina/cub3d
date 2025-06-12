@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 18:07:53 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/02/19 13:20:37 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/12 13:04:10 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ static void	check_progress(t_game *game)
 			i++;
 		}
 	}
-	if (game->player.collected == game->collectables
-		&& game->map[game->player.y][game->player.x] == 'E')
-		mlx_close_window(game->mlx);
+//	if (game->player.collected == game->collectables
+//		&& game->map[game->player.y][game->player.x] == 'E')
+//		mlx_close_window(game->mlx);
 }
 
 static void	print_movements(t_game *game)
@@ -66,11 +66,11 @@ static void	move(t_game *game, int y, int x)
 	game->player.movements++;
 	print_movements(game);
 	check_progress(game);
-	if (game->player.collected == game->collectables)
-	{
-		game->images[EXIT_CLOSED]->instances[0].enabled = false;
-		game->images[EXIT_OPEN]->instances[0].enabled = true;
-	}
+//	if (game->player.collected == game->collectables)
+//	{
+//		game->images[EXIT_CLOSED]->instances[0].enabled = false;
+//		game->images[EXIT_OPEN]->instances[0].enabled = true;
+//	}
 }
 
 void	key_hook(mlx_key_data_t keydata, t_game *game)

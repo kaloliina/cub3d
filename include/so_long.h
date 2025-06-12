@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/09 16:19:54 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/12 16:40:08 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <string.h>
 # include <fcntl.h>
+# include <stdio.h>
 # define MAX_SCREEN_WIDTH 3840
 # define MAX_SCREEN_HEIGHT 2160
 # define MAX_BUFFER_SIZE 820
@@ -30,6 +31,7 @@
 # define ERRSIZE "Warning: Game window is too large."
 # define ERRARGC "Warning: Program expects one argument to a valid map."
 # define ERRGEN "Warning: Operation failed."
+# define ERRRGB "Warning: Expected 3 colours in the range of 0 - 255."
 
 # define ERRC "Warning: No collectables found on the map!"
 # define ERRE "Warning: Invalid amount of exits on the map!"
@@ -67,25 +69,21 @@ typedef struct s_player
 typedef struct s_game
 {
 	mlx_t		*mlx;
-	int			collectables;
 	char		**map;
 	int			width;
 	int			height;
 	t_player	player;
 	mlx_image_t	*images[7];
+	char	*asset_paths[4];
+	int		ceiling_rgb[3];
+	int		floor_rgb[3];
 }	t_game;
 
 typedef struct s_map_validation
 {
-	bool	is_rectangular;
 	bool	is_enclosed;
 	bool	has_invalid_chars;
-	int		collectable_count;
-	int		collectable_reached;
-	int		exit_count;
-	int		exit_reached;
 	int		player_count;
-	int		height;
 }	t_map_validation;
 
 void	initialize_and_validate(t_game *game);

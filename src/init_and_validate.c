@@ -6,57 +6,44 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:00:59 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/13 10:45:45 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/13 13:02:06 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-//There must be a cleaner way to do this :D
-//Aaand this is again broken
-static bool	fill(char **tab, int player_x, int player_y,
+static void	fill(char **tab, int player_x, int player_y,
 t_map_validation *validation, char prev)
 {
-//	printf("y: %d, x: %d\n", player_y, player_x);
-//	printf("%c\n", tab[player_y][player_x]);
-	if (player_y < 0 || player_x < 0 || tab[player_y] == NULL || tab[player_y][player_x] == '\0')
+	printf("Location y: %d x: %d\n", player_y, player_x);
+	if (player_y < 0 || player_x < 0 || tab[player_y] == NULL || player_x > (int)ft_strlen(tab[player_y]) || tab[player_y][player_x] == '\0')
 	{
-		if (prev != 'w')
-		{
-			printf("this was not enclosed...\n");
+		if (prev == 'v')
 			validation->is_enclosed = false;
-		}
-		return (false);
+		return ;
 	}
-	if (tab[player_y][player_x] == ' ' && prev == 'v')
+	if (tab[player_y][player_x] == 'v' || tab[player_y][player_x] == 'w' || tab[player_y][player_x] == 'l')
+		return ;
+	if (prev == 'v' && (tab[player_y][player_x] != '1' && tab[player_y][player_x] != '0'))
 	{
-//this is more like if there is a space that you can walk on
-		printf("theres a space somewhere inside\n");
-			validation->is_enclosed = false;
-		return (false);
+		validation->is_enclosed = false;
+		return ;
 	}
-	if (tab[player_y][player_x] == ' ' && prev != 'w')
-	{
-//this is more like if there is a space that you can walk on
-		printf("the map is maybe not enclosed\n");
-			validation->is_enclosed = false;
-		return (false);
-	}
-	if (tab[player_y][player_x] == 'v' || tab[player_y][player_x] == 'w')
-		return (true);
 	if (tab[player_y][player_x] == '1')
 		tab[player_y][player_x] = 'w';
 	else if (tab[player_y][player_x] == '0')
 		tab[player_y][player_x] = 'v';
 	else if (tab[player_y][player_x] == 'N')
 		tab[player_y][player_x] = 'v';
+	else if (tab[player_y][player_x] == ' ')
+		tab[player_y][player_x] = 'l';
 	else
-		return (false);
+		return ;
 	fill(tab, player_x + 1, player_y, validation, tab[player_y][player_x]);
 	fill(tab, player_x - 1, player_y, validation, tab[player_y][player_x]);
 	fill(tab, player_x, player_y + 1, validation, tab[player_y][player_x]);
 	fill(tab, player_x, player_y - 1, validation, tab[player_y][player_x]);
-	return (true);
+	return ;
 }
 
 static void	flood_fill(t_game *game, t_map_validation *validation)

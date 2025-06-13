@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/12 17:23:17 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/13 11:19:48 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,14 @@
 # define ERRSIZE "Warning: Game window is too large."
 # define ERRARGC "Warning: Program expects one argument to a valid map."
 # define ERRGEN "Warning: Operation failed."
-# define ERRRGB "Warning: Expected 3 colours in the range of 0 - 255."
+# define ERRTHREE "Warning: Expected 3 numbers for RGB values"
+# define ERRRGB "Warning: RGB values expected in the range of 0 - 255."
 # define ERRMISSINFO "Warning: Could not find the required information in the specified file."
+# define ERRMAPGAP "Warning: The map should not contain empty rows in between!"
 
-# define ERRC "Warning: No collectables found on the map!"
-# define ERRE "Warning: Invalid amount of exits on the map!"
 # define ERRP "Warning: Invalid amount of players on the map!"
-# define ERRREC "Warning: Map is not rectangular!"
 # define ERRENC "Warning: Map is not enclosed with walls!"
 # define ERRCHARS "Warning: Map has invalid characters!"
-# define ERRCUNR "Warning: Player cannot reach all collectables!"
-# define ERREUNR "Warning: Player cannot reach the exit!"
 
 # define ERRPNG "Warning: Error loading PNG."
 # define ERRCONV "Warning: Error converting texture to image."
@@ -52,19 +49,15 @@ enum e_assets
 {
 	BASE,
 	WALL,
-	COLLECTABLE,
-	PLAYER_LEFT,
-	PLAYER_RIGHT,
-	EXIT_CLOSED,
-	EXIT_OPEN,
+	PLAYER,
 };
 
 typedef struct s_player
 {
 	int	x;
 	int	y;
-	int	collected;
-	int	movements;
+	int	dir_x;
+	int	dir_y;
 }	t_player;
 
 typedef struct s_game

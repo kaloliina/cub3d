@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:46:14 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/02/19 13:15:54 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/13 11:00:58 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,17 @@ static void	draw_asset(t_game *game, enum e_assets type, int x, int y)
 	if (mlx_image_to_window(game->mlx, game->images[BASE],
 			x * TILE, y * TILE) < 0)
 		cleanup_and_exit(game, ERRIMG, 0);
-	if (type == WALL || type == COLLECTABLE || type == EXIT_CLOSED)
+	if (type == WALL)
 	{
 		if (mlx_image_to_window(game->mlx, game->images[type],
 				x * TILE, y * TILE) < 0)
 			cleanup_and_exit(game, ERRIMG, 0);
-		if (type == EXIT_CLOSED)
-		{
-			if (mlx_image_to_window(game->mlx, game->images[EXIT_OPEN],
-					x * TILE, y * TILE) < 0)
-				cleanup_and_exit(game, ERRIMG, 0);
-			game->images[EXIT_OPEN]->instances[0].enabled = false;
-		}
 	}
-	if (type == PLAYER_LEFT)
+	if (type == PLAYER)
 	{
-		if ((mlx_image_to_window(game->mlx, game->images[PLAYER_LEFT],
+		if (mlx_image_to_window(game->mlx, game->images[PLAYER],
 					game->player.x * TILE, game->player.y * TILE) < 0)
-			|| (mlx_image_to_window(game->mlx, game->images[PLAYER_RIGHT],
-					game->player.x * TILE, game->player.y * TILE) < 0))
 			cleanup_and_exit(game, ERRIMG, 0);
-		game->images[PLAYER_LEFT]->instances[0].enabled = false;
 	}
 }
 
@@ -54,17 +44,13 @@ static void	render_map(t_game *game)
 		{
 			if (game->map[y][x] == '1')
 				draw_asset(game, WALL, x, y);
-			else if (game->map[y][x] == 'C')
-				draw_asset(game, COLLECTABLE, x, y);
-			else if (game->map[y][x] == 'E')
-				draw_asset(game, EXIT_CLOSED, x, y);
 			else
 				draw_asset(game, BASE, x, y);
 			x++;
 		}
 		y++;
 	}
-	draw_asset(game, PLAYER_LEFT, x, y);
+	draw_asset(game, PLAYER, x, y);
 }
 
 static const char	**get_asset_paths(void)

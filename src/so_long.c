@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:02:12 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/12 17:23:44 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/13 11:20:37 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void extract_rgb_info(t_game *game, char *temp)
 	i = 0;
 	textures = ft_split(ft_substr(temp, 2, ft_strlen(temp) - ft_strlen(ft_strchr(temp, '\n')) - 2), ',');
 	if (textures[3] != NULL)
-		cleanup_and_exit(game, ERRRGB, 0);
+		cleanup_and_exit(game, ERRTHREE, 0);
 	while (textures[i] != NULL)
 	{
 		if (check_is_digit(textures[i]) == false)
@@ -142,8 +142,9 @@ static void	parse_map(t_game *game, char *str)
 	if (close (fd) == -1)
 		cleanup_and_exit(game, ERRFILE, 0);
 	map = extract_info(game, buffer);
+	if (ft_strnstr(ft_strchr(map, '1'), "\n\n", MAX_BUFFER_SIZE))
+		cleanup_and_exit(game, ERRMAPGAP, 0);
 	game->map = ft_split(map, '\n');
-//this one has the issue if there's a row of empty spaces, then the map is valid
 	if (game->map == NULL || game->map[0] == NULL)
 		cleanup_and_exit(game, ERREMPTY, 0);
 }

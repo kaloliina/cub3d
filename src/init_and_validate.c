@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:00:59 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/12 15:08:51 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/13 10:45:45 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,14 @@ void	initialize_and_validate(t_game *game)
 				game->player.y = game->height;
 				game->player.x = game->width;
 				validation.player_count++;
+				if (game->map[game->height][game->width] == 'N')
+					game->player.dir_y = -1;
+				if (game->map[game->height][game->width] == 'S')
+					game->player.dir_y = 1;
+				if (game->map[game->height][game->width] == 'W')
+					game->player.dir_x = -1;
+				if (game->map[game->height][game->width] == 'E')
+					game->player.dir_x = 1;
 			}
 			if (!ft_strchr("10 NSEW", game->map[game->height][game->width]))
 				validation.has_invalid_chars = true;

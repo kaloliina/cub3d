@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/16 11:33:22 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:39:27 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@
 # define MAX_BUFFER_SIZE 820
 # define ASSET_COUNT 4
 # define TILE 100
+# define FILE_INFO_COUNT 6
 
+# define ERRMEM "Warning: Memory allocation failed."
 # define ERRBER "Warning: File needs to end in .ber extension."
 # define ERRFILE "Warning: Failed to open the specified file."
 # define ERREMPTY "Warning: Map file is empty!"
@@ -86,4 +88,5 @@ void	load_textures(t_game *game);
 void	key_hook(mlx_key_data_t keydata, t_game *game);
 void	free_floodmap(char **tab);
 void	cleanup_and_exit(t_game *game, char *str, bool success);
+void	early_cleanup_and_exit(char *str);
 #endif

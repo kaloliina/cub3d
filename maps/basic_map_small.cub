@@ -3,7 +3,7 @@ SO ../assets/base2.png
 WE ../assets/base3.png
 EA ../assets/base4.png
 
-F 220, 100, 0
+F 220, 100, 5
 C 225, 30, 0
 
         1111111111111111111111111

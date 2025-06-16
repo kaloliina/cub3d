@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:46:14 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/13 11:00:58 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/16 11:25:06 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,19 @@
 
 static void	draw_asset(t_game *game, enum e_assets type, int x, int y)
 {
+	if (type == BASE)
+	{
 	if (mlx_image_to_window(game->mlx, game->images[BASE],
 			x * TILE, y * TILE) < 0)
 		cleanup_and_exit(game, ERRIMG, 0);
+	}
 	if (type == WALL)
+	{
+		if (mlx_image_to_window(game->mlx, game->images[type],
+				x * TILE, y * TILE) < 0)
+			cleanup_and_exit(game, ERRIMG, 0);
+	}
+	if (type == EMPTY)
 	{
 		if (mlx_image_to_window(game->mlx, game->images[type],
 				x * TILE, y * TILE) < 0)
@@ -37,13 +46,15 @@ static void	render_map(t_game *game)
 	int	y;
 
 	y = 0;
-	while (game->height > y)
+	while (game->map[y] != NULL)
 	{
 		x = 0;
-		while (game->width > x)
+		while (x <= (int)ft_strlen(game->map[y]))
 		{
 			if (game->map[y][x] == '1')
 				draw_asset(game, WALL, x, y);
+			else if (game->map[y][x] == ' ')
+				draw_asset(game, EMPTY, x, y);
 			else
 				draw_asset(game, BASE, x, y);
 			x++;
@@ -59,11 +70,8 @@ static const char	**get_asset_paths(void)
 
 	asset_paths[0] = "assets/base.png";
 	asset_paths[1] = "assets/wall.png";
-	asset_paths[2] = "assets/collectable.png";
-	asset_paths[3] = "assets/player_left.png";
-	asset_paths[4] = "assets/player_right.png";
-	asset_paths[5] = "assets/exit_closed.png";
-	asset_paths[6] = "assets/exit_open.png";
+	asset_paths[2] = "assets/player_left.png";
+	asset_paths[3] = "assets/exit_open.png";
 	return (asset_paths);
 }
 

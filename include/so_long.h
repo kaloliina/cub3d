@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/13 11:19:48 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:43:28 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define MAX_SCREEN_WIDTH 3840
 # define MAX_SCREEN_HEIGHT 2160
 # define MAX_BUFFER_SIZE 820
-# define ASSET_COUNT 7
+# define ASSET_COUNT 4
 # define TILE 100
 
 # define ERRBER "Warning: File needs to end in .ber extension."
@@ -50,6 +50,7 @@ enum e_assets
 	BASE,
 	WALL,
 	PLAYER,
+	EMPTY,
 };
 
 typedef struct s_player
@@ -67,7 +68,7 @@ typedef struct s_game
 	int			width;
 	int			height;
 	t_player	player;
-	mlx_image_t	*images[7];
+	mlx_image_t	*images[4];
 	char	*asset_paths[4];
 	int		ceiling_rgb[3];
 	int		floor_rgb[3];

@@ -6,16 +6,17 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:00:59 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/13 13:02:06 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/16 11:14:16 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
+//this one once again has a problem XD
 static void	fill(char **tab, int player_x, int player_y,
 t_map_validation *validation, char prev)
 {
-	printf("Location y: %d x: %d\n", player_y, player_x);
+//	printf("Location y: %d x: %d\n", player_y, player_x);
 	if (player_y < 0 || player_x < 0 || tab[player_y] == NULL || player_x > (int)ft_strlen(tab[player_y]) || tab[player_y][player_x] == '\0')
 	{
 		if (prev == 'v')
@@ -82,19 +83,24 @@ static void	validation_check(t_game *game, t_map_validation *validation)
 
 void	initialize_and_validate(t_game *game)
 {
+	int					x;
+	int					y;
 	t_map_validation	validation;
 
+	x = 0;
+	y = 0;
 	validation = (t_map_validation){true, false, 0};
 	game->player = (t_player){0};
-	while (game->map[game->height] != NULL)
+//	height is y width is x
+	while (game->map[y] != NULL)
 	{
-		game->width = 0;
-		while (game->map[game->height][game->width] != '\0')
+		x = 0;
+		while (game->map[y][x] != '\0')
 		{
-			if (ft_strchr("NSEW", game->map[game->height][game->width]))
+			if (ft_strchr("NSEW", game->map[y][x]))
 			{
-				game->player.y = game->height;
-				game->player.x = game->width;
+				game->player.y = y;
+				game->player.x = x;
 				validation.player_count++;
 				if (game->map[game->height][game->width] == 'N')
 					game->player.dir_y = -1;
@@ -105,12 +111,15 @@ void	initialize_and_validate(t_game *game)
 				if (game->map[game->height][game->width] == 'E')
 					game->player.dir_x = 1;
 			}
-			if (!ft_strchr("10 NSEW", game->map[game->height][game->width]))
+			if (!ft_strchr("10 NSEW", game->map[y][x]))
 				validation.has_invalid_chars = true;
-			game->width++;
+			x++;
 		}
-		game->height++;
+		if ((int)ft_strlen(game->map[y]) > game->width)
+			game->width = (int)ft_strlen(game->map[y]);
+		y++;
 	}
+	game->height = y;
 	flood_fill(game, &validation);
 	validation_check(game, &validation);
 }

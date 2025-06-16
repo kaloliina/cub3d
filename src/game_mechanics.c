@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 18:07:53 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/16 11:26:16 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/16 11:39:08 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	move(t_game *game, int y, int x)
 
 void	key_hook(mlx_key_data_t keydata, t_game *game)
 {
-	if (keydata.action == 1)
+	if (keydata.action == 1 || keydata.action == 2)
 	{
 		if ((keydata.key == MLX_KEY_W || keydata.key == MLX_KEY_UP)
 			&& game->map[game->player.y - 1][game->player.x] != '1')

@@ -146,17 +146,17 @@ void	draw_line(void *image, int beginX, int beginY, int endX, int endY, int colo
 
 int32_t	main(void)
 {
-	double	posX = 2, posY = 3;
-	double dirX = -1, dirY = 0;
-	double planeX = 0, planeY = 0.66;
-	int	x = 0;
-	while (x < 5)
-	{
-		double cameraX = 2 * x / 5 - 1;
-		double rayDirX = dirX + planeX * cameraX;
-		double rayDirY = dirY + planeY * cameraX;
-		x++;
-	}
+	// double	posX = 2, posY = 3;
+	// double dirX = -1, dirY = 0;
+	// double planeX = 0, planeY = 0.66;
+	// int	x = 0;
+	// while (x < 5)
+	// {
+	// 	double cameraX = 2 * x / 5 - 1;
+	// 	double rayDirX = dirX + planeX * cameraX;
+	// 	double rayDirY = dirY + planeY * cameraX;
+	// 	x++;
+	// }
 
 	double	playerX = TILE * 2;
 	double	playerY = TILE * 0;

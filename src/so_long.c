@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:02:12 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/16 15:53:08 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:29:14 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,31 +57,6 @@ static void	convert_to_int_array(char **textures, int *rgb, t_game *game)
 	int	i;
 
 	i = 0;
-	while (i < 3)
-	{
-		rgb[i] = ft_atoi(textures[i]);
-		if (check_if_number_in_range(rgb[i]) == false)
-			cleanup_and_exit(game, ERRRGB, 0);
-		printf("%d\n", game->floor_rgb[i]);
-		i++;
-	}
-	free_array(textures, 1);
-}
-
-static void extract_rgb_info(t_game *game, char *temp)
-{
-	int		i;
-	char	**textures;
-
-	i = 0;
-//this one is the issue
-	printf("Printing temp: %s!!!\n", temp);
-	textures = ft_split(ft_substr(temp, 2, ft_strlen(temp) - ft_strlen(ft_strchr(temp, '\n')) - 2), ',');
-	if (textures == NULL)
-	{
-		free_array(game->asset_paths, 0);
-		early_cleanup_and_exit(ERRMEM);
-	}
 	while (textures[i] != NULL)
 	{
 		if (check_is_digit(textures[i]) == false)
@@ -90,6 +65,14 @@ static void extract_rgb_info(t_game *game, char *temp)
 			free_array(textures, 1);
 			early_cleanup_and_exit(ERRRGB);
 		}
+		rgb[i] = ft_atoi(textures[i]);
+		if (check_if_number_in_range(rgb[i]) == false)
+		{
+			free_array(game->asset_paths, 0);
+			free_array(textures, 1);
+			early_cleanup_and_exit(ERRRGB);
+		}
+		printf("Rgb:%d\n", rgb[i]);
 		i++;
 	}
 	if (i != 3)
@@ -98,11 +81,27 @@ static void extract_rgb_info(t_game *game, char *temp)
 		free_array(textures, 1);
 		early_cleanup_and_exit(ERRTHREE);
 	}
+}
+
+static void extract_rgb_info(t_game *game, char *temp)
+{
+	int		i;
+	char	**textures;
+
 	i = 0;
+	char *line = ft_substr(temp + 2, 0, ft_strlen(temp + 2) - ft_strlen(ft_strchr(temp + 2, '\n')));
+	textures = ft_split(line, ',');
+	free (line);
+	if (textures == NULL)
+	{
+		free_array(game->asset_paths, 0);
+		early_cleanup_and_exit(ERRMEM);
+	}
 	if (temp[0] == 'F')
 		convert_to_int_array(textures, game->floor_rgb, game);
 	if (temp[0] == 'C')
 		convert_to_int_array(textures, game->ceiling_rgb, game);
+	free_array(textures, 1);
 }
 
 static const char	**get_required_properties(void)
@@ -122,13 +121,12 @@ static const char	**get_required_properties(void)
 static char	*extract_info(t_game *game, char *buffer)
 {
 	int		i;
-	int		j;
 	int		index;
 	char	*temp;
 	const char	**information;
+
 	information = get_required_properties();
 	i = 0;
-	j = 0;
 	index = -1;
 	while (i < 6)
 	{

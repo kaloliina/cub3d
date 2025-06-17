@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/16 15:39:27 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:20:21 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct s_game
 	int			height;
 	t_player	player;
 	mlx_image_t	*images[4];
-	char	*asset_paths[4];
+	char	*asset_paths[5];
 	int		ceiling_rgb[3];
 	int		floor_rgb[3];
 }	t_game;

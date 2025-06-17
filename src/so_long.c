@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:02:12 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/17 14:29:14 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:46:29 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,6 @@ bool	check_is_digit(char *str)
 	return (true);
 }
 
-static void free_array(char **stuff, int entirestuff)
-{
-	int	i;
-
-	i = 0;
-	while (stuff[i] != NULL)
-	{
-		printf("Freeing %s\n", stuff[i]);
-		free (stuff[i]);
-		i++;
-	}
-	if (entirestuff == 1)
-		free (stuff);
-}
-
 static void	convert_to_int_array(char **textures, int *rgb, t_game *game)
 {
 	int	i;
@@ -61,25 +46,22 @@ static void	convert_to_int_array(char **textures, int *rgb, t_game *game)
 	{
 		if (check_is_digit(textures[i]) == false)
 		{
-			free_array(game->asset_paths, 0);
 			free_array(textures, 1);
-			early_cleanup_and_exit(ERRRGB);
+			cleanup_and_exit(game, ERRRGB, 0);
 		}
 		rgb[i] = ft_atoi(textures[i]);
 		if (check_if_number_in_range(rgb[i]) == false)
 		{
-			free_array(game->asset_paths, 0);
 			free_array(textures, 1);
-			early_cleanup_and_exit(ERRRGB);
+			cleanup_and_exit(game, ERRRGB, 0);
 		}
 		printf("Rgb:%d\n", rgb[i]);
 		i++;
 	}
 	if (i != 3)
 	{
-		free_array(game->asset_paths, 0);
 		free_array(textures, 1);
-		early_cleanup_and_exit(ERRTHREE);
+		cleanup_and_exit(game, ERRTHREE, 0);
 	}
 }
 
@@ -93,10 +75,7 @@ static void extract_rgb_info(t_game *game, char *temp)
 	textures = ft_split(line, ',');
 	free (line);
 	if (textures == NULL)
-	{
-		free_array(game->asset_paths, 0);
-		early_cleanup_and_exit(ERRMEM);
-	}
+		cleanup_and_exit(game, ERRMEM, 0);
 	if (temp[0] == 'F')
 		convert_to_int_array(textures, game->floor_rgb, game);
 	if (temp[0] == 'C')
@@ -132,10 +111,7 @@ static char	*extract_info(t_game *game, char *buffer)
 	{
 		temp = ft_strnstr(buffer, information[i], MAX_BUFFER_SIZE);
 		if (temp == NULL)
-		{
-			free_array(game->asset_paths, 0);
-			early_cleanup_and_exit(ERRMISSINFO);
-		}
+			cleanup_and_exit(game, ERRMISSINFO, 0);
 		if (index == -1 || index > (int)ft_strlen(temp))
 			index = ft_strlen(ft_strchr(temp, '\n'));
 		if (i < 4)

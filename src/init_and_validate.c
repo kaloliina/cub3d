@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:00:59 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/16 11:14:16 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:44:43 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,14 @@ static void	flood_fill(t_game *game, t_map_validation *validation)
 		tab[y] = ft_strdup(game->map[y]);
 		if (tab[y] == NULL)
 		{
-			free_floodmap(tab);
+			free_array(tab, 1);
 			cleanup_and_exit(game, ERRGEN, 0);
 		}
 		y++;
 	}
 	tab[y] = NULL;
 	fill(tab, game->player.x, game->player.y, validation, '1');
-	free_floodmap(tab);
+	free_array(tab, 1);
 }
 
 static void	validation_check(t_game *game, t_map_validation *validation)

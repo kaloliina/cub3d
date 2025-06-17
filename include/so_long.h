@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/17 14:20:21 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:37:34 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ typedef struct s_map_validation
 void	initialize_and_validate(t_game *game);
 void	load_textures(t_game *game);
 void	key_hook(mlx_key_data_t keydata, t_game *game);
-void	free_floodmap(char **tab);
+void	free_array(char **array, int entirety);
 void	cleanup_and_exit(t_game *game, char *str, bool success);
 void	early_cleanup_and_exit(char *str);
 #endif

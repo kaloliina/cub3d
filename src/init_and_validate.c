@@ -6,24 +6,22 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:00:59 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/17 14:44:43 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:12:32 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-//this one once again has a problem XD
 static void	fill(char **tab, int player_x, int player_y,
 t_map_validation *validation, char prev)
 {
-//	printf("Location y: %d x: %d\n", player_y, player_x);
 	if (player_y < 0 || player_x < 0 || tab[player_y] == NULL || player_x > (int)ft_strlen(tab[player_y]) || tab[player_y][player_x] == '\0')
 	{
 		if (prev == 'v')
 			validation->is_enclosed = false;
 		return ;
 	}
-	if (tab[player_y][player_x] == 'v' || tab[player_y][player_x] == 'w' || tab[player_y][player_x] == 'l')
+	if (tab[player_y][player_x] == 'v' || tab[player_y][player_x] == 'w')
 		return ;
 	if (prev == 'v' && (tab[player_y][player_x] != '1' && tab[player_y][player_x] != '0'))
 	{
@@ -32,12 +30,8 @@ t_map_validation *validation, char prev)
 	}
 	if (tab[player_y][player_x] == '1')
 		tab[player_y][player_x] = 'w';
-	else if (tab[player_y][player_x] == '0')
+	else if (ft_strchr("NSEW0", tab[player_y][player_x]))
 		tab[player_y][player_x] = 'v';
-	else if (tab[player_y][player_x] == 'N')
-		tab[player_y][player_x] = 'v';
-	else if (tab[player_y][player_x] == ' ')
-		tab[player_y][player_x] = 'l';
 	else
 		return ;
 	fill(tab, player_x + 1, player_y, validation, tab[player_y][player_x]);
@@ -91,7 +85,6 @@ void	initialize_and_validate(t_game *game)
 	y = 0;
 	validation = (t_map_validation){true, false, 0};
 	game->player = (t_player){0};
-//	height is y width is x
 	while (game->map[y] != NULL)
 	{
 		x = 0;

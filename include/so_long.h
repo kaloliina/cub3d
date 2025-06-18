@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/18 12:24:56 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/18 14:42:02 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define MAX_SCREEN_HEIGHT 2160
 # define MAX_BUFFER_SIZE 820
 # define ASSET_COUNT 4
-# define TILE 100
+# define TILE 20
 # define FILE_INFO_COUNT 6
 
 # define ERRMEM "Warning: Memory allocation failed."

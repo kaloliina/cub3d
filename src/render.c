@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:46:14 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/18 13:34:12 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/18 14:57:49 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,6 @@ static int	get_colour(int *rgb)
 	return (colour);
 }
 
-// *
-//  * @param[in] image The MLX instance handle.
-//  * @param[in] x The X coordinate position.
-//  * @param[in] y The Y coordinate position.
-//  * @param[in] color The color value to put.
-//  */
-// void mlx_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
-
 static void	draw_asset(t_game *game, enum e_assets type, int x, int y)
 {
 	if (type == BASE)
@@ -44,12 +36,6 @@ static void	draw_asset(t_game *game, enum e_assets type, int x, int y)
 				x * TILE, y * TILE) < 0)
 			cleanup_and_exit(game, ERRIMG, 0);
 	}
-	if (type == EMPTY)
-	{
-		if (mlx_image_to_window(game->mlx, game->images[type],
-				x * TILE, y * TILE) < 0)
-			cleanup_and_exit(game, ERRIMG, 0);
-	}
 	if (type == PLAYER)
 	{
 		if (mlx_image_to_window(game->mlx, game->images[PLAYER],
@@ -58,43 +44,60 @@ static void	draw_asset(t_game *game, enum e_assets type, int x, int y)
 	}
 }
 
-static void	render_map(t_game *game)
+static void	render_actualmap(t_game *game)
 {
 	int	x;
 	int	y;
-	int	tx;
-	int	ty;
 
+	x = 0;
 	y = 0;
-	while (game->map[y] != NULL)
+	while (y < MAX_SCREEN_HEIGHT / 2)
 	{
 		x = 0;
-		while (x < (int)ft_strlen(game->map[y]))
+		while (x < MAX_SCREEN_WIDTH)
 		{
-
-			if (game->map[y][x] == '1')
-				draw_asset(game, WALL, x, y);
-			else if (game->map[y][x] == ' ')
-				draw_asset(game, EMPTY, x, y);
-			else if (game->map[y][x] == '0')
-			{
-				ty = 0;
-				while (ty < TILE)
-				{
-					tx = 0;
-					while (tx < TILE)
-					{
-						mlx_put_pixel(game->image, x * TILE + tx, y * TILE + ty,get_colour(game->floor_rgb));
-						tx++;
-					}
-				ty++;
-				}
-			}
+			mlx_put_pixel(game->image, x, y, get_colour(game->ceiling_rgb));
 			x++;
 		}
 		y++;
 	}
 	mlx_image_to_window(game->mlx, game->image, 0, 0);
+	y = MAX_SCREEN_HEIGHT / 2;
+	while (y < MAX_SCREEN_HEIGHT)
+	{
+		x = 0;
+		while (x < MAX_SCREEN_WIDTH)
+		{
+			mlx_put_pixel(game->image, x, y, get_colour(game->floor_rgb));
+			x++;
+		}
+		y++;
+	}
+	mlx_image_to_window(game->mlx, game->image, 0, 0);
+}
+
+static void	render_map(t_game *game)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	render_actualmap(game);
+	while (game->map[y] != NULL)
+	{
+		x = 0;
+		while (x < (int)ft_strlen(game->map[y]))
+		{
+			if (game->map[y][x] == '1')
+				draw_asset(game, WALL, x, y);
+			else if (game->map[y][x] == '0')
+			{
+				draw_asset(game, BASE, x, y);
+			}
+			x++;
+		}
+		y++;
+	}
 	draw_asset(game, PLAYER, x, y);
 }
 
@@ -115,7 +118,7 @@ void	load_textures(t_game *game)
 	mlx_texture_t	*texture;
 	const char		**asset_paths;
 
-	game->image = mlx_new_image(game->mlx, game->width * TILE, game->height  * TILE);
+	game->image = mlx_new_image(game->mlx, MAX_SCREEN_WIDTH, MAX_SCREEN_HEIGHT);
 	asset_paths = get_asset_paths();
 	i = 0;
 	while (i < ASSET_COUNT)

@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:02:12 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/18 13:37:19 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/18 14:35:50 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ int	main(int argc, char *argv[])
 		if ((game.width * TILE) > MAX_SCREEN_WIDTH
 			|| (game.height * TILE) > MAX_SCREEN_HEIGHT)
 			cleanup_and_exit(&game, ERRSIZE, 0);
-		game.mlx = mlx_init(game.width * TILE, game.height * TILE,
+		game.mlx = mlx_init(MAX_SCREEN_WIDTH, MAX_SCREEN_HEIGHT,
 				"Piscine", false);
 		if (game.mlx == NULL)
 			cleanup_and_exit(&game, ERRGEN, 0);

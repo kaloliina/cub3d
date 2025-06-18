@@ -3,117 +3,14 @@
 // #define screenWidth 640
 // #define screenHeight 480
 
-// int worldMap[5][5]=
-// {
-//   {1, 1, 1, 1, 1},
-//   {1, 0, 0, 0, 1},
-//   {1, 0, 0, 0, 1},
-//   {1, 0, 0, 0, 1},
-//   {1, 1, 1, 1, 1}
-// };
-
-/*static void	build_view_helper(t_game *game, int x, int y)
+int map[5][5]=
 {
-	int	i;
-	int	j;
-
-	i = x * TILE;
-	j = y * TILE;
-	if (game->board[y][x] == 'C')
-	{
-		if (mlx_image_to_window(game->mlx, game->image[COLLECTIBLE], i, j) < 0)
-			exit_game(game, FALSE);
-	}
-	else if (game->board[y][x] == 'E')
-	{
-		if (mlx_image_to_window(game->mlx, game->image[EXIT], i, j) < 0)
-			exit_game(game, FALSE);
-	}
-}
-
-void	build_view(t_game *game)
-{
-	int				x;
-	int				y;
-
-	y = 0;
-	while (y < game->height)
-	{
-		x = 0;
-		while (x < game->width)
-		{
-			if (mlx_image_to_window(game->mlx, game->image[BASE],
-					x * TILE, y * TILE) < 0)
-				exit_game(game, FALSE);
-			if (game->board[y][x] == '1')
-			{
-				if (mlx_image_to_window(game->mlx, game->image[WALL],
-						x * TILE, y * TILE) < 0)
-					exit_game(game, FALSE);
-			}
-			if (game->board[y][x] != '1' && game->board[y][x] != '0')
-				build_view_helper(game, x, y);
-			x++;
-		}
-		y++;
-	}
-}
-
-static void	init_texture_path(char **texture_path)
-{
-	texture_path[0] = "./textures/wall.png";
-	texture_path[1] = "./textures/base.png";
-	texture_path[2] = "./textures/player.png";
-	texture_path[3] = "./textures/collectible.png";
-	texture_path[4] = "./textures/exit.png";
-	texture_path[5] = "./textures/exit_open.png";
-}
-
-void	make_images(t_game *game)
-{
-	int				i;
-	mlx_texture_t	*texture[IMG_COUNT];
-	char			*texture_path[IMG_COUNT];
-
-	i = 0;
-	init_texture_path(texture_path);
-	while (i < IMG_COUNT)
-	{
-		texture[i] = mlx_load_png(texture_path[i]);
-		// if (!texture[i])
-		// 	exit_game(game, FALSE);
-		game->image[i] = mlx_texture_to_image(game->mlx, texture[i]);
-		mlx_delete_texture(texture[i]);
-		// if (!game->image[i])
-		// 	exit_game(game, FALSE);
-		i++;
-	}
-}
-
-void	myhook(mlx_key_data_t keydata, void *param)
-{
-	t_line	*line;
-	int		x;
-
-	line = (t_line *)param;
-	x = 0;
-}
-
-int	main()
-{
-	t_game game;
-	double posX = 22.0, posY = 11.5;
-	double dirX = -1.0, dirY = 0.0;
-	double planeX = 0.0, planeY = 0.66;
-
-	mlx_t	*mlx;
-	t_line	*line;
-
-	game.mlx = mlx_init(screenWidth, screenHeight, "test", 0);
-	mlx_loop_hook(game.mlx, myhook, line);
-	mlx_terminate(game.mlx);
-	return (0);
-}*/
+  {1, 1, 1, 1, 1},
+  {1, 0, 0, 0, 1},
+  {1, 1, 0, 0, 1},
+  {1, 0, 0, 0, 1},
+  {1, 1, 1, 1, 1}
+};
 
 #include "MLX42/include/MLX42/MLX42.h"
 #include <stdlib.h>
@@ -146,36 +43,114 @@ void	draw_line(void *image, int beginX, int beginY, int endX, int endY, int colo
 
 int32_t	main(void)
 {
-	// double	posX = 2, posY = 3;
-	// double dirX = -1, dirY = 0;
-	// double planeX = 0, planeY = 0.66;
-	// int	x = 0;
-	// while (x < 5)
-	// {
-	// 	double cameraX = 2 * x / 5 - 1;
-	// 	double rayDirX = dirX + planeX * cameraX;
-	// 	double rayDirY = dirY + planeY * cameraX;
-	// 	x++;
-	// }
-
-	double	playerX = TILE * 2;
-	double	playerY = TILE * 0;
-	double	width = TILE * 5;
-	double	height = TILE * 5;
+	double	width = 5;
+	double	height = 5;
 
     // Init mlx with a canvas size of 256x256 and the ability to resize the window.
-    mlx_t* mlx = mlx_init(width, height, "MLX42", true);
+    mlx_t* mlx = mlx_init(width * TILE, height * TILE, "MLX42", true);
 
     if (!mlx) exit(EXIT_FAILURE);
 
     // Create a 128x128 image.
-    mlx_image_t* img = mlx_new_image(mlx, width, height);
+    mlx_image_t* img = mlx_new_image(mlx, width * TILE, height * TILE);
 
     // Set the channels of each pixel in our image to the maximum byte value of 255.
     memset(img->pixels, 200, img->width * img->height * BPP);
 
-	draw_line(img, playerX, playerY, playerX, (playerY + (3 * TILE)), 0x00FF00);
+	double	posX = 3;
+	double	posY = 2;
+	double	dirX = -1, dirY = 0;	//direction is along x-axis to left
+	double	planeX = 0;	//planeX is 0 bc it has to be perpendicular
+	double	planeY = 0.90;	// this is to make the field of view 66 degrees
+	double	raydirY;
+	double	raydirX;
+	double	sidedistX;
+	double	sidedistY;
+	int		mapX = (int)posX;
+	int		mapY = (int)posY;
+	int		stepX;
+	int		stepY;
+	int		hit = 0;
+	int		side = 0;
+	int		x = 0;
 
+	draw_line(img, 0 * TILE, 0 * TILE, 5 * TILE, 0 * TILE, 0xFF0000);
+	draw_line(img, 0 * TILE, 1 * TILE, 5 * TILE, 1 * TILE, 0xFF0000);
+	draw_line(img, 0 * TILE, 2 * TILE, 5 * TILE, 2 * TILE, 0xFF0000);
+	draw_line(img, 0 * TILE, 3 * TILE, 5 * TILE, 3 * TILE, 0xFF0000);
+	draw_line(img, 0 * TILE, 4 * TILE, 5 * TILE, 4 * TILE, 0xFF0000);
+	draw_line(img, 0 * TILE, 0 * TILE, 0 * TILE, 5 * TILE, 0xFF0000);
+	draw_line(img, 1 * TILE, 0 * TILE, 1 * TILE, 5 * TILE, 0xFF0000);
+	draw_line(img, 2 * TILE, 0 * TILE, 2 * TILE, 5 * TILE, 0xFF0000);
+	draw_line(img, 3 * TILE, 0 * TILE, 3 * TILE, 5 * TILE, 0xFF0000);
+	draw_line(img, 4 * TILE, 0 * TILE, 4 * TILE, 5 * TILE, 0xFF0000);
+
+	while (x < 15)
+	{
+		mapX = (int)posX;
+		mapY = (int)posY;
+		hit = 0;
+		double cameraX = 2.0 * x / (double)width - 1.0;
+		raydirX = dirX + planeX * cameraX;
+		raydirY = dirY + planeY * cameraX;
+		// printf("raydirX %f raydirY %f\n", raydirX, raydirY);
+		double	deltadistX = fabs(1 / raydirX);
+		double	deltadistY = fabs(1 / raydirY);
+		double	perpwalldist;
+
+		if (raydirX < 0)
+		{
+			stepX = -1;
+			sidedistX = (posX - mapX) * deltadistX;
+		}
+		else
+		{
+			stepX = 1;
+			sidedistX = (mapX + 1.0 - posX) * deltadistX;
+		}
+		if (raydirY < 0)
+		{
+			stepY = -1;
+			sidedistY = (posY - mapY) * deltadistY;
+		}
+		else
+		{
+			stepY = 1;
+			sidedistY = (mapY + 1.0 - posY) * deltadistY;
+		}
+
+		double startX = mapX, startY = mapY;
+		while (hit == 0)
+		{
+			// printf("mapX %d mapY %d\n", mapX, mapY);
+			if (sidedistX < sidedistY)
+			{
+				// printf("now we here\n");
+				sidedistX += deltadistX;
+				// printf("so sidedistX %f\n", sidedistX);
+				mapX += stepX;
+				side = 0;
+			}
+			else
+			{
+				// printf("now disty increase\n");
+				sidedistY += deltadistY;
+				// printf("so sidedistY %f\n", sidedistY);
+				mapY += stepY;
+				side = 1;
+			}
+			// printf("after change mapX %d mapY %d\n", mapX, mapY);
+			if (map[mapY][mapX] == 1)
+				hit = 1;
+		}
+		if (side == 0)
+			perpwalldist = (sidedistX - deltadistX);
+		else
+			perpwalldist = (sidedistY - deltadistY);
+		printf("now we draw startX %f startY %f mapX %d mapY %d\n", startX, startY, mapX, mapY);
+		draw_line(img, startX * TILE, startY * TILE, mapX * TILE, mapY * TILE, 0xFFFFFF);
+		x++;
+	}
     // Draw the image at coordinate (0, 0).
     mlx_image_to_window(mlx, img, 0, 0);
 

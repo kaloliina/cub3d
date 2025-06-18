@@ -8,17 +8,6 @@
 # define TRUE 1
 # define FALSE 0
 
-typedef enum s_image
-{
-	WALL,
-	BASE,
-	PLAYER,
-	COLLECTIBLE,
-	EXIT,
-	EXIT_OPEN,
-	IMG_COUNT
-}			t_image;
-
 typedef struct s_line
 {
 	int	x;
@@ -29,29 +18,26 @@ typedef struct s_line
 	int	y_tex;
 }		t_line;
 
+typedef struct s_ray
+{
+	double			perp_wall_dist;
+	double			ray_dir_x;
+	double			ray_dir_y;
+	double			curr_x;
+	double			curr_y;
+	struct s_pos	*draw_start;
+	double			draw_end;
+}					t_ray;
+
 typedef struct s_player
 {
-	int	x;
-	int	y;
-	int	prev_x;
-	int	prev_y;
-}				t_player;
+	struct s_pos	*pos;
+}					t_player;
 
-typedef struct s_point
+typedef struct s_pos
 {
-	int	x;
-	int	y;
-}				t_point;
-
-typedef struct s_game
-{
-	int			width;
-	int			height;
-	char		**board;
-	t_player	*player;
-	t_point		start;
-	t_point		exit;
-	mlx_t		*mlx;
-}				t_game;
+	double	x;
+	double	y;
+}			t_pos;
 
 #endif

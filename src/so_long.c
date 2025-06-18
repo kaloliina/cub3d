@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:02:12 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/18 14:35:50 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/18 15:55:20 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ bool	check_is_digit(char *str)
 	int	i;
 
 	i = 0;
-	if (str[i] == '+' || str[i] == '-' || str[i] == ' ')
-		i++;
 	if (str[i] == '\0')
 		return (false);
 	while (str[i] != '\0')
@@ -47,7 +45,7 @@ static void	convert_to_int_array(char **textures, int *rgb, t_game *game)
 		if (check_is_digit(textures[i]) == false)
 		{
 			free_array(textures, 1);
-			cleanup_and_exit(game, ERRRGB, 0);
+			cleanup_and_exit(game, ERRRGBFORMAT, 0);
 		}
 		rgb[i] = ft_atoi(textures[i]);
 		if (check_if_number_in_range(rgb[i]) == false)
@@ -115,7 +113,10 @@ static char	*extract_info(t_game *game, char *buffer)
 		if (index == -1 || index > (int)ft_strlen(temp))
 			index = ft_strlen(ft_strchr(temp, '\n'));
 		if (i < 4)
+		{
+			//before we get the substr, we need to double check that there's indeed only one space
 			game->asset_paths[i] = ft_substr(temp, 3, ft_strlen(temp) - ft_strlen(ft_strchr(temp, '\n')) - 3);
+		}
 		else
 			extract_rgb_info(game, temp);
 		if (i < 4)

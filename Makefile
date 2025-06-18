@@ -6,12 +6,12 @@
 #    By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/24 12:16:09 by khiidenh          #+#    #+#              #
-#    Updated: 2025/06/17 13:54:52 by khiidenh         ###   ########.fr        #
+#    Updated: 2025/06/18 12:40:03 by khiidenh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= so_long
-CFLAGS	= -Wextra -Wall -Werror
+CFLAGS	=
 LIBMLX	= ./MLX42
 LIBFT = libft/libft.a
 

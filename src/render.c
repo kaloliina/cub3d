@@ -6,11 +6,29 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:46:14 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/16 11:25:06 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/18 13:34:12 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+static int	get_colour(int *rgb)
+{
+	int	colour;
+	int a;
+
+	a = 255;
+	colour =  rgb[0] << 24 | rgb[1] << 16 | rgb[2] << 8 | a;
+	return (colour);
+}
+
+// *
+//  * @param[in] image The MLX instance handle.
+//  * @param[in] x The X coordinate position.
+//  * @param[in] y The Y coordinate position.
+//  * @param[in] color The color value to put.
+//  */
+// void mlx_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 
 static void	draw_asset(t_game *game, enum e_assets type, int x, int y)
 {
@@ -44,23 +62,39 @@ static void	render_map(t_game *game)
 {
 	int	x;
 	int	y;
+	int	tx;
+	int	ty;
 
 	y = 0;
 	while (game->map[y] != NULL)
 	{
 		x = 0;
-		while (x <= (int)ft_strlen(game->map[y]))
+		while (x < (int)ft_strlen(game->map[y]))
 		{
+
 			if (game->map[y][x] == '1')
 				draw_asset(game, WALL, x, y);
 			else if (game->map[y][x] == ' ')
 				draw_asset(game, EMPTY, x, y);
-			else
-				draw_asset(game, BASE, x, y);
+			else if (game->map[y][x] == '0')
+			{
+				ty = 0;
+				while (ty < TILE)
+				{
+					tx = 0;
+					while (tx < TILE)
+					{
+						mlx_put_pixel(game->image, x * TILE + tx, y * TILE + ty,get_colour(game->floor_rgb));
+						tx++;
+					}
+				ty++;
+				}
+			}
 			x++;
 		}
 		y++;
 	}
+	mlx_image_to_window(game->mlx, game->image, 0, 0);
 	draw_asset(game, PLAYER, x, y);
 }
 
@@ -81,6 +115,7 @@ void	load_textures(t_game *game)
 	mlx_texture_t	*texture;
 	const char		**asset_paths;
 
+	game->image = mlx_new_image(game->mlx, game->width * TILE, game->height  * TILE);
 	asset_paths = get_asset_paths();
 	i = 0;
 	while (i < ASSET_COUNT)

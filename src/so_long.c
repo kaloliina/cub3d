@@ -6,132 +6,13 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:02:12 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/19 10:57:01 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:49:56 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "cub3D.h"
 
-bool	check_if_number_in_range(int rgb)
-{
-	if (rgb < 0 || rgb > 255)
-		return (false);
-	return (true);
-}
-
-bool	check_is_digit(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] == '\0')
-		return (false);
-	while (str[i] != '\0')
-	{
-		if (!(str[i] >= 48 && str[i] <= 57))
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
-static void	convert_to_int_array(char **textures, int *rgb, t_game *game)
-{
-	int	i;
-
-	i = 0;
-	while (textures[i] != NULL)
-	{
-		if (check_is_digit(textures[i]) == false)
-		{
-			free_array(textures, 1);
-			cleanup_and_exit(game, ERRRGBFORMAT, 0);
-		}
-		rgb[i] = ft_atoi(textures[i]);
-		if (check_if_number_in_range(rgb[i]) == false)
-		{
-			free_array(textures, 1);
-			cleanup_and_exit(game, ERRRGB, 0);
-		}
-		printf("Rgb:%d\n", rgb[i]);
-		i++;
-	}
-	if (i != 3)
-	{
-		free_array(textures, 1);
-		cleanup_and_exit(game, ERRTHREE, 0);
-	}
-}
-
-static void extract_rgb_info(t_game *game, char *temp)
-{
-	int		i;
-	char	**textures;
-
-	i = 0;
-	char *line = ft_substr(temp, 2, ft_strlen(temp) - ft_strlen(ft_strchr(temp, '\n')) - 2);
-	textures = ft_split(line, ',');
-	free (line);
-	if (textures == NULL)
-		cleanup_and_exit(game, ERRMEM, 0);
-	if (temp[0] == 'F')
-		convert_to_int_array(textures, game->floor_rgb, game);
-	if (temp[0] == 'C')
-		convert_to_int_array(textures, game->ceiling_rgb, game);
-	free_array(textures, 1);
-}
-
-static const char	**get_required_properties(void)
-{
-	static const char	*information[FILE_INFO_COUNT];
-
-	information[0] = "NO";
-	information[1] = "SO";
-	information[2] = "WE";
-	information[3] = "EA";
-	information[4] = "F";
-	information[5] = "C";
-	return (information);
-}
-
-//check the index again...
-static char	*extract_info(t_game *game, char *buffer)
-{
-	int		i;
-	int		index;
-	char	*temp;
-	const char	**information;
-
-	information = get_required_properties();
-	i = 0;
-	index = -1;
-	while (i < 6)
-	{
-		temp = ft_strnstr(buffer, information[i], MAX_BUFFER_SIZE);
-		if (temp == NULL)
-			cleanup_and_exit(game, ERRMISSINFO, 0);
-		if (index == -1 || index > (int)ft_strlen(temp))
-			index = ft_strlen(ft_strchr(temp, '\n'));
-		if (i < 4)
-		{
-			if (temp[2] != ' ')
-				cleanup_and_exit(game, ERRPATHFORMAT, 0);
-			game->asset_paths[i] = ft_substr(temp, 3, ft_strlen(temp) - ft_strlen(ft_strchr(temp, '\n')) - 3);
-			printf("Path: %s\n", game->asset_paths[i]);
-		}
-		else
-		{
-			if (temp[1] != ' ')
-				cleanup_and_exit(game, ERRRGBFORMAT, 0);
-			extract_rgb_info(game, temp);
-		}
-		i++;
-	}
-		printf("The actual map: %s\n", &buffer[ft_strlen(buffer) - index]);
-		return (&buffer[ft_strlen(buffer) - index]);
-}
-
-static void	parse_map(t_game *game, char *str)
+static void	parse_map_file(t_game *game, char *str)
 {
 	int		len;
 	int		fd;
@@ -153,11 +34,8 @@ static void	parse_map(t_game *game, char *str)
 		cleanup_and_exit(game, ERRFILE, 0);
 	}
 	buffer[bytes_read] = '\0';
-	if (close (fd) == -1)
-		cleanup_and_exit(game, ERRFILE, 0);
-	map = extract_info(game, buffer);
-	if (ft_strnstr(ft_strchr(map, '1'), "\n\n", MAX_BUFFER_SIZE))
-		cleanup_and_exit(game, ERRMAPGAP, 0);
+	close (fd);
+	map = parse_file(game, buffer);
 	game->map = ft_split(map, '\n');
 	if (game->map == NULL || game->map[0] == NULL)
 		cleanup_and_exit(game, ERREMPTY, 0);
@@ -170,7 +48,7 @@ int	main(int argc, char *argv[])
 	game = (t_game){0};
 	if (argc == 2)
 	{
-		parse_map(&game, argv[1]);
+		parse_map_file(&game, argv[1]);
 		initialize_and_validate(&game);
 		if ((game.width * TILE) > MAX_SCREEN_WIDTH
 			|| (game.height * TILE) > MAX_SCREEN_HEIGHT)
@@ -186,6 +64,3 @@ int	main(int argc, char *argv[])
 	}
 	cleanup_and_exit(&game, ERRARGC, 0);
 }
-
-
-

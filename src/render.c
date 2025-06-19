@@ -6,19 +6,19 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:46:14 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/19 10:50:46 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:49:26 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "cub3D.h"
 
 static int	get_colour(int *rgb)
 {
 	int	colour;
-	int a;
+	int	a;
 
 	a = 255;
-	colour =  rgb[0] << 24 | rgb[1] << 16 | rgb[2] << 8 | a;
+	colour = rgb[0] << 24 | rgb[1] << 16 | rgb[2] << 8 | a;
 	return (colour);
 }
 
@@ -26,9 +26,9 @@ static void	draw_asset(t_game *game, enum e_assets type, int x, int y)
 {
 	if (type == BASE)
 	{
-	if (mlx_image_to_window(game->mlx, game->images[BASE],
-			x * TILE, y * TILE) < 0)
-		cleanup_and_exit(game, ERRIMG, 0);
+		if (mlx_image_to_window(game->mlx, game->images[BASE],
+				x * TILE, y * TILE) < 0)
+			cleanup_and_exit(game, ERRIMG, 0);
 	}
 	if (type == WALL)
 	{
@@ -39,7 +39,7 @@ static void	draw_asset(t_game *game, enum e_assets type, int x, int y)
 	if (type == PLAYER)
 	{
 		if (mlx_image_to_window(game->mlx, game->images[PLAYER],
-					game->player.x * TILE, game->player.y * TILE) < 0)
+				game->player.x * TILE, game->player.y * TILE) < 0)
 			cleanup_and_exit(game, ERRIMG, 0);
 	}
 }
@@ -111,7 +111,6 @@ void	load_textures(t_game *game)
 	i = 0;
 	while (i < ASSET_COUNT)
 	{
-		printf("here..\n");
 		texture = mlx_load_png(game->asset_paths[i]);
 		if (texture == NULL)
 			cleanup_and_exit(game, ERRPNG, 0);

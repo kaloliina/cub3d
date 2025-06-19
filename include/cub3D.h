@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/19 10:41:09 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:44:26 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define ERRSIZE "Warning: Game window is too large."
 # define ERRARGC "Warning: Program expects one argument to a valid map."
 # define ERRGEN "Warning: Operation failed."
-# define ERRPATHFORMAT "Warning: Paths must be provided as <NO/SO/WE/EA> <Texture_path>."
+# define ERRFORMAT "Warning: Type identifier (NO, SO, WE, EA, F, C) is expected to be followed up by a space."
 # define ERRRGBFORMAT "Warning: RGB values must be provided as <F/C> <R>,<G>,<B> with numbers only (no signs: + or - allowed)."
 # define ERRTHREE "Warning: Expected 3 numbers for RGB values."
 # define ERRRGB "Warning: RGB values expected in the range of 0 - 255."
@@ -86,10 +86,10 @@ typedef struct s_map_validation
 	int		player_count;
 }	t_map_validation;
 
+char	*parse_file(t_game *game, char *buffer);
 void	initialize_and_validate(t_game *game);
 void	load_textures(t_game *game);
 void	key_hook(mlx_key_data_t keydata, t_game *game);
 void	free_array(char **array, int entirety);
 void	cleanup_and_exit(t_game *game, char *str, bool success);
-void	early_cleanup_and_exit(char *str);
 #endif

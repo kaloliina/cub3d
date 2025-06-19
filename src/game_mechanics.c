@@ -6,11 +6,11 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 18:07:53 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/16 12:53:41 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:46:36 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "cub3D.h"
 
 static void	move(t_game *game, int y, int x)
 {

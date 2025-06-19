@@ -6,11 +6,11 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:00:59 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/18 15:13:32 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:46:39 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "cub3D.h"
 
 static void	fill(char **tab, int player_x, int player_y,
 t_map_validation *validation, char prev)

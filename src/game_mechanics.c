@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 18:07:53 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/19 13:46:36 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:15:55 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static void	move(t_game *game, int y, int x)
 {
-//	printf("Old y: %d, old x: %d\n", game->player.y, game->player.x);
+	printf("Old y: %d, old x: %d\n", game->player.y, game->player.x);
 	game->player.y = game->player.y + y;
 	game->player.x = game->player.x + x;
-//	printf("New y: %d, new x: %d\n", game->player.y, game->player.x);
+	printf("New y: %d, new x: %d\n", game->player.y, game->player.x);
 	game->images[PLAYER]->instances[0].y = game->player.y * TILE;
 	game->images[PLAYER]->instances[0].x = game->player.x * TILE;
 }

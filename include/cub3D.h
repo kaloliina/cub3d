@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/19 13:44:26 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:03:25 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ typedef struct s_game
 typedef struct s_map_validation
 {
 	bool	is_enclosed;
-	bool	has_invalid_chars;
 	int		player_count;
+	char	**map;
 }	t_map_validation;
 
 char	*parse_file(t_game *game, char *buffer);

@@ -6,12 +6,13 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:02:12 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/19 13:49:56 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/19 17:08:52 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+//This would also need mem allocation failed check for split
 static void	parse_map_file(t_game *game, char *str)
 {
 	int		len;
@@ -37,8 +38,9 @@ static void	parse_map_file(t_game *game, char *str)
 	close (fd);
 	map = parse_file(game, buffer);
 	game->map = ft_split(map, '\n');
+	free (map);
 	if (game->map == NULL || game->map[0] == NULL)
-		cleanup_and_exit(game, ERREMPTY, 0);
+		cleanup_and_exit(game, ERRMAPLAST, 0);
 }
 
 int	main(int argc, char *argv[])

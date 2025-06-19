@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/19 15:03:25 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/19 17:07:30 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,16 @@
 # define ERRMEM "Warning: Memory allocation failed."
 # define ERRBER "Warning: File needs to end in .ber extension."
 # define ERRFILE "Warning: Failed to open the specified file."
-# define ERREMPTY "Warning: Map file is empty!"
 # define ERRSIZE "Warning: Game window is too large."
 # define ERRARGC "Warning: Program expects one argument to a valid map."
 # define ERRGEN "Warning: Operation failed."
-# define ERRFORMAT "Warning: Type identifier (NO, SO, WE, EA, F, C) is expected to be followed up by a space."
+# define ERRFORMAT "Warning: Type identifier (NO, SO, WE, EA, F, C) is expected to be followed up by one or more spaces."
 # define ERRRGBFORMAT "Warning: RGB values must be provided as <F/C> <R>,<G>,<B> with numbers only (no signs: + or - allowed)."
 # define ERRTHREE "Warning: Expected 3 numbers for RGB values."
 # define ERRRGB "Warning: RGB values expected in the range of 0 - 255."
 # define ERRMISSINFO "Warning: Could not find the required information in the specified file."
 # define ERRMAPGAP "Warning: The map should not contain empty rows in between!"
+# define ERRMAPLAST "Warning: The map should be last in the file."
 
 # define ERRP "Warning: Invalid amount of players on the map!"
 # define ERRENC "Warning: Map is not enclosed with walls!"

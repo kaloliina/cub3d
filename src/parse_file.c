@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 13:41:25 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/19 15:16:11 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/19 17:08:10 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	extract_rgb_info(t_game *game, char **textures, int *rgb)
 			free_array(textures, 1);
 			cleanup_and_exit(game, ERRRGB, 0);
 		}
-		printf("Rgb:%d\n", rgb[i]);
+		printf("Rgb: %d\n", rgb[i]);
 		i++;
 	}
 	free_array(textures, 1);
@@ -54,32 +54,51 @@ static void	extract_rgb_info(t_game *game, char **textures, int *rgb)
 		cleanup_and_exit(game, ERRTHREE, 0);
 }
 
+static char	*skip_leading_spaces(t_game *game, char *info, int i)
+{
+	int	j;
+
+	j = 0;
+	if (i < 4)
+		j = 2;
+	else
+		j = 1;
+	if (info[j] != ' ')
+	{
+		free (info);
+		cleanup_and_exit(game, ERRFORMAT, 0);
+	}
+	while (info[j] != '\0' && info[j] == ' ')
+		j++;
+	return (&info[j]);
+}
+
 static void	extract_line(t_game *game, char *temp, int i)
 {
 	char	*line;
 	char	**textures;
 
+	line = ft_substr(temp, 0, ft_strlen(temp)
+			- ft_strlen(ft_strchr(temp, '\n')));
+	if (line == NULL)
+		cleanup_and_exit(game, ERRMEM, 0);
 	if (i < 4)
 	{
-		game->asset_paths[i] = ft_substr(temp, 3, ft_strlen(temp)
-				- ft_strlen(ft_strchr(temp, '\n')) - 3);
+		game->asset_paths[i] = ft_strdup(skip_leading_spaces(game, line, i));
+		free (line);
 		if (game->asset_paths[i] == NULL)
 			cleanup_and_exit(game, ERRMEM, 0);
 		printf("Path: %s\n", game->asset_paths[i]);
+		return ;
 	}
-	else
-	{
-		line = ft_substr(temp, 2, ft_strlen(temp)
-				- ft_strlen(ft_strchr(temp, '\n')) - 2);
-		textures = ft_split(line, ',');
-		free (line);
-		if (textures == NULL)
-			cleanup_and_exit(game, ERRMEM, 0);
-		if (temp[0] == 'F')
-			extract_rgb_info(game, textures, game->floor_rgb);
-		if (temp[0] == 'C')
-			extract_rgb_info(game, textures, game->ceiling_rgb);
-	}
+	textures = ft_split(skip_leading_spaces(game, line, i), ',');
+	free (line);
+	if (textures == NULL)
+		cleanup_and_exit(game, ERRMEM, 0);
+	if (temp[0] == 'F')
+		extract_rgb_info(game, textures, game->floor_rgb);
+	if (temp[0] == 'C')
+		extract_rgb_info(game, textures, game->ceiling_rgb);
 }
 
 static const char	**get_required_properties(void)
@@ -111,8 +130,6 @@ char	*parse_file(t_game *game, char *buffer)
 		temp = ft_strnstr(buffer, information[i], MAX_BUFFER_SIZE);
 		if (temp == NULL)
 			cleanup_and_exit(game, ERRMISSINFO, 0);
-		if ((i < 4 && temp[2] != ' ') || i > 3 && temp[1] != ' ')
-			cleanup_and_exit(game, ERRFORMAT, 0);
 		if (index == -1 || index > (int)ft_strlen(temp))
 			index = ft_strlen(ft_strchr(temp, '\n'));
 		extract_line(game, temp, i);
@@ -122,6 +139,9 @@ char	*parse_file(t_game *game, char *buffer)
 		cleanup_and_exit(game, ERRMEM, 0);
 	printf("The actual map:\n%s\n", temp);
 	if (ft_strnstr(temp, "\n\n", MAX_BUFFER_SIZE))
+	{
+		free (temp);
 		cleanup_and_exit(game, ERRMAPGAP, 0);
+	}
 	return (temp);
 }

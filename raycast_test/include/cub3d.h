@@ -4,7 +4,7 @@
 # include <stdbool.h>
 # include <math.h>
 # include <stdlib.h>
-# define TILE 64
+# define TILE 100
 # define TRUE 1
 # define FALSE 0
 

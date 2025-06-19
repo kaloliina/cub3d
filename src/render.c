@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:46:14 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/18 14:57:49 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/19 10:50:46 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,17 +101,6 @@ static void	render_map(t_game *game)
 	draw_asset(game, PLAYER, x, y);
 }
 
-static const char	**get_asset_paths(void)
-{
-	static const char	*asset_paths[ASSET_COUNT];
-
-	asset_paths[0] = "assets/base.png";
-	asset_paths[1] = "assets/wall.png";
-	asset_paths[2] = "assets/player_left.png";
-	asset_paths[3] = "assets/exit_open.png";
-	return (asset_paths);
-}
-
 void	load_textures(t_game *game)
 {
 	int				i;
@@ -119,11 +108,11 @@ void	load_textures(t_game *game)
 	const char		**asset_paths;
 
 	game->image = mlx_new_image(game->mlx, MAX_SCREEN_WIDTH, MAX_SCREEN_HEIGHT);
-	asset_paths = get_asset_paths();
 	i = 0;
 	while (i < ASSET_COUNT)
 	{
-		texture = mlx_load_png(asset_paths[i]);
+		printf("here..\n");
+		texture = mlx_load_png(game->asset_paths[i]);
 		if (texture == NULL)
 			cleanup_and_exit(game, ERRPNG, 0);
 		game->images[i] = mlx_texture_to_image(game->mlx, texture);

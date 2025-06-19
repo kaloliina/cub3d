@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:02:12 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/18 15:55:20 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/19 10:57:01 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void extract_rgb_info(t_game *game, char *temp)
 	char	**textures;
 
 	i = 0;
-	char *line = ft_substr(temp + 2, 0, ft_strlen(temp + 2) - ft_strlen(ft_strchr(temp + 2, '\n')));
+	char *line = ft_substr(temp, 2, ft_strlen(temp) - ft_strlen(ft_strchr(temp, '\n')) - 2);
 	textures = ft_split(line, ',');
 	free (line);
 	if (textures == NULL)
@@ -114,13 +114,17 @@ static char	*extract_info(t_game *game, char *buffer)
 			index = ft_strlen(ft_strchr(temp, '\n'));
 		if (i < 4)
 		{
-			//before we get the substr, we need to double check that there's indeed only one space
+			if (temp[2] != ' ')
+				cleanup_and_exit(game, ERRPATHFORMAT, 0);
 			game->asset_paths[i] = ft_substr(temp, 3, ft_strlen(temp) - ft_strlen(ft_strchr(temp, '\n')) - 3);
+			printf("Path: %s\n", game->asset_paths[i]);
 		}
 		else
+		{
+			if (temp[1] != ' ')
+				cleanup_and_exit(game, ERRRGBFORMAT, 0);
 			extract_rgb_info(game, temp);
-		if (i < 4)
-			printf("Path: %s\n", game->asset_paths[i]);
+		}
 		i++;
 	}
 		printf("The actual map: %s\n", &buffer[ft_strlen(buffer) - index]);

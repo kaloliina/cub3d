@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/18 15:49:58 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/19 10:41:09 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define ERRSIZE "Warning: Game window is too large."
 # define ERRARGC "Warning: Program expects one argument to a valid map."
 # define ERRGEN "Warning: Operation failed."
+# define ERRPATHFORMAT "Warning: Paths must be provided as <NO/SO/WE/EA> <Texture_path>."
 # define ERRRGBFORMAT "Warning: RGB values must be provided as <F/C> <R>,<G>,<B> with numbers only (no signs: + or - allowed)."
 # define ERRTHREE "Warning: Expected 3 numbers for RGB values."
 # define ERRRGB "Warning: RGB values expected in the range of 0 - 255."

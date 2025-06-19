@@ -1,7 +1,7 @@
-NO ../assets/base1.png
-SO ../assets/base2.png
-WE ../assets/base3.png
-EA ../assets/base4.png
+NO assets/base.png
+SO assets/wall.png
+WE assets/player.png
+EA assets/exit.png
 
 F 168,235,52
 C 225,255,10

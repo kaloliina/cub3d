@@ -6,12 +6,18 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:46:14 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/19 13:49:26 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/25 13:06:26 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+/*
+--11--
+This function "combines" the different rgb values together into one integer.
+By shifting r 24 bits left, g 16 bits left, g 8 bits left and leaving a (alpha channel)
+where it is.
+*/
 static int	get_colour(int *rgb)
 {
 	int	colour;
@@ -44,6 +50,11 @@ static void	draw_asset(t_game *game, enum e_assets type, int x, int y)
 	}
 }
 
+/*
+--10--
+This function right now goes through the height and width of the map and puts pixel by pixel to the image.
+After we have filled the image, we put image to window.
+*/
 static void	render_actualmap(t_game *game)
 {
 	int	x;
@@ -76,6 +87,11 @@ static void	render_actualmap(t_game *game)
 	mlx_image_to_window(game->mlx, game->image, 0, 0);
 }
 
+/*
+--9--
+This is basically just rendering the minimap on the top left corner, we can remove it if we want! :D
+The function also calls to the render actual map which right now adds the floor and ceiling colors.
+*/
 static void	render_map(t_game *game)
 {
 	int	x;
@@ -100,7 +116,12 @@ static void	render_map(t_game *game)
 	}
 	draw_asset(game, PLAYER, x, y);
 }
-
+/*
+--8--
+Here we are creating a new image that we will use for drawing floor and ceiling.
+We are also loading the wall textures and putting the textures to image.
+After this, we "render map"
+*/
 void	load_textures(t_game *game)
 {
 	int				i;

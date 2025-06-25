@@ -6,13 +6,21 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:02:12 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/19 17:08:52 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:26:19 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-//This would also need mem allocation failed check for split
+/*
+--1--
+In this function we are reading the file data to a buffer. We also cover the cases:
+- If file does not end in .cub extension
+- If file cannot be found or we don't have permissions to open
+- If file is bigger than screen size (we might need to adjust this)
+We then move to parsing the file and with the remaining buffer we split it into
+array of strings.
+*/
 static void	parse_map_file(t_game *game, char *str)
 {
 	int		len;
@@ -43,6 +51,7 @@ static void	parse_map_file(t_game *game, char *str)
 		cleanup_and_exit(game, ERRMAPLAST, 0);
 }
 
+/*Ive marked the sections with 1-n, to go step by step over the parsing flow*/
 int	main(int argc, char *argv[])
 {
 	t_game	game;

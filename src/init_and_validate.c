@@ -6,12 +6,19 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:00:59 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/19 15:15:34 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/25 13:10:04 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+/*
+--7--
+We run the flood fill for the map, basically we are checking if previous place was
+walkable spot and the current spot is not 1 (wall) and 0 (walkable path), then we
+know the map is not surrounded by walls. We also check if we have reached out of bounds
+and if the previous one was walkable path, we know the map is not surrounded by walls.
+*/
 static void	fill(int x, int y,
 t_map_validation *validation, char prev)
 {
@@ -67,16 +74,21 @@ static void	flood_fill(t_game *game, t_map_validation *validation)
 		cleanup_and_exit(game, ERRENC, 0);
 }
 
-void	validate_map_elements(t_game *game, t_map_validation validation,
+/*
+--6--
+If we encounter N,S,E,W characters in the map, we mark the player's y and x location.
+We also update the player count.
+After this we mark the players y and x direction.
+Lastly, we check if there is a character that is not 1, 0, , N, S, E, W, then there's an invalid character and we exit.
+*/
+void	validate_map_elements(t_game *game, t_map_validation *validation,
 int x, int y)
 {
 	if (ft_strchr("NSEW", game->map[y][x]))
 	{
 		game->player.y = y;
 		game->player.x = x;
-		validation.player_count++;
-		if (validation.player_count != 1)
-			cleanup_and_exit(game, ERRP, 0);
+		validation->player_count++;
 		if (game->map[game->height][game->width] == 'N')
 			game->player.dir_y = -1;
 		if (game->map[game->height][game->width] == 'S')
@@ -90,6 +102,13 @@ int x, int y)
 		cleanup_and_exit(game, ERRCHARS, 0);
 }
 
+/*
+--5--
+This function basically iterates through the entire map. We call the function
+validate_map_elements to track information and we also mark the height of the map, as well as the max
+width we encounter.
+We also check if the player count is not 1 at the end, then we encounter an error.
+*/
 void	initialize_and_validate(t_game *game)
 {
 	int					x;
@@ -105,13 +124,15 @@ void	initialize_and_validate(t_game *game)
 		x = 0;
 		while (game->map[y][x] != '\0')
 		{
-			validate_map_elements(game, validation, x, y);
+			validate_map_elements(game, &validation, x, y);
 			x++;
 		}
 		if ((int)ft_strlen(game->map[y]) > game->width)
 			game->width = (int)ft_strlen(game->map[y]);
 		y++;
 	}
+	if (validation.player_count != 1)
+		cleanup_and_exit(game, ERRP, 0);
 	game->height = y;
 	flood_fill(game, &validation);
 }

@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/19 17:07:30 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/26 10:09:24 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_game
 	int		ceiling_rgb[3];
 	int		floor_rgb[3];
 	mlx_image_t *image;
+	mlx_image_t *minimapimage;
 }	t_game;
 
 typedef struct s_map_validation

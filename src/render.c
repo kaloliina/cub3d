@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:46:14 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/25 13:06:26 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/26 11:35:42 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,33 @@ static int	get_colour(int *rgb)
 	return (colour);
 }
 
-static void	draw_asset(t_game *game, enum e_assets type, int x, int y)
+//we need to draw where the player is as well..
+//the colors are not working as intended xD
+void	draw_pixels(t_game *game, enum e_assets type, int x, int y)
 {
-	if (type == BASE)
+	int	y_tile;
+	int	x_tile;
+	int	original_x;
+
+	y_tile = 0;
+	original_x = x;
+	while (y_tile < TILE)
 	{
-		if (mlx_image_to_window(game->mlx, game->images[BASE],
-				x * TILE, y * TILE) < 0)
-			cleanup_and_exit(game, ERRIMG, 0);
-	}
-	if (type == WALL)
-	{
-		if (mlx_image_to_window(game->mlx, game->images[type],
-				x * TILE, y * TILE) < 0)
-			cleanup_and_exit(game, ERRIMG, 0);
-	}
-	if (type == PLAYER)
-	{
-		if (mlx_image_to_window(game->mlx, game->images[PLAYER],
-				game->player.x * TILE, game->player.y * TILE) < 0)
-			cleanup_and_exit(game, ERRIMG, 0);
+		x_tile = 0;
+		x = original_x;
+		while (x_tile < TILE)
+		{
+			if (type == BASE)
+				mlx_put_pixel(game->minimapimage, x, y, 0x00FFFFFF);
+			if (type == WALL)
+				mlx_put_pixel(game->minimapimage, x, y, 0x00CC00FF);
+			if (type == PLAYER && x_tile > 4 && x_tile < 15 && y_tile > 4 && y_tile < 15)
+				mlx_put_pixel(game->minimapimage, x, y, 0x009933FF);
+			x_tile++;
+			x++;
+		}
+		y++;
+		y_tile++;
 	}
 }
 
@@ -105,16 +113,20 @@ static void	render_map(t_game *game)
 		while (x < (int)ft_strlen(game->map[y]))
 		{
 			if (game->map[y][x] == '1')
-				draw_asset(game, WALL, x, y);
+				draw_pixels(game, WALL, x * TILE, y * TILE);
 			else if (game->map[y][x] == '0')
 			{
-				draw_asset(game, BASE, x, y);
+				draw_pixels(game, BASE, x * TILE, y * TILE);
 			}
 			x++;
 		}
 		y++;
 	}
-	draw_asset(game, PLAYER, x, y);
+	printf("Players x: %d and y: %d\n", game->player.x, game->player.y);
+	draw_pixels(game, PLAYER, game->player.x * TILE, game->player.y * TILE);
+	if (mlx_image_to_window(game->mlx, game->minimapimage,
+		0, 0) < 0)
+		cleanup_and_exit(game, ERRIMG, 0);
 }
 /*
 --8--
@@ -129,6 +141,7 @@ void	load_textures(t_game *game)
 	const char		**asset_paths;
 
 	game->image = mlx_new_image(game->mlx, MAX_SCREEN_WIDTH, MAX_SCREEN_HEIGHT);
+	game->minimapimage = mlx_new_image(game->mlx, game->width * TILE, game->height * TILE);
 	i = 0;
 	while (i < ASSET_COUNT)
 	{

@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/26 10:09:24 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:10:00 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ enum e_assets
 
 typedef struct s_player
 {
-	int	x;
-	int	y;
+	double	x;
+	double	y;
 	int	dir_x;
 	int	dir_y;
 }	t_player;
@@ -91,6 +91,9 @@ char	*parse_file(t_game *game, char *buffer);
 void	initialize_and_validate(t_game *game);
 void	load_textures(t_game *game);
 void	key_hook(mlx_key_data_t keydata, t_game *game);
+void	loop_hook(void *param);
 void	free_array(char **array, int entirety);
 void	cleanup_and_exit(t_game *game, char *str, bool success);
+void	render_map(t_game *game);
+void	draw_pixels(t_game *game, enum e_assets type, int x, int y);
 #endif

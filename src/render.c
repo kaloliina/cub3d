@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:46:14 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/26 11:35:42 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:11:20 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,12 @@ static void	render_actualmap(t_game *game)
 This is basically just rendering the minimap on the top left corner, we can remove it if we want! :D
 The function also calls to the render actual map which right now adds the floor and ceiling colors.
 */
-static void	render_map(t_game *game)
+void	render_map(t_game *game)
 {
 	int	x;
 	int	y;
 
 	y = 0;
-	render_actualmap(game);
 	while (game->map[y] != NULL)
 	{
 		x = 0;
@@ -114,7 +113,7 @@ static void	render_map(t_game *game)
 		{
 			if (game->map[y][x] == '1')
 				draw_pixels(game, WALL, x * TILE, y * TILE);
-			else if (game->map[y][x] == '0')
+			else if (ft_strchr("0NSEW", game->map[y][x]))
 			{
 				draw_pixels(game, BASE, x * TILE, y * TILE);
 			}
@@ -122,7 +121,6 @@ static void	render_map(t_game *game)
 		}
 		y++;
 	}
-	printf("Players x: %d and y: %d\n", game->player.x, game->player.y);
 	draw_pixels(game, PLAYER, game->player.x * TILE, game->player.y * TILE);
 	if (mlx_image_to_window(game->mlx, game->minimapimage,
 		0, 0) < 0)
@@ -159,5 +157,6 @@ void	load_textures(t_game *game)
 			cleanup_and_exit(game, ERRRESIZE, 0);
 		i++;
 	}
+	render_actualmap(game);
 	render_map(game);
 }

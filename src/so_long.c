@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:02:12 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/25 12:26:19 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/26 12:37:15 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	main(int argc, char *argv[])
 			cleanup_and_exit(&game, ERRGEN, 0);
 		load_textures(&game);
 		mlx_key_hook(game.mlx, (void *) key_hook, &game);
+		mlx_loop_hook(game.mlx, (void *) loop_hook, &game);
 		mlx_loop(game.mlx);
 		cleanup_and_exit(&game, NULL, 1);
 	}

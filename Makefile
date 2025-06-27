@@ -6,7 +6,7 @@
 #    By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/24 12:16:09 by khiidenh          #+#    #+#              #
-#    Updated: 2025/06/19 13:46:06 by khiidenh         ###   ########.fr        #
+#    Updated: 2025/06/27 11:43:38 by khiidenh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ LIBMLX	= ./MLX42
 LIBFT = libft/libft.a
 
 HEADERS	= -I ./include -I $(LIBMLX)/include -I libft/includes
-LIBS	= $(LIBMLX)/build/libmlx42.a -lglfw
+LIBS	= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 SRCS_DIR	= src/
 SRCS = 	$(SRCS_DIR)so_long.c\
 	$(SRCS_DIR)errors_and_exits.c\

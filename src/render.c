@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:46:14 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/27 11:19:07 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/27 12:14:00 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,28 @@ static int	get_colour(int *rgb)
 	return (colour);
 }
 
-//we need to draw where the player is as well..
+void draw_line(t_game *game, int beginX, int beginY)
+{
+	double length = 20;
+	double endX = beginX + game->player.dir_x * length;
+	double endY = beginY + game->player.dir_y * length;
+	double deltaX = endX - beginX;
+	double deltaY = endY - beginY;
+	int pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
+	deltaX /= pixels;
+	deltaY/= pixels;
+	double pixelX = beginX;
+	double pixelY = beginY;
+	while (pixels)
+	{
+		mlx_put_pixel(game->minimapimage, pixelX, pixelY, 0x000099FF);
+		pixelX += deltaX;
+		pixelY += deltaY;
+		--pixels;
+	}
+}
+
+
 //the colors are not working as intended xD
 void	draw_pixels(t_game *game, enum e_assets type, int x, int y)
 {
@@ -122,6 +143,7 @@ void	render_map(t_game *game)
 		y++;
 	}
 	draw_pixels(game, PLAYER, (game->player.x - 0.5) * TILE, (game->player.y - 0.5) * TILE);
+	draw_line(game, game->player.x * TILE, game->player.y * TILE);
 	if (mlx_image_to_window(game->mlx, game->minimapimage,
 		0, 0) < 0)
 		cleanup_and_exit(game, ERRIMG, 0);

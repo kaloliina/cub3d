@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:46:14 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/26 14:11:20 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/27 11:19:07 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	draw_pixels(t_game *game, enum e_assets type, int x, int y)
 				mlx_put_pixel(game->minimapimage, x, y, 0x00FFFFFF);
 			if (type == WALL)
 				mlx_put_pixel(game->minimapimage, x, y, 0x00CC00FF);
-			if (type == PLAYER && x_tile > 4 && x_tile < 15 && y_tile > 4 && y_tile < 15)
+			if (type == PLAYER && x_tile > 5 && x_tile < 14 && y_tile > 5 && y_tile < 14)
 				mlx_put_pixel(game->minimapimage, x, y, 0x009933FF);
 			x_tile++;
 			x++;
@@ -121,7 +121,7 @@ void	render_map(t_game *game)
 		}
 		y++;
 	}
-	draw_pixels(game, PLAYER, game->player.x * TILE, game->player.y * TILE);
+	draw_pixels(game, PLAYER, (game->player.x - 0.5) * TILE, (game->player.y - 0.5) * TILE);
 	if (mlx_image_to_window(game->mlx, game->minimapimage,
 		0, 0) < 0)
 		cleanup_and_exit(game, ERRIMG, 0);

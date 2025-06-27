@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:00:59 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/26 15:10:00 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/27 11:09:33 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ int x, int y)
 {
 	if (ft_strchr("NSEW", game->map[y][x]))
 	{
-		game->player.y = y;
-		game->player.x = x;
+		game->player.y = y + 0.5;
+		game->player.x = x + 0.5;
 		validation->player_count++;
 		if (game->map[game->height][game->width] == 'N')
 			game->player.dir_y = -1;

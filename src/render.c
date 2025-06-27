@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:46:14 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/27 12:27:36 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/27 13:07:58 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,33 @@ static int	get_colour(int *rgb)
 	return (colour);
 }
 
-void draw_line(t_game *game, int beginX, int beginY)
+//The number 20 here represents the length of the line
+static void	draw_line(t_game *game, double beginX, double beginY)
 {
-	double length = 20;
-	double endX = beginX + game->player.dir_x * length;
-	double endY = beginY + game->player.dir_y * length;
-	double deltaX = endX - beginX;
-	double deltaY = endY - beginY;
-	int pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
-	deltaX /= pixels;
-	deltaY/= pixels;
-	double pixelX = beginX;
-	double pixelY = beginY;
+	double	end_x;
+	double	end_y;
+	double	delta_x;
+	double	delta_y;
+	int		pixels;
+
+	end_x = beginX + game->player.dir_x * 20;
+	end_y = beginY + game->player.dir_y * 20;
+	delta_x = end_x - beginX;
+	delta_y = end_y - beginY;
+	pixels = sqrt((delta_x * delta_x) + (delta_y * delta_y));
+	delta_x /= pixels;
+	delta_y /= pixels;
 	while (pixels)
 	{
-		mlx_put_pixel(game->minimapimage, pixelX, pixelY, 0x000099FF);
-		pixelX += deltaX;
-		pixelY += deltaY;
+		mlx_put_pixel(game->minimapimage, beginX, beginY, 0x000099FF);
+		beginX += delta_x;
+		beginY += delta_y;
 		--pixels;
 	}
 }
 
-//the colors are not working as intended xD
-void	draw_pixels(t_game *game, enum e_assets type, int x, int y)
+//There seems to be a bug with colours
+static void	draw_pixels(t_game *game, enum e_assets type, int x, int y)
 {
 	int	y_tile;
 	int	x_tile;
@@ -83,7 +87,7 @@ void	draw_pixels(t_game *game, enum e_assets type, int x, int y)
 This function right now goes through the height and width of the map and puts pixel by pixel to the image.
 After we have filled the image, we put image to window.
 */
-static void	render_actualmap(t_game *game)
+static void	render_map(t_game *game)
 {
 	int	x;
 	int	y;
@@ -120,7 +124,7 @@ static void	render_actualmap(t_game *game)
 This is basically just rendering the minimap on the top left corner, we can remove it if we want! :D
 The function also calls to the render actual map which right now adds the floor and ceiling colors.
 */
-void	render_map(t_game *game)
+void	render_minimap(t_game *game)
 {
 	int	x;
 	int	y;
@@ -144,13 +148,15 @@ void	render_map(t_game *game)
 	draw_pixels(game, PLAYER, (game->player.x - 0.5) * TILE, (game->player.y - 0.5) * TILE);
 	draw_line(game, game->player.x * TILE, game->player.y * TILE);
 	if (mlx_image_to_window(game->mlx, game->minimapimage,
-		0, 0) < 0)
+			0, 0) < 0)
 		cleanup_and_exit(game, ERRIMG, 0);
 }
+
 /*
 --8--
 Here we are creating a new image that we will use for drawing floor and ceiling.
 We are also loading the wall textures and putting the textures to image.
+In addition, we are creating an image for the minimap.
 After this, we "render map"
 */
 void	load_textures(t_game *game)
@@ -178,6 +184,6 @@ void	load_textures(t_game *game)
 			cleanup_and_exit(game, ERRRESIZE, 0);
 		i++;
 	}
-	render_actualmap(game);
 	render_map(game);
+	render_minimap(game);
 }

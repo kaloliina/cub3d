@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:00:59 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/27 12:38:45 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/27 12:46:39 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ static void	flood_fill(t_game *game, t_map_validation *validation)
 
 /*
 --6--
-If we encounter N,S,E,W characters in the map, we mark the player's y and x location.
+If we encounter N,S,E,W characters in the map, we mark the player's y and x location
+We add 0.5 to player's location because player is meant to be centered in the middle of the tile.
 We also update the player count.
 After this we mark the players y and x direction.
 Lastly, we check if there is a character that is not 1, 0, , N, S, E, W, then there's an invalid character and we exit.

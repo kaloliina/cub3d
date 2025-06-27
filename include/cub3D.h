@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/27 13:08:31 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/27 13:55:05 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define ASSET_COUNT 4
 # define TILE 20
 # define FILE_INFO_COUNT 6
+# define SPEED 0.1
 
 # define ERRMEM "Warning: Memory allocation failed."
 # define ERRBER "Warning: File needs to end in .ber extension."
@@ -56,6 +57,14 @@ enum e_assets
 	WALL,
 	PLAYER,
 	EMPTY,
+};
+
+enum e_directions
+{
+	FORWARD,
+	BACKWARD,
+	LEFT,
+	RIGHT,
 };
 
 typedef struct s_player

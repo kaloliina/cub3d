@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:46:14 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/27 12:14:00 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/27 12:27:36 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void draw_line(t_game *game, int beginX, int beginY)
 		--pixels;
 	}
 }
-
 
 //the colors are not working as intended xD
 void	draw_pixels(t_game *game, enum e_assets type, int x, int y)

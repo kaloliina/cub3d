@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/27 11:34:45 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/27 12:37:25 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ typedef struct s_player
 {
 	double	x;
 	double	y;
-	int	dir_x;
-	int	dir_y;
+	double	dir_x;
+	double	dir_y;
 }	t_player;
 
 typedef struct s_game

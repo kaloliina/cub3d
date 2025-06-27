@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 13:00:59 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/27 11:55:44 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/27 12:38:45 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ int x, int y)
 			game->player.dir_x = -1;
 		if (game->map[y][x] == 'E')
 			game->player.dir_x = 1;
-		printf("Dir y%d and x%d\n", game->player.dir_y, game->player.dir_x);
 	}
 	if (!ft_strchr("10 NSEW", game->map[y][x]))
 		cleanup_and_exit(game, ERRCHARS, 0);

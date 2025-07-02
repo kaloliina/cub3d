@@ -6,11 +6,11 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:03:18 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/17 14:43:45 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:47:48 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "cub3D.h"
 
 void	cleanup_and_exit(t_game *game, char *str, bool success)
 {
@@ -52,9 +52,9 @@ void	free_array(char **array, int entirety)
 	{
 		while (array[i] != NULL)
 		{
-		printf("Freeing %s\n", array[i]);
-		free (array[i]);
-		i++;
+			printf("Freeing %s\n", array[i]);
+			free (array[i]);
+			i++;
 		}
 	}
 }

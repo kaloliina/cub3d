@@ -3,26 +3,27 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+         #
+#    By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/24 12:16:09 by khiidenh          #+#    #+#              #
-#    Updated: 2025/06/17 13:54:52 by khiidenh         ###   ########.fr        #
+#    Updated: 2025/07/02 16:12:03 by sojala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= so_long
-CFLAGS	= -Wextra -Wall -Werror
+NAME	= cub3D
+CFLAGS	=
 LIBMLX	= ./MLX42
 LIBFT = libft/libft.a
 
 HEADERS	= -I ./include -I $(LIBMLX)/include -I libft/includes
-LIBS	= $(LIBMLX)/build/libmlx42.a -lglfw
+LIBS	= $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 SRCS_DIR	= src/
 SRCS = 	$(SRCS_DIR)so_long.c\
 	$(SRCS_DIR)errors_and_exits.c\
 	$(SRCS_DIR)game_mechanics.c\
 	$(SRCS_DIR)init_and_validate.c\
-	$(SRCS_DIR)render.c
+	$(SRCS_DIR)render.c\
+	$(SRCS_DIR)parse_file.c
 OBJS	= $(SRCS:.c=.o)
 
 all: libmlx libft $(NAME)

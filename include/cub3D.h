@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/17 14:37:34 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/06/27 13:55:05 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,28 @@
 # include <string.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <math.h>
 # define MAX_SCREEN_WIDTH 3840
 # define MAX_SCREEN_HEIGHT 2160
 # define MAX_BUFFER_SIZE 820
 # define ASSET_COUNT 4
-# define TILE 100
+# define TILE 20
 # define FILE_INFO_COUNT 6
+# define SPEED 0.1
 
 # define ERRMEM "Warning: Memory allocation failed."
 # define ERRBER "Warning: File needs to end in .ber extension."
 # define ERRFILE "Warning: Failed to open the specified file."
-# define ERREMPTY "Warning: Map file is empty!"
 # define ERRSIZE "Warning: Game window is too large."
 # define ERRARGC "Warning: Program expects one argument to a valid map."
 # define ERRGEN "Warning: Operation failed."
-# define ERRTHREE "Warning: Expected 3 numbers for RGB values"
+# define ERRFORMAT "Warning: Type identifier (NO, SO, WE, EA, F, C) is expected to be followed up by one or more spaces."
+# define ERRRGBFORMAT "Warning: RGB values must be provided as <F/C> <R>,<G>,<B> with numbers only (no signs: + or - allowed)."
+# define ERRTHREE "Warning: Expected 3 numbers for RGB values."
 # define ERRRGB "Warning: RGB values expected in the range of 0 - 255."
 # define ERRMISSINFO "Warning: Could not find the required information in the specified file."
 # define ERRMAPGAP "Warning: The map should not contain empty rows in between!"
+# define ERRMAPLAST "Warning: The map should be last in the file."
 
 # define ERRP "Warning: Invalid amount of players on the map!"
 # define ERRENC "Warning: Map is not enclosed with walls!"
@@ -55,12 +59,20 @@ enum e_assets
 	EMPTY,
 };
 
+enum e_directions
+{
+	FORWARD,
+	BACKWARD,
+	LEFT,
+	RIGHT,
+};
+
 typedef struct s_player
 {
-	int	x;
-	int	y;
-	int	dir_x;
-	int	dir_y;
+	double	x;
+	double	y;
+	double	dir_x;
+	double	dir_y;
 }	t_player;
 
 typedef struct s_game
@@ -74,19 +86,24 @@ typedef struct s_game
 	char	*asset_paths[5];
 	int		ceiling_rgb[3];
 	int		floor_rgb[3];
+	mlx_image_t *image;
+	mlx_image_t *minimapimage;
 }	t_game;
 
 typedef struct s_map_validation
 {
 	bool	is_enclosed;
-	bool	has_invalid_chars;
 	int		player_count;
+	char	**map;
 }	t_map_validation;
 
+char	*parse_file(t_game *game, char *buffer);
 void	initialize_and_validate(t_game *game);
 void	load_textures(t_game *game);
+void	render_minimap(t_game *game);
 void	key_hook(mlx_key_data_t keydata, t_game *game);
+void	loop_hook(void *param);
 void	free_array(char **array, int entirety);
 void	cleanup_and_exit(t_game *game, char *str, bool success);
-void	early_cleanup_and_exit(char *str);
+
 #endif

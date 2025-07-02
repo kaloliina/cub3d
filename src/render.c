@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/30 16:46:14 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/07/02 18:04:28 by sojala           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "cub3D.h"
 
 /*
@@ -258,6 +246,7 @@ void	render_map(t_game *game)
      	if(drawEnd >= MAX_SCREEN_HEIGHT)drawEnd = MAX_SCREEN_HEIGHT - 1;
 		printf("drawEnd %d\n", drawEnd);
 		draw_line_wall(game->image, x, drawStart, x, drawEnd, 0xFF0000);
+		//NEEDS CORRECTION OF ANGLE HERE? SEE MEDIUM ARTICLE
 		x++;
 	}
 	mlx_image_to_window(game->mlx, game->image, 0, 0);

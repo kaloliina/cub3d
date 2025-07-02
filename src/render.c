@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 16:46:14 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/07/02 15:27:26 by sojala           ###   ########.fr       */
+/*   Updated: 2025/07/02 18:04:28 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,8 @@ void	render_map(t_game *game)
 
 	double	posX = game->player.x;	//player position X
 	double	posY = game->player.y;	//player position Y
-	double	dirX = game->player.dir_x, dirY = game->player.dir_y;	//direction is along y-axis upwards (normalized so between -1 and 1)
+	double	dirX = game->player.dir_x;
+	double	dirY = game->player.dir_y;	//direction is along y-axis upwards (normalized so between -1 and 1)
 	double	planeX = 0.66;	// this is to make the field of view 66 degrees
 	double	planeY = 0; //planeY is 0 bc it has to be perpendicular
 	double	raydirY;
@@ -193,7 +194,7 @@ void	render_map(t_game *game)
 		mapY = (int)posY;
 		hit = 0;
 		side = 0;
-		double cameraX = 2.0 * (x + 0.5) / (double)MAX_SCREEN_WIDTH - 1.0;
+		double cameraX = 2.0 * x / (double)game->width - 1.0;
 		raydirX = dirX + planeX * cameraX;	//position vector + specific part of camera plane
 		raydirY = dirY + planeY * cameraX;
 		double	deltadistX = (raydirX == 0) ? 1e30 : fabs(1 / raydirX);
@@ -248,22 +249,18 @@ void	render_map(t_game *game)
 		}
 		//This section draws the '3d' view but it is veeeery initial version
 		//  Calculate height of line to draw on screen
-    	double lineHeight = (MAX_SCREEN_HEIGHT / perpwalldist);
+    	double lineHeight = MAX_SCREEN_HEIGHT / perpwalldist;
       	//calculate lowest and highest pixel to fill in current stripe
      	int drawStart = -lineHeight / 2 + MAX_SCREEN_HEIGHT / 2;
 		if(drawStart < 0)drawStart = 0;
-      	printf("drawStart %d\n", drawStart);
+      	printf("drawStart %d x %d\n", drawStart, x);
       	int drawEnd = lineHeight / 2 + MAX_SCREEN_HEIGHT / 2;
      	if(drawEnd >= MAX_SCREEN_HEIGHT)drawEnd = MAX_SCREEN_HEIGHT - 1;
 		printf("drawEnd %d\n", drawEnd);
-		int l = 0;
-		while (l < TILE)
-		{
-			draw_line_wall(game->image, x + l, drawStart, x + l, drawEnd, 0xFF0000);
-			l++;
-		}
+		draw_line_wall(game->image, x, drawStart, x, drawEnd, 0xFF0000);
 		x++;
 	}
+	mlx_image_to_window(game->mlx, game->image, 0, 0);
 }
 
 /*

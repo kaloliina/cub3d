@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+         #
+#    By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/24 12:16:09 by khiidenh          #+#    #+#              #
-#    Updated: 2025/07/02 16:12:03 by sojala           ###   ########.fr        #
+#    Updated: 2025/06/27 11:43:38 by khiidenh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 

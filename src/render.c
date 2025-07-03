@@ -163,8 +163,16 @@ void	render_map(t_game *game)
 	double	posY = game->player.y;	//player position Y
 	double	dirX = game->player.dir_x;
 	double	dirY = game->player.dir_y;	//direction is along y-axis upwards (normalized so between -1 and 1)
-	double	planeX = 0.66;	// this is to make the field of view 66 degrees
-	double	planeY = 0; //planeY is 0 bc it has to be perpendicular
+	double	planeX;
+	if (game->player.dir_y != 0)
+		planeX = 0.66;	// this is to make the field of view 66 degrees
+	else
+		planeX = 0;
+	double	planeY;
+	if (game->player.dir_x != 0)
+		planeY = 0.66; //planeY is 0 bc it has to be perpendicular
+	else
+		planeY = 0;
 	double	raydirY;
 	double	raydirX;
 	double	sidedistX;
@@ -172,7 +180,7 @@ void	render_map(t_game *game)
 	int		mapX, mapY;
 	int		stepX;
 	int		stepY;
-	int		hit = 0;
+	int		hit;
 	int		side;
 
 	x = 0;
@@ -180,9 +188,11 @@ void	render_map(t_game *game)
 	{
 		mapX = (int)posX;
 		mapY = (int)posY;
+		stepX = 0;
+		stepY = 0;
 		hit = 0;
 		side = 0;
-		double cameraX = 2.0 * x / (double)game->width - 1.0;
+		double cameraX = 2 * x / (double)MAX_SCREEN_WIDTH - 1;
 		raydirX = dirX + planeX * cameraX;	//position vector + specific part of camera plane
 		raydirY = dirY + planeY * cameraX;
 		double	deltadistX = (raydirX == 0) ? 1e30 : fabs(1 / raydirX);
@@ -193,38 +203,43 @@ void	render_map(t_game *game)
 		{
 			stepX = -1;
 			sidedistX = (posX - mapX) * deltadistX;
+			// printf("sidedistX is %f\n", sidedistX);
 		}
 		else
 		{
 			stepX = 1;
 			sidedistX = (mapX + 1.0 - posX) * deltadistX;
+			// printf("sidedistX is %f\n", sidedistX);
 		}
 		if (raydirY < 0)	//if ray is moving up
 		{
 			stepY = -1;
 			sidedistY = (posY - mapY) * deltadistY;
+			// printf("sidedistY is %f\n", sidedistY);
 		}
 		else
 		{
 			stepY = 1;
 			sidedistY = (mapY + 1.0 - posY) * deltadistY;
+			// printf("sidedistY is %f\n", sidedistY);
 		}
-
 		while (hit == 0)
 		{
 			if (sidedistX < sidedistY)
 			{
 				sidedistX += deltadistX;
 				mapX += stepX;
+				printf("we step to mapX %d with stepX %d\n", mapX, stepX);
 				side = 0;
 			}
 			else
 			{
 				sidedistY += deltadistY;
 				mapY += stepY;
+				printf("we step to mapY %d\n", mapY);
 				side = 1;
 			}
-			if (game->map[mapY][mapX] == 1)
+			if (game->map[mapY][mapX] == '1')
 				hit = 1;
 		}
 		if (side == 0)
@@ -235,16 +250,19 @@ void	render_map(t_game *game)
 		{
 			perpwalldist = (sidedistY - deltadistY);
 		}
+		printf("now hit is %d and x %d and perp %f\n", hit, x, perpwalldist);
 		//This section draws the '3d' view but it is veeeery initial version
 		//  Calculate height of line to draw on screen
     	double lineHeight = MAX_SCREEN_HEIGHT / perpwalldist;
       	//calculate lowest and highest pixel to fill in current stripe
-     	int drawStart = -lineHeight / 2 + MAX_SCREEN_HEIGHT / 2;
-		if(drawStart < 0)drawStart = 0;
-      	printf("drawStart %d x %d\n", drawStart, x);
-      	int drawEnd = lineHeight / 2 + MAX_SCREEN_HEIGHT / 2;
-     	if(drawEnd >= MAX_SCREEN_HEIGHT)drawEnd = MAX_SCREEN_HEIGHT - 1;
-		printf("drawEnd %d\n", drawEnd);
+     	int drawStart = (MAX_SCREEN_HEIGHT / 2) - (lineHeight / 2);
+		if (drawStart < 0)
+			drawStart = 0;
+      	// printf("drawStart %d x %d mapX %d mapY %d\n", drawStart, x, mapX, mapY);
+      	int drawEnd = (lineHeight / 2) + (MAX_SCREEN_HEIGHT / 2);
+     	if (drawEnd >= MAX_SCREEN_HEIGHT)
+			drawEnd = MAX_SCREEN_HEIGHT - 1;
+		// printf("drawEnd %d\n", drawEnd);
 		draw_line_wall(game->image, x, drawStart, x, drawEnd, 0xFF0000);
 		//NEEDS CORRECTION OF ANGLE HERE? SEE MEDIUM ARTICLE
 		x++;

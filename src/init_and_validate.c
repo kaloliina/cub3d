@@ -91,6 +91,19 @@ int x, int y)
 		cleanup_and_exit(game, ERRCHARS, 0);
 }
 
+/*This function makes the assets into textures to be used later when drawing the wall pixels.*/
+void	make_textures(t_game *game)
+{
+	int	x = 0;
+	while (x < TEXTURE_COUNT)
+	{
+		game->textures[x] = mlx_load_png(game->asset_paths[x]);
+		if (!game->textures[x])
+			cleanup_and_exit(game, ERRPNG, false);
+		x++;
+	}
+}
+
 /*
 --5--
 This function basically iterates through the entire map. We call the function
@@ -124,4 +137,5 @@ void	initialize_and_validate(t_game *game)
 		cleanup_and_exit(game, ERRP, 0);
 	game->height = y;
 	flood_fill(game, &validation);
+	make_textures(game);
 }

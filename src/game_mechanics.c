@@ -14,6 +14,7 @@ static void	rotate(t_game *game, double rotation_dir)
 	game->player.dir_x = old_dir_x * cos(rotspeed) - old_dir_y * sin(rotspeed);
 	game->player.dir_y = old_dir_x * sin(rotspeed) + old_dir_y * cos(rotspeed);
 	printf("After rotation: dir_x=%f, dir_y=%f\n", game->player.dir_x, game->player.dir_y);
+	render_map(game);
 	render_minimap(game);
 }
 
@@ -57,6 +58,7 @@ static void	move(t_game *game, enum e_directions direction)
 	}
 	printf("New y: %f, new x: %f\n", game->player.y, game->player.x);
 	printf("News y: %d, old x: %d\n", (int)game->player.y, (int)game->player.x);
+	render_map(game);
 	render_minimap(game);
 }
 

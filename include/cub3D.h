@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/27 13:55:05 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:20:17 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define MAX_SCREEN_WIDTH 3840
 # define MAX_SCREEN_HEIGHT 2160
 # define MAX_BUFFER_SIZE 820
+# define TEXTURE_COUNT 4
 # define ASSET_COUNT 4
 # define TILE 20
 # define FILE_INFO_COUNT 6
@@ -50,6 +51,14 @@
 # define ERRCONV "Warning: Error converting texture to image."
 # define ERRRESIZE "Warning: Error resizing images."
 # define ERRIMG "Warning: Error drawing image to window."
+
+enum e_textures
+{
+	NORTH,
+	SOUTH,
+	WEST,
+	EAST
+};
 
 enum e_assets
 {
@@ -86,8 +95,10 @@ typedef struct s_game
 	char	*asset_paths[5];
 	int		ceiling_rgb[3];
 	int		floor_rgb[3];
+	int		*texture_buffer[4];
 	mlx_image_t *image;
 	mlx_image_t *minimapimage;
+	mlx_texture_t	*textures[TEXTURE_COUNT];
 }	t_game;
 
 typedef struct s_map_validation
@@ -101,6 +112,7 @@ char	*parse_file(t_game *game, char *buffer);
 void	initialize_and_validate(t_game *game);
 void	load_textures(t_game *game);
 void	render_minimap(t_game *game);
+void	render_map(t_game *game);
 void	key_hook(mlx_key_data_t keydata, t_game *game);
 void	loop_hook(void *param);
 void	free_array(char **array, int entirety);

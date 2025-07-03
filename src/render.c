@@ -70,43 +70,6 @@ static void	draw_pixels(t_game *game, enum e_assets type, int x, int y)
 	}
 }
 
-/*
---10--
-This function right now goes through the height and width of the map and puts pixel by pixel to the image.
-After we have filled the image, we put image to window.
-
-static void	render_map(t_game *game)
-{
-	int	x;
-	int	y;
-
-	x = 0;
-	y = 0;
-	while (y < MAX_SCREEN_HEIGHT / 2)
-	{
-		x = 0;
-		while (x < MAX_SCREEN_WIDTH)
-		{
-			mlx_put_pixel(game->image, x, y, get_colour(game->ceiling_rgb));
-			x++;
-		}
-		y++;
-	}
-	mlx_image_to_window(game->mlx, game->image, 0, 0);
-	y = MAX_SCREEN_HEIGHT / 2;
-	while (y < MAX_SCREEN_HEIGHT)
-	{
-		x = 0;
-		while (x < MAX_SCREEN_WIDTH)
-		{
-			mlx_put_pixel(game->image, x, y, get_colour(game->floor_rgb));
-			x++;
-		}
-		y++;
-	}
-	mlx_image_to_window(game->mlx, game->image, 0, 0);
-}*/
-
 void	draw_line_wall(void *image, int beginX, int beginY, int endX, int endY, int color)
 {
 	double	deltaX = endX - beginX;	//length of line on x axis
@@ -128,8 +91,13 @@ void	draw_line_wall(void *image, int beginX, int beginY, int endX, int endY, int
 	}
 }
 
+/*--10--
+This function first draws the ceiling and floor, looping through the window width and height.
+Then it draws the walls by using the raycasting mathematics (will be better explained soon...)
+After we have filled the image, we put image to window.*/
 void	render_map(t_game *game)
 {
+	// First we draw ceiling and floor
 	int	x;
 	int	y;
 
@@ -145,7 +113,6 @@ void	render_map(t_game *game)
 		}
 		y++;
 	}
-	mlx_image_to_window(game->mlx, game->image, 0, 0);
 	y = MAX_SCREEN_HEIGHT / 2;
 	while (y < MAX_SCREEN_HEIGHT)
 	{
@@ -157,22 +124,23 @@ void	render_map(t_game *game)
 		}
 		y++;
 	}
-	mlx_image_to_window(game->mlx, game->image, 0, 0);
 
+	// Moving on to draw the walls
 	double	posX = game->player.x;	//player position X
 	double	posY = game->player.y;	//player position Y
 	double	dirX = game->player.dir_x;
-	double	dirY = game->player.dir_y;	//direction is along y-axis upwards (normalized so between -1 and 1)
-	double	planeX;
-	if (game->player.dir_y != 0)
-		planeX = 0.66;	// this is to make the field of view 66 degrees
-	else
-		planeX = 0;
-	double	planeY;
-	if (game->player.dir_x != 0)
-		planeY = 0.66; //planeY is 0 bc it has to be perpendicular
-	else
+	double	dirY = game->player.dir_y;
+	double	planeX, planeY;
+	if (dirY != 0)	//if position is N or S, planeX is set to 66 degrees and planeY to 0
+	{
+		planeX = 0.66;
 		planeY = 0;
+	}
+	else
+	{
+		planeX = 0;	//and vice versa - planeX needs to be 0 bc it has to be perpendicular to the ray
+		planeY = 0.66;
+	}
 	double	raydirY;
 	double	raydirX;
 	double	sidedistX;
@@ -183,19 +151,20 @@ void	render_map(t_game *game)
 	int		hit;
 	int		side;
 
-	x = 0;
+	x = 0;	//loop through the screen, drawing the walls one vertical line at a time
 	while (x < MAX_SCREEN_WIDTH)
 	{
-		mapX = (int)posX;
+		mapX = (int)posX;	//let's start from player position
 		mapY = (int)posY;
 		stepX = 0;
 		stepY = 0;
-		hit = 0;
-		side = 0;
+		hit = 0;	//indicates whether we have hit a wall on the map while calculating ray length
+		side = 0;	//indicates whether we hit a NS or a EW wall (0 if vertical ie. EW)
+		//cameraX is the x-coordinate on the camera plane - -1 on the left side, 0 in the middle and 1 on the right side of screen
 		double cameraX = 2 * x / (double)MAX_SCREEN_WIDTH - 1;
 		raydirX = dirX + planeX * cameraX;	//position vector + specific part of camera plane
 		raydirY = dirY + planeY * cameraX;
-		double	deltadistX = (raydirX == 0) ? 1e30 : fabs(1 / raydirX);
+		double	deltadistX = (raydirX == 0) ? 1e30 : fabs(1 / raydirX);	//this is the "hypotenuse"
 		double	deltadistY = (raydirY == 0) ? 1e30 : fabs(1 / raydirY);
 		double	perpwalldist;
 
@@ -203,25 +172,21 @@ void	render_map(t_game *game)
 		{
 			stepX = -1;
 			sidedistX = (posX - mapX) * deltadistX;
-			// printf("sidedistX is %f\n", sidedistX);
 		}
 		else
 		{
 			stepX = 1;
 			sidedistX = (mapX + 1.0 - posX) * deltadistX;
-			// printf("sidedistX is %f\n", sidedistX);
 		}
 		if (raydirY < 0)	//if ray is moving up
 		{
 			stepY = -1;
 			sidedistY = (posY - mapY) * deltadistY;
-			// printf("sidedistY is %f\n", sidedistY);
 		}
 		else
 		{
 			stepY = 1;
 			sidedistY = (mapY + 1.0 - posY) * deltadistY;
-			// printf("sidedistY is %f\n", sidedistY);
 		}
 		while (hit == 0)
 		{
@@ -229,42 +194,31 @@ void	render_map(t_game *game)
 			{
 				sidedistX += deltadistX;
 				mapX += stepX;
-				printf("we step to mapX %d with stepX %d\n", mapX, stepX);
 				side = 0;
 			}
 			else
 			{
 				sidedistY += deltadistY;
 				mapY += stepY;
-				printf("we step to mapY %d\n", mapY);
 				side = 1;
 			}
 			if (game->map[mapY][mapX] == '1')
 				hit = 1;
 		}
 		if (side == 0)
-		{
 			perpwalldist = (sidedistX - deltadistX);
-		}
 		else
-		{
 			perpwalldist = (sidedistY - deltadistY);
-		}
-		printf("now hit is %d and x %d and perp %f\n", hit, x, perpwalldist);
-		//This section draws the '3d' view but it is veeeery initial version
 		//  Calculate height of line to draw on screen
-    	double lineHeight = MAX_SCREEN_HEIGHT / perpwalldist;
-      	//calculate lowest and highest pixel to fill in current stripe
-     	int drawStart = (MAX_SCREEN_HEIGHT / 2) - (lineHeight / 2);
+		double lineHeight = MAX_SCREEN_HEIGHT / perpwalldist;
+		//calculate lowest and highest pixel to fill in current stripe
+		int drawStart = (MAX_SCREEN_HEIGHT / 2) - (lineHeight / 2); //below the middle of the screen
 		if (drawStart < 0)
 			drawStart = 0;
-      	// printf("drawStart %d x %d mapX %d mapY %d\n", drawStart, x, mapX, mapY);
-      	int drawEnd = (lineHeight / 2) + (MAX_SCREEN_HEIGHT / 2);
-     	if (drawEnd >= MAX_SCREEN_HEIGHT)
+		int drawEnd = (lineHeight / 2) + (MAX_SCREEN_HEIGHT / 2); //abovethe middle of the screen
+		if (drawEnd >= MAX_SCREEN_HEIGHT)
 			drawEnd = MAX_SCREEN_HEIGHT - 1;
-		// printf("drawEnd %d\n", drawEnd);
 		draw_line_wall(game->image, x, drawStart, x, drawEnd, 0xFF0000);
-		//NEEDS CORRECTION OF ANGLE HERE? SEE MEDIUM ARTICLE
 		x++;
 	}
 	mlx_image_to_window(game->mlx, game->image, 0, 0);

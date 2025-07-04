@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/07/03 16:20:17 by sojala           ###   ########.fr       */
+/*   Updated: 2025/07/04 13:38:29 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ typedef struct s_game
 	char	*asset_paths[5];
 	int		ceiling_rgb[3];
 	int		floor_rgb[3];
-	int		*texture_buffer[4];
 	mlx_image_t *image;
 	mlx_image_t *minimapimage;
 	mlx_texture_t	*textures[TEXTURE_COUNT];

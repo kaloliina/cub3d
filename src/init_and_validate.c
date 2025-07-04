@@ -94,13 +94,13 @@ int x, int y)
 /*This function makes the assets into textures to be used later when drawing the wall pixels.*/
 void	make_textures(t_game *game)
 {
-	int	x = 0;
-	while (x < TEXTURE_COUNT)
+	int	i = 0;
+	while (i < TEXTURE_COUNT)
 	{
-		game->textures[x] = mlx_load_png(game->asset_paths[x]);
-		if (!game->textures[x])
+		game->textures[i] = mlx_load_png(game->asset_paths[i]);
+		if (!game->textures[i])
 			cleanup_and_exit(game, ERRPNG, false);
-		x++;
+		i++;
 	}
 }
 

@@ -215,10 +215,31 @@ void	render_map(t_game *game)
 		int drawStart = (MAX_SCREEN_HEIGHT / 2) - (lineHeight / 2); //below the middle of the screen
 		if (drawStart < 0)
 			drawStart = 0;
-		int drawEnd = (lineHeight / 2) + (MAX_SCREEN_HEIGHT / 2); //abovethe middle of the screen
+		int drawEnd = (lineHeight / 2) + (MAX_SCREEN_HEIGHT / 2); //above the middle of the screen
 		if (drawEnd >= MAX_SCREEN_HEIGHT)
 			drawEnd = MAX_SCREEN_HEIGHT - 1;
-		draw_line_wall(game->image, x, drawStart, x, drawEnd, 0xFF0000);
+		int texnum = game->map[mapY][mapX] - 1;
+		double wallhitpoint;
+		if (side == 0)
+			wallhitpoint = posY + perpwalldist * raydirY;
+		else
+			wallhitpoint = posX + perpwalldist * raydirX;
+		wallhitpoint -= floor(wallhitpoint);
+		int texX = (int)(wallhitpoint * 32);
+		if ((side == 0 && raydirX > 0) || (side == 1 && raydirY < 0))
+			texX = 32 - texX - 1;
+		double step = 1.0 * 32 / lineHeight;
+		double texPos = (drawStart - MAX_SCREEN_HEIGHT / 2 + lineHeight / 2) * step;
+		int y = drawStart;
+		while (y < drawEnd)
+		{
+			int texY = (int)texPos & 31;
+			texPos += step;
+			int color = (game->textures[0])->pixels[32 * texY + texX];
+			mlx_put_pixel(game->image, x, y, color);
+			y++;
+		}
+		// draw_line_wall(game->image, x, drawStart, x, drawEnd, 0xFF0000);
 		x++;
 	}
 	mlx_image_to_window(game->mlx, game->image, 0, 0);
@@ -235,7 +256,7 @@ void	render_minimap(t_game *game)
 	int	y;
 
 	y = 0;
-	while (game->map[y] != NULL)
+	while (game->map[y])
 	{
 		x = 0;
 		while (x < (int)ft_strlen(game->map[y]))
@@ -243,9 +264,7 @@ void	render_minimap(t_game *game)
 			if (game->map[y][x] == '1')
 				draw_pixels(game, WALL, x * TILE, y * TILE);
 			else if (ft_strchr("0NSEW", game->map[y][x]))
-			{
 				draw_pixels(game, BASE, x * TILE, y * TILE);
-			}
 			x++;
 		}
 		y++;

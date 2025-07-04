@@ -6,13 +6,22 @@ static void	rotate(t_game *game, double rotation_dir)
 	double	rotspeed;
 	double	old_dir_x;
 	double	old_dir_y;
+	double	old_planeX;
 
+	/*Is rotspeed correct regarding the actual map? Right now rotating messes up the
+	wall in case of basic_map_tiny if eg. player starts with S and rotates to face
+	the wall that is on the left*/
 	printf("Before rotation: dir_x=%f, dir_y=%f\n", game->player.dir_x, game->player.dir_y);
 	rotspeed = SPEED * rotation_dir;
 	old_dir_x = game->player.dir_x;
 	old_dir_y = game->player.dir_y;
+	old_planeX = *game->planeX;
+	printf("old planeX is %f\n", old_planeX);
 	game->player.dir_x = old_dir_x * cos(rotspeed) - old_dir_y * sin(rotspeed);
 	game->player.dir_y = old_dir_x * sin(rotspeed) + old_dir_y * cos(rotspeed);
+	/*This planeX and planeY update has to be studied more!*/
+	*(game->planeX) = *(game->planeX) * cos(rotspeed) - *(game->planeY) * sin(rotspeed);
+	*(game->planeY) = old_planeX * sin(rotspeed) + *(game->planeY) * cos(rotspeed);
 	printf("After rotation: dir_x=%f, dir_y=%f\n", game->player.dir_x, game->player.dir_y);
 	render_map(game);
 	render_minimap(game);
@@ -32,23 +41,23 @@ static void	move(t_game *game, enum e_directions direction)
 	printf("Olds y: %d, old x: %d\n", (int)game->player.y, (int)game->player.x);
 	if (direction == FORWARD)
 	{
-	game->player.y = game->player.y + (SPEED * game->player.dir_y);
-	game->player.x = game->player.x + (SPEED * game->player.dir_x);
+		game->player.y += SPEED * game->player.dir_y;
+		game->player.x += SPEED * game->player.dir_x;
 	}
 	if (direction == BACKWARD)
 	{
-	game->player.y = game->player.y - (SPEED * game->player.dir_y);
-	game->player.x = game->player.x - (SPEED * game->player.dir_x);
+		game->player.y -= SPEED * game->player.dir_y;
+		game->player.x -= SPEED * game->player.dir_x;
 	}
 	if (direction == LEFT)
 	{
-	game->player.y = game->player.y - (SPEED * game->player.dir_x);
-	game->player.x = game->player.x + (SPEED * game->player.dir_y);
+		game->player.y = game->player.y - (SPEED * game->player.dir_x);
+		game->player.x = game->player.x + (SPEED * game->player.dir_y);
 	}
 	if (direction == RIGHT)
 	{
-	game->player.y = game->player.y + (SPEED * game->player.dir_x);
-	game->player.x = game->player.x - (SPEED * game->player.dir_y);
+		game->player.y = game->player.y + (SPEED * game->player.dir_x);
+		game->player.x = game->player.x - (SPEED * game->player.dir_y);
 	}
 	if (game->map[(int)game->player.y][(int)game->player.x] == '1')
 	{

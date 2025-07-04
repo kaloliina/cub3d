@@ -130,16 +130,24 @@ void	render_map(t_game *game)
 	double	posY = game->player.y;	//player position Y
 	double	dirX = game->player.dir_x;
 	double	dirY = game->player.dir_y;
-	double	planeX, planeY;
+	game->planeX = malloc(sizeof(double));	//MUST BE FREED!! Is this really the best way to do it?
+	game->planeY = malloc(sizeof(double));
+	/*Calculating of initial planeX and planeY might not be correct, needs studying*/
 	if (dirY != 0)	//if position is N or S, planeX is set to 66 degrees and planeY to 0
 	{
-		planeX = 0.66;
-		planeY = 0;
+		if (dirY == -1)
+			*game->planeX = 0.66;
+		else
+			*game->planeX = -0.66;
+		*game->planeY = 0;
 	}
 	else
 	{
-		planeX = 0;	//and vice versa - planeX needs to be 0 bc it has to be perpendicular to the ray
-		planeY = 0.66;
+		*game->planeX = 0;	//and vice versa - planeX needs to be 0 bc it has to be perpendicular to the ray
+		if (dirX == -1)
+			*game->planeY = -0.66;
+		else
+			*game->planeY = 0.66;
 	}
 	double	raydirY;
 	double	raydirX;
@@ -162,8 +170,8 @@ void	render_map(t_game *game)
 		side = 0;	//indicates whether we hit a NS or a EW wall (0 if vertical ie. EW)
 		//cameraX is the x-coordinate on the camera plane - -1 on the left side, 0 in the middle and 1 on the right side of screen
 		double cameraX = 2 * x / (double)MAX_SCREEN_WIDTH - 1;
-		raydirX = dirX + planeX * cameraX;	//position vector + specific part of camera plane
-		raydirY = dirY + planeY * cameraX;
+		raydirX = dirX + *(game->planeX) * cameraX;	//position vector + specific part of camera plane
+		raydirY = dirY + *(game->planeY) * cameraX;
 		double	deltadistX = (raydirX == 0) ? 1e30 : fabs(1 / raydirX);	//this is the "hypotenuse"
 		double	deltadistY = (raydirY == 0) ? 1e30 : fabs(1 / raydirY);
 		double	perpwalldist;

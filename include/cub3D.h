@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/07/04 13:38:29 by sojala           ###   ########.fr       */
+/*   Updated: 2025/07/04 15:37:43 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ typedef struct s_game
 	char		**map;
 	int			width;
 	int			height;
+	double		*planeX;
+	double		*planeY;
 	t_player	player;
 	mlx_image_t	*images[4];
 	char	*asset_paths[5];

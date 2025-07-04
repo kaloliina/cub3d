@@ -121,6 +121,8 @@ void	initialize_and_validate(t_game *game)
 	y = 0;
 	validation = (t_map_validation){true, 0, NULL};
 	game->player = (t_player){0};
+	game->planeX = NULL;
+	game->planeY = NULL;
 	while (game->map[y] != NULL)
 	{
 		x = 0;

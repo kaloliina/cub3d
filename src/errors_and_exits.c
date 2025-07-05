@@ -4,6 +4,11 @@ void	cleanup_and_exit(t_game *game, char *str, bool success)
 {
 	free_array(game->map, 1);
 	free_array(game->asset_paths, 0);
+	/*Added freeing plane_x and plane_y, atm they have to be in struct as pointers
+	bc they are used in different functions but to be decided if this is the
+	smartest way*/
+	free(game->plane_x);
+	free(game->plane_y);
 	if (game->mlx != NULL)
 		mlx_terminate(game->mlx);
 	if (success == true)

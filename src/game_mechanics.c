@@ -1,35 +1,35 @@
 #include "cub3D.h"
 
-/*This function rotates "the player", right now it's reflected only on minimap*/
+/*This function rotates "the player".*/
 static void	rotate(t_game *game, double rotation_dir)
 {
 	double	rotspeed;
 	double	old_dir_x;
 	double	old_dir_y;
-	double	old_planeX;
+	double	old_plane_x;
 
-	/*Is rotspeed correct regarding the actual map? Right now rotating messes up the
-	wall in case of basic_map_tiny if eg. player starts with S and rotates to face
-	the wall that is on the left*/
-	printf("Before rotation: dir_x=%f, dir_y=%f\n", game->player.dir_x, game->player.dir_y);
+	// printf("Before rotation: dir_x=%f, dir_y=%f\n", game->player.dir_x, game->player.dir_y);
 	rotspeed = SPEED * rotation_dir;
 	old_dir_x = game->player.dir_x;
 	old_dir_y = game->player.dir_y;
-	old_planeX = *game->planeX;
-	printf("old planeX is %f\n", old_planeX);
+	old_plane_x = *game->plane_x;
+	// printf("old plane_x is %f\n", old_plane_x);
 	game->player.dir_x = old_dir_x * cos(rotspeed) - old_dir_y * sin(rotspeed);
 	game->player.dir_y = old_dir_x * sin(rotspeed) + old_dir_y * cos(rotspeed);
-	/*This planeX and planeY update has to be studied more!*/
-	*(game->planeX) = *(game->planeX) * cos(rotspeed) - *(game->planeY) * sin(rotspeed);
-	*(game->planeY) = old_planeX * sin(rotspeed) + *(game->planeY) * cos(rotspeed);
-	printf("After rotation: dir_x=%f, dir_y=%f\n", game->player.dir_x, game->player.dir_y);
+	*(game->plane_x) = *(game->plane_x) * cos(rotspeed) - *(game->plane_y) * sin(rotspeed);
+	*(game->plane_y) = old_plane_x * sin(rotspeed) + *(game->plane_y) * cos(rotspeed);
+	// printf("After rotation: dir_x=%f, dir_y=%f plane_x=%f plane_y=%f\n", game->player.dir_x, game->player.dir_y,
+		// *(game->plane_x), *(game->plane_y));
 	render_map(game);
 	render_minimap(game);
 }
 
 /*This function is responsible of moving the player in the maze. Right now it'set up in
 a way that it moves relative to the player's facing direction (so forward doesnt always mean up etc)
-The old version is commented out in the end of the file*/
+The old version is commented out in the end of the file
+
+If the we want the player to move through walls, we need to change this! Just taking out the wall check
+in the end kinda does it but not maybe the right way?*/
 static void	move(t_game *game, enum e_directions direction)
 {
 	double	old_y;
@@ -37,8 +37,8 @@ static void	move(t_game *game, enum e_directions direction)
 
 	old_y = game->player.y;
 	old_x = game->player.x;
-	printf("Old y: %f, old x: %f\n", game->player.y, game->player.x);
-	printf("Olds y: %d, old x: %d\n", (int)game->player.y, (int)game->player.x);
+	// printf("Old y: %f, old x: %f\n", game->player.y, game->player.x);
+	// printf("Olds y: %d, old x: %d\n", (int)game->player.y, (int)game->player.x);
 	if (direction == FORWARD)
 	{
 		game->player.y += SPEED * game->player.dir_y;
@@ -65,8 +65,8 @@ static void	move(t_game *game, enum e_directions direction)
 		game->player.x = old_x;
 		return ;
 	}
-	printf("New y: %f, new x: %f\n", game->player.y, game->player.x);
-	printf("News y: %d, old x: %d\n", (int)game->player.y, (int)game->player.x);
+	// printf("New y: %f, new x: %f\n", game->player.y, game->player.x);
+	// printf("News y: %d, old x: %d\n", (int)game->player.y, (int)game->player.x);
 	render_map(game);
 	render_minimap(game);
 }

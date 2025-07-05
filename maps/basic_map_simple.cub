@@ -1,7 +1,7 @@
-NO assets/base.png
-SO assets/wall.png
-WE assets/player.png
-EA assets/exit.png
+NO assets/white.png
+SO assets/white.png
+WE assets/white.png
+EA assets/white.png
 
 F 168,235,52
 C 225,255,10

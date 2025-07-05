@@ -6,7 +6,8 @@ We run the flood fill for the map, basically we are checking if previous place w
 walkable spot and the current spot is not 1 (wall) and 0 (walkable path), then we
 know the map is not surrounded by walls. We also check if we have reached out of bounds
 and if the previous one was walkable path, we know the map is not surrounded by walls.
-*/
+
+If we want to be able to walk through walls, do we have to change something here?*/
 static void	fill(int x, int y,
 t_map_validation *validation, char prev)
 {
@@ -91,7 +92,8 @@ int x, int y)
 		cleanup_and_exit(game, ERRCHARS, 0);
 }
 
-/*This function makes the assets into textures to be used later when drawing the wall pixels.*/
+/*This function makes the assets into textures to be used later when drawing the wall pixels.
+Atm we are not deleting the textures!! Have to add that as soon as I know until what point we need them...*/
 void	make_textures(t_game *game)
 {
 	int	i = 0;
@@ -99,8 +101,36 @@ void	make_textures(t_game *game)
 	{
 		game->textures[i] = mlx_load_png(game->asset_paths[i]);
 		if (!game->textures[i])
+		{
+			i--;
+			while (i >= 0)
+				mlx_delete_texture(game->textures[i--]);
 			cleanup_and_exit(game, ERRPNG, false);
+		}
 		i++;
+	}
+}
+
+void	init_plane(t_game *game)
+{
+	game->plane_x = malloc(sizeof(double));
+	game->plane_y = malloc(sizeof(double));
+	/*Plane of 0.66 or -0.66 makes the field of view 66 degrees. Seems to be standard but we can try other like 90 degrees*/
+	if (game->player.dir_y != 0)	//if position is N or S, plane_x is set to 66 degrees and plane_y to 0
+	{
+		if (game->player.dir_y == -1)
+			*game->plane_x = 0.66;
+		else	//if dir_y is 1
+			*game->plane_x = -0.66;
+		*game->plane_y = 0;
+	}
+	else	//if dir_x != 0
+	{
+		*game->plane_x = 0;	//and if E or W, vice versa - plane_x needs to be 0 bc it has to be perpendicular to the ray
+		if (game->player.dir_x == -1)
+			*game->plane_y = -0.66;
+		else	//if dir_x is 1
+			*game->plane_y = 0.66;
 	}
 }
 
@@ -121,8 +151,7 @@ void	initialize_and_validate(t_game *game)
 	y = 0;
 	validation = (t_map_validation){true, 0, NULL};
 	game->player = (t_player){0};
-	game->planeX = NULL;
-	game->planeY = NULL;
+	init_plane(game);	//I moved init of plane_x and plane_y here before rendering since we need to update them if player rotates.
 	while (game->map[y] != NULL)
 	{
 		x = 0;

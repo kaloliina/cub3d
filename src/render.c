@@ -165,7 +165,7 @@ void	render_map(t_game *game)
 			step_x = -1;	//we take one step to left, decrease x
 			sidedist_x = (pos_x - map_x) * deltadist_x;
 		}
-		else	//if ray is moving right
+		else	//if ray is moving right (if raydir_x == 0, step_x will be unused so it doesn't matter)
 		{
 			step_x = 1;
 			sidedist_x = (map_x + 1.0 - pos_x) * deltadist_x;
@@ -204,10 +204,10 @@ void	render_map(t_game *game)
 		//  Calculate height of the line to draw on screen
 		double lineheight = MAX_SCREEN_HEIGHT / perpwalldist;
 		//Calculate lowest and highest pixel to draw in current stripe
-		int drawstart = (MAX_SCREEN_HEIGHT / 2) - (lineheight / 2); //below the middle of the screen
+		int drawstart = (MAX_SCREEN_HEIGHT / 2) - (lineheight / 2); //below the middle of the screen, we want to center it so half is below and half above middle
 		if (drawstart < 0)
 			drawstart = 0;
-		int drawend = (lineheight / 2) + (MAX_SCREEN_HEIGHT / 2); //above the middle of the screen
+		int drawend = (MAX_SCREEN_HEIGHT / 2) + (lineheight / 2); //above the middle of the screen
 		if (drawend >= MAX_SCREEN_HEIGHT)
 			drawend = MAX_SCREEN_HEIGHT - 1;
 		//Now we calculate the texture
@@ -220,17 +220,30 @@ void	render_map(t_game *game)
 		wallhitpoint -= floor(wallhitpoint);	//floor means taking the largest int value that is not greater than wallhitpoint
 		int tex_x = (int)(wallhitpoint * texsize);
 		if ((side == 0 && raydir_x > 0) || (side == 1 && raydir_y < 0)) //or raydir_x < 0 || raydir_y > 0?? diff sources
-			tex_x = texsize - tex_x - 1;	//why??
-		double step = 1.0 * texsize / lineheight;	//how much to increase the texture coordinate per screen pixel
-		double texpos = (drawstart - MAX_SCREEN_HEIGHT / 2 + lineheight / 2) * step;	//starting coordinate of texture
+			tex_x = texsize - tex_x - 1;	//we have to flip the texture if the wall is EW and ray comes from west, or if NS wall and ray comes from south
+		double step = 1.0 * texsize / lineheight;	//how much to increase the texture coordinate per screen pixel, has to be 1.0 * to make it a float
+		double texpos = (drawstart - MAX_SCREEN_HEIGHT / 2 + lineheight / 2) * step;	//starting coordinate of texture (y)
 		int y = drawstart;
+		int i = 0;
+		if (side == 0 && raydir_x > 0)
+			i = 3;
+		else if (side == 0 && raydir_x < 0)
+			i = 2;
+		else if (side == 1 && raydir_y > 0)
+			i = 1;
+		int	color[3];
+		uint8_t	*pixels = game->textures[i]->pixels;
 		while (y < drawend)	//drawing the vertical line one pixel at a time
 		{
-			int tex_y = (int)texpos & (texsize - 1);	//what happens here??
+			int tex_y = (int)texpos & (texsize - 1);	//the bitwise & makes sure tex_y always is between 0 and 127 so it wraps it
+			int	index = 4 * (texsize * tex_y	+ tex_x);
 			texpos += step;
 			//We have to handle different textures depending on the direction, but now just tested with texture[0]
-			int color = (game->textures[0])->pixels[texsize * tex_y + tex_x];
-			mlx_put_pixel(game->image, x, y, color);
+			color[0] = pixels[index];
+			color[1] = pixels[index + 1];
+			color[2] = pixels[index + 2];
+			int color_curr = get_colour(color);
+			mlx_put_pixel(game->image, x, y, color_curr);
 			y++;
 		}
 		// draw_line_wall(game->image, x, drawStart, x, drawEnd, 0xFF0000);

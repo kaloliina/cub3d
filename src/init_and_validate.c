@@ -158,7 +158,6 @@ void	initialize_and_validate(t_game *game)
 	int					y;
 	t_map_validation	validation;
 
-	x = 0;
 	y = 0;
 	validation = (t_map_validation){true, 0, NULL};
 	game->player = (t_player){0};

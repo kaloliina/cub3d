@@ -72,7 +72,7 @@ int32_t	main(void)
 	int		stepX;
 	int		stepY;
 	int		hit = 0;
-	int		side;
+	int		hor_side;
 	int		x = 0;
 
 	draw_line(img, 0 * TILE, 0 * TILE, 10 * TILE, 0 * TILE, 0xFF0000);
@@ -101,7 +101,7 @@ int32_t	main(void)
 		mapX = (int)posX;
 		mapY = (int)posY;
 		hit = 0;
-		side = 0;
+		hor_side = 0;
 		double cameraX = 2.0 * (x + 0.5) / (double)width - 1.0;
 		raydirX = dirX + planeX * cameraX;	//position vector + specific part of camera plane
 		raydirY = dirY + planeY * cameraX;
@@ -136,18 +136,18 @@ int32_t	main(void)
 			{
 				sidedistX += deltadistX;
 				mapX += stepX;
-				side = 0;
+				hor_side = 0;
 			}
 			else
 			{
 				sidedistY += deltadistY;
 				mapY += stepY;
-				side = 1;
+				hor_side = 1;
 			}
 			if (map[mapY][mapX] == 1)
 				hit = 1;
 		}
-		if (side == 0)
+		if (hor_side == 0)
 		{
 			perpwalldist = (sidedistX - deltadistX);
 		}

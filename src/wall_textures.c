@@ -1,23 +1,25 @@
 #include "cub3D.h"
 
+/*Here we calculate the exact point inside a square at which we hit a wall.*/
 void	get_wallhitpoint(t_dda *dda, double *wallhitpoint)
 {
 	double	temp;
 
-	if (dda->side == 0)	//if we hit vertical wall
-		temp = dda->pos_y + dda->perpwalldist * dda->raydir_y;
+	if (dda->hor_side == 0)	//if we hit vertical wall
+		temp = dda->pos_y + dda->corr_length * dda->raydir_y;
 	else
-		temp = dda->pos_x + dda->perpwalldist * dda->raydir_x;
+		temp = dda->pos_x + dda->corr_length * dda->raydir_x;
 	*wallhitpoint = temp - floor(temp);	//floor means taking the largest int value that is not greater than wallhitpoint
 }
 
+/*This function finds out the direction of the wall we hit (= are drawing).*/
 static enum e_textures	get_tex_type(t_dda *dda)
 {
-	if (dda->side == 0 && dda->raydir_x > 0)
+	if (dda->hor_side == 0 && dda->raydir_x > 0)
 		return (EAST);
-	else if (dda->side == 0 && dda->raydir_x < 0)
+	else if (dda->hor_side == 0 && dda->raydir_x < 0)
 		return (WEST);
-	else if (dda->side == 1 && dda->raydir_y > 0)
+	else if (dda->hor_side == 1 && dda->raydir_y > 0)
 		return (SOUTH);
 	else
 		return (NORTH);
@@ -38,7 +40,7 @@ static int	get_tex_x(double wallhitpoint, t_dda *dda, int tex_w)
 	int	temp;
 
 	temp = (int)(wallhitpoint * (double)tex_w);
-	if ((dda->side == 0 && dda->raydir_x > 0) || (dda->side == 1 && dda->raydir_y < 0)) //or raydir_x < 0 || raydir_y > 0?? diff sources
+	if ((dda->hor_side == 0 && dda->raydir_x > 0) || (dda->hor_side == 1 && dda->raydir_y < 0)) //or raydir_x < 0 || raydir_y > 0?? diff sources
 		temp = tex_w - temp- 1;	//we have to flip the texture if the wall is EW and ray comes from west, or if NS wall and ray comes from south
 	return (temp);
 }
@@ -54,7 +56,6 @@ void	draw_wall_stripe(t_dda *dda, t_game *game, double wallhitpoint, int x)
 	double			tex_pos;
 	enum e_textures	type;
 	int				color[3];
-	int				color_curr;
 
 	type = get_tex_type(dda);
 	tex_w = game->textures[type]->width;	//pixel size of the texture (we prefer a square so no need for sep. height and width, this size is of white.png)

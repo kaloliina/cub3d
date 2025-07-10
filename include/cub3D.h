@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/07/10 15:30:59 by sojala           ###   ########.fr       */
+/*   Updated: 2025/07/10 17:06:01 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,17 +95,17 @@ typedef struct s_dda
 	double	raydir_x;
 	double	sidedist_x;
 	double	sidedist_y;
-	double	deltadist_x;
-	double	deltadist_y;
+	double	squaredist_x;
+	double	squaredist_y;
 	double	camera_x;
-	double	perpwalldist;
+	double	corr_length;
 	double	lineheight;
 	int		map_x;
 	int		map_y;
 	int		step_x;
 	int		step_y;
 	int		hit;
-	int		side;
+	int		hor_side;
 	int		drawstart;
 	int		drawend;
 }			t_dda;

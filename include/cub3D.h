@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/07/05 19:34:21 by sojala           ###   ########.fr       */
+/*   Updated: 2025/07/10 15:30:59 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define ASSET_COUNT 4
 # define TILE 20
 # define FILE_INFO_COUNT 6
-# define SPEED 0.1
+# define SPEED 0.05	//used to be 0.1, what will we decide on?
 
 # define ERRMEM "Warning: Memory allocation failed."
 # define ERRBER "Warning: File needs to end in .ber extension."
@@ -50,6 +50,7 @@
 # define ERRPNG "Warning: Error loading PNG."
 # define ERRCONV "Warning: Error converting texture to image."
 # define ERRRESIZE "Warning: Error resizing images."
+# define ERRNEWIMG "Warning: Error creating a new image buffer."
 # define ERRIMG "Warning: Error drawing image to window."
 
 enum e_textures
@@ -84,21 +85,45 @@ typedef struct s_player
 	double	dir_y;
 }	t_player;
 
+typedef struct s_dda
+{
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
+	double	raydir_y;
+	double	raydir_x;
+	double	sidedist_x;
+	double	sidedist_y;
+	double	deltadist_x;
+	double	deltadist_y;
+	double	camera_x;
+	double	perpwalldist;
+	double	lineheight;
+	int		map_x;
+	int		map_y;
+	int		step_x;
+	int		step_y;
+	int		hit;
+	int		side;
+	int		drawstart;
+	int		drawend;
+}			t_dda;
+
 typedef struct s_game
 {
-	mlx_t		*mlx;
-	char		**map;
-	int			width;
-	int			height;
-	double		*plane_x;
-	double		*plane_y;
-	t_player	player;
-	mlx_image_t	*images[4];
-	char	*asset_paths[5];
-	int		ceiling_rgb[3];
-	int		floor_rgb[3];
-	mlx_image_t *image;
-	mlx_image_t *minimapimage;
+	mlx_t			*mlx;
+	char			**map;
+	int				width;
+	int				height;
+	double			*plane_x;
+	double			*plane_y;
+	t_player		player;
+	char			*asset_paths[5];
+	int				ceiling_rgb[3];
+	int				floor_rgb[3];
+	mlx_image_t 	*image;
+	mlx_image_t 	*minimapimage;
 	mlx_texture_t	*textures[TEXTURE_COUNT];
 }	t_game;
 
@@ -109,14 +134,32 @@ typedef struct s_map_validation
 	char	**map;
 }	t_map_validation;
 
+//parsing and validation
 char	*parse_file(t_game *game, char *buffer);
 void	initialize_and_validate(t_game *game);
-void	load_textures(t_game *game);
+
+//render
+void	init_maps(t_game *game);
 void	render_minimap(t_game *game);
 void	render_map(t_game *game);
+//dda
+void	init_dda(t_dda *dda, t_game *game);
+void	update_dda(t_dda *dda, t_game *game, int x);
+void	get_line_properties(t_dda *dda, t_game *game);
+//render utils
+void	draw_line(t_game *game, double begin_x, double begin_y);
+void	draw_pixels(t_game *game, enum e_assets type, int x, int y);
+int		get_color(int *rgb);
+//wall textures
+void	get_wallhitpoint(t_dda *dda, double *wallhitpoint);
+void	draw_wall_stripe(t_dda *dda, t_game *game, double wallhitpoint, int x);
+
+//game mechanics
 void	key_hook(mlx_key_data_t keydata, t_game *game);
 void	loop_hook(void *param);
+
+//errors and exits
 void	free_array(char **array, int entirety);
-void	cleanup_and_exit(t_game *game, char *str, bool success);
+void	cleanup_and_exit(t_game *game, char *str, bool success, bool textures);
 
 #endif

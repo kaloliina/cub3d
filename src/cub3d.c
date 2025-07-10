@@ -20,15 +20,15 @@ static void	parse_map_file(t_game *game, char *str)
 	len = ft_strlen(str) - 1;
 	if (len < 4 || str[len] != 'b' || str[len - 1] != 'u'
 		|| str[len - 2] != 'c' || str[len - 3] != '.')
-		cleanup_and_exit(game, ERRBER, 0);
+		cleanup_and_exit(game, ERRBER, 0, 0);
 	fd = open(str, O_RDONLY);
 	if (fd == -1)
-		cleanup_and_exit(game, ERRFILE, 0);
+		cleanup_and_exit(game, ERRFILE, 0, 0);
 	bytes_read = read(fd, buffer, MAX_BUFFER_SIZE);
 	if (bytes_read == -1 || bytes_read > MAX_BUFFER_SIZE - 1)
 	{
 		close (fd);
-		cleanup_and_exit(game, ERRFILE, 0);
+		cleanup_and_exit(game, ERRFILE, 0, 0);
 	}
 	buffer[bytes_read] = '\0';
 	close (fd);
@@ -36,10 +36,9 @@ static void	parse_map_file(t_game *game, char *str)
 	game->map = ft_split(map, '\n');
 	free (map);
 	if (game->map == NULL || game->map[0] == NULL)
-		cleanup_and_exit(game, ERRMAPLAST, 0);
+		cleanup_and_exit(game, ERRMAPLAST, 0, 0);
 }
 
-/*Ive marked the sections with 1-n, to go step by step over the parsing flow*/
 int	main(int argc, char *argv[])
 {
 	t_game	game;
@@ -51,16 +50,16 @@ int	main(int argc, char *argv[])
 		initialize_and_validate(&game);
 		if ((game.width * TILE) > MAX_SCREEN_WIDTH
 			|| (game.height * TILE) > MAX_SCREEN_HEIGHT)
-			cleanup_and_exit(&game, ERRSIZE, 0);
+			cleanup_and_exit(&game, ERRSIZE, 0, 1);
 		game.mlx = mlx_init(MAX_SCREEN_WIDTH, MAX_SCREEN_HEIGHT,
-				"Piscine", false);
+				"cub3D", false);
 		if (game.mlx == NULL)
-			cleanup_and_exit(&game, ERRGEN, 0);
-		load_textures(&game);
+			cleanup_and_exit(&game, ERRGEN, 0, 1);
+		init_maps(&game);
 		mlx_key_hook(game.mlx, (void *) key_hook, &game);
 		mlx_loop_hook(game.mlx, (void *) loop_hook, &game);
 		mlx_loop(game.mlx);
-		cleanup_and_exit(&game, NULL, 1);
+		cleanup_and_exit(&game, NULL, 1, 1);
 	}
-	cleanup_and_exit(&game, ERRARGC, 0);
+	cleanup_and_exit(&game, ERRARGC, 0, 0);
 }

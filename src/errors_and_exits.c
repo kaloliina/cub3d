@@ -1,16 +1,23 @@
 #include "cub3D.h"
 
-void	cleanup_and_exit(t_game *game, char *str, bool success)
+void	cleanup_and_exit(t_game *game, char *str, bool success, bool textures)
 {
+	int	i;
+
+	i = 0;
 	free_array(game->map, 1);
 	free_array(game->asset_paths, 0);
 	/*Added freeing plane_x and plane_y, atm they have to be in struct as pointers
 	bc they are used in different functions but to be decided if this is the
 	smartest way*/
-	free(game->plane_x);
-	free(game->plane_y);
+	if (game->plane_x)
+		free (game->plane_x);
+	if (game->plane_y)
+		free (game->plane_y);
 	if (game->mlx != NULL)
 		mlx_terminate(game->mlx);
+	while (textures && i < TEXTURE_COUNT)
+		mlx_delete_texture(game->textures[i++]);
 	if (success == true)
 	{
 		exit (0);

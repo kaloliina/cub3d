@@ -6,7 +6,7 @@
 #    By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/24 12:16:09 by khiidenh          #+#    #+#              #
-#    Updated: 2025/07/03 09:34:26 by sojala           ###   ########.fr        #
+#    Updated: 2025/07/10 15:52:50 by sojala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,12 +19,15 @@ LIBFT = libft/libft.a
 HEADERS	= -I ./include -I $(MLX_DIR)/include -I libft/includes
 LIBS	= $(MLX_DIR)/build/libmlx42.a -ldl -lglfw -pthread -lm
 SRCS_DIR	= src/
-SRCS = 	$(SRCS_DIR)so_long.c\
+SRCS = 	$(SRCS_DIR)cub3d.c\
 	$(SRCS_DIR)errors_and_exits.c\
 	$(SRCS_DIR)game_mechanics.c\
 	$(SRCS_DIR)init_and_validate.c\
+	$(SRCS_DIR)parse_file.c\
+	$(SRCS_DIR)render_dda.c\
+	$(SRCS_DIR)render_utils.c\
 	$(SRCS_DIR)render.c\
-	$(SRCS_DIR)parse_file.c
+	$(SRCS_DIR)wall_textures.c
 OBJS	= $(SRCS:.c=.o)
 
 all: $(MLX) libft $(NAME)

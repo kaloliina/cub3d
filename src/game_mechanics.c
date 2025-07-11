@@ -73,9 +73,23 @@ static void	move(t_game *game, enum e_directions direction)
 	render_minimap(game);
 }
 
-//Not sure if this is needed longer but keeping it here just in case
-void	key_hook(mlx_key_data_t keydata, t_game *game)
+/*This key hook now detects pressing M key. It controls whether we are in "normal"
+mode regarding mouse usage, or if we press M, cursor gets hidden and we can rotate
+by moving the mouse (without pressing left mouse button). Bonus stuff and only one
+possible way of doing it...*/
+void	key_hook(mlx_key_data_t keydata, void *param)
 {
+	t_game *game;
+
+	game = (t_game *)param;
+	if (keydata.key == MLX_KEY_M && keydata.action == MLX_PRESS)
+	{
+		game->mouse_lock = !game->mouse_lock;
+		if (!game->mouse_lock)
+			mlx_set_cursor_mode(game->mlx, MLX_MOUSE_HIDDEN);
+		else
+			mlx_set_cursor_mode(game->mlx, MLX_MOUSE_NORMAL);
+	}
 }
 
 /*
@@ -109,15 +123,19 @@ void	mouse_hook(void *param)
 	t_game *game;
 	int		old_x, old_y;
 	float	sensitivity;
+	bool	mouse_lock;
 
 	game = param;
-	mlx_get_mouse_pos(game->mlx, &old_x, &old_y);
-	sensitivity = (old_x - MAX_SCREEN_WIDTH / 2) * (1.0f / 100);
-	if (sensitivity < 0)
-		rotate(game, -1);
-	else if (sensitivity > 0)
-		rotate(game, 1);
-	mlx_set_mouse_pos(game->mlx, MAX_SCREEN_WIDTH / 2, MAX_SCREEN_HEIGHT / 2);
+	if (!game->mouse_lock)
+	{
+		mlx_get_mouse_pos(game->mlx, &old_x, &old_y);
+		sensitivity = (old_x - MAX_SCREEN_WIDTH / 2) * (1.0f / 100);
+		if (sensitivity < 0)
+			rotate(game, sensitivity);
+		else if (sensitivity > 0)
+			rotate(game, sensitivity);
+		mlx_set_mouse_pos(game->mlx, MAX_SCREEN_WIDTH / 2, MAX_SCREEN_HEIGHT / 2);
+	}
 }
 
 /*THIS IS THE OLD VERSION.

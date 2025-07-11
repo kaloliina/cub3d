@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/07/11 14:09:25 by sojala           ###   ########.fr       */
+/*   Updated: 2025/07/11 14:36:14 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ typedef struct s_game
 	int				height;
 	double			*plane_x;
 	double			*plane_y;
+	bool			mouse_lock;
 	t_player		player;
 	char			*asset_paths[5];
 	int				ceiling_rgb[3];
@@ -155,7 +156,7 @@ void	get_wallhitpoint(t_dda *dda, double *wallhitpoint);
 void	draw_wall_stripe(t_dda *dda, t_game *game, double wallhitpoint, int x);
 
 //game mechanics
-void	key_hook(mlx_key_data_t keydata, t_game *game);
+void	key_hook(mlx_key_data_t keydata, void *param);
 void	loop_hook(void *param);
 void	mouse_hook(void *param);
 

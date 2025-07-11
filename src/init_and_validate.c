@@ -161,6 +161,7 @@ void	initialize_and_validate(t_game *game)
 	y = 0;
 	validation = (t_map_validation){true, 0, NULL};
 	game->player = (t_player){0};
+	game->mouse_lock = 1;
 	init_plane(game); //I moved init of plane_x and plane_y here before rendering since we need to update them if player rotates.
 	while (game->map[y] != NULL)
 	{

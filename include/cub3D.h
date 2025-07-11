@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/07/10 17:06:01 by sojala           ###   ########.fr       */
+/*   Updated: 2025/07/11 14:09:25 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ void	draw_wall_stripe(t_dda *dda, t_game *game, double wallhitpoint, int x);
 //game mechanics
 void	key_hook(mlx_key_data_t keydata, t_game *game);
 void	loop_hook(void *param);
+void	mouse_hook(void *param);
 
 //errors and exits
 void	free_array(char **array, int entirety);

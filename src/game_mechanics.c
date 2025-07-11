@@ -104,6 +104,22 @@ void	loop_hook(void *param)
 		mlx_close_window(game->mlx);
 }
 
+void	mouse_hook(void *param)
+{
+	t_game *game;
+	int		old_x, old_y;
+	float	sensitivity;
+
+	game = param;
+	mlx_get_mouse_pos(game->mlx, &old_x, &old_y);
+	sensitivity = (old_x - MAX_SCREEN_WIDTH / 2) * (1.0f / 100);
+	if (sensitivity < 0)
+		rotate(game, -1);
+	else if (sensitivity > 0)
+		rotate(game, 1);
+	mlx_set_mouse_pos(game->mlx, MAX_SCREEN_WIDTH / 2, MAX_SCREEN_HEIGHT / 2);
+}
+
 /*THIS IS THE OLD VERSION.
 It handles the rotation and the movement but the movement does not follow players direction,
 so even if you are facing a certain way, pressing S moves player towards bottom of the map.*/

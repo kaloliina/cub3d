@@ -58,6 +58,7 @@ int	main(int argc, char *argv[])
 		init_maps(&game);
 		mlx_key_hook(game.mlx, (void *) key_hook, &game);
 		mlx_loop_hook(game.mlx, (void *) loop_hook, &game);
+		mlx_cursor_hook(game.mlx, (void *) mouse_hook, &game);
 		mlx_loop(game.mlx);
 		cleanup_and_exit(&game, NULL, 1, 1);
 	}

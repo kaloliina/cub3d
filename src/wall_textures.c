@@ -44,7 +44,7 @@ static int	get_tex_x(double wallhitpoint, t_dda *dda, int tex_w)
 
 	temp = (int)(wallhitpoint * (double)tex_w);
 	if ((dda->hor_side == 0 && dda->raydir_x > 0) || (dda->hor_side == 1 && dda->raydir_y < 0)) //or raydir_x < 0 || raydir_y > 0?? diff sources
-		temp = tex_w - temp- 1; //we have to flip the texture if the wall is EW and ray comes from west, or if NS wall and ray comes from south
+		temp = tex_w - temp - 1; //we have to flip the texture if the wall is EW and ray comes from west, or if NS wall and ray comes from south
 	return (temp);
 }
 

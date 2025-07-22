@@ -24,8 +24,8 @@ void	cleanup_and_exit(t_game *game, char *str, bool success, bool textures)
 	}
 	if (success == false)
 	{
+		ft_putstr_fd(ERRMSG, 2);
 		ft_putstr_fd(str, 2);
-		ft_putstr_fd("\n", 2);
 		exit (1);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/07/11 14:36:14 by sojala           ###   ########.fr       */
+/*   Updated: 2025/07/22 16:35:05 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,29 +29,30 @@
 # define FILE_INFO_COUNT 6
 # define SPEED 0.05	//used to be 0.1, what will we decide on?
 
-# define ERRMEM "Warning: Memory allocation failed."
-# define ERRBER "Warning: File needs to end in .ber extension."
-# define ERRFILE "Warning: Failed to open the specified file."
-# define ERRSIZE "Warning: Game window is too large."
-# define ERRARGC "Warning: Program expects one argument to a valid map."
-# define ERRGEN "Warning: Operation failed."
-# define ERRFORMAT "Warning: Type identifier (NO, SO, WE, EA, F, C) is expected to be followed up by one or more spaces."
-# define ERRRGBFORMAT "Warning: RGB values must be provided as <F/C> <R>,<G>,<B> with numbers only (no signs: + or - allowed)."
-# define ERRTHREE "Warning: Expected 3 numbers for RGB values."
-# define ERRRGB "Warning: RGB values expected in the range of 0 - 255."
-# define ERRMISSINFO "Warning: Could not find the required information in the specified file."
-# define ERRMAPGAP "Warning: The map should not contain empty rows in between!"
-# define ERRMAPLAST "Warning: The map should be last in the file."
+# define ERRMSG "Error\n"
+# define ERRMEM "Memory allocation failed.\n"
+# define ERRBER "File needs to end in .ber extension.\n"
+# define ERRFILE "Failed to open the specified file.\n"
+# define ERRSIZE "Game window is too large.\n"
+# define ERRARGC "Program expects one argument to a valid map.\n"
+# define ERRGEN "Operation failed.\n"
+# define ERRFORMAT "Type identifier (NO, SO, WE, EA, F, C) is expected to be followed up by one or more spaces.\n"
+# define ERRRGBFORMAT "RGB values must be provided as <F/C> <R>,<G>,<B> with numbers only (no signs: + or - allowed).\n"
+# define ERRTHREE "Expected 3 numbers for RGB values.\n"
+# define ERRRGB "RGB values expected in the range of 0 - 255.\n"
+# define ERRMISSINFO "Could not find the required information in the specified file.\n"
+# define ERRMAPGAP "The map should not contain empty rows in between!\n"
+# define ERRMAPLAST "The map should be last in the file.\n"
 
-# define ERRP "Warning: Invalid amount of players on the map!"
-# define ERRENC "Warning: Map is not enclosed with walls!"
-# define ERRCHARS "Warning: Map has invalid characters!"
+# define ERRP "Invalid amount of players on the map!\n"
+# define ERRENC "Map is not enclosed with walls!\n"
+# define ERRCHARS "Map has invalid characters!\n"
 
-# define ERRPNG "Warning: Error loading PNG."
-# define ERRCONV "Warning: Error converting texture to image."
-# define ERRRESIZE "Warning: Error resizing images."
-# define ERRNEWIMG "Warning: Error creating a new image buffer."
-# define ERRIMG "Warning: Error drawing image to window."
+# define ERRPNG "Error loading PNG.\n"
+# define ERRCONV "Error converting texture to image.\n"
+# define ERRRESIZE "Error resizing images.\n"
+# define ERRNEWIMG "Error creating a new image buffer.\n"
+# define ERRIMG "Error drawing image to window.\n"
 
 enum e_textures
 {

@@ -62,7 +62,53 @@ void	render_map(t_game *game)
 
 /*
 --9--
-*/
+void	render_minimap(t_game *game)
+{
+	int	x;
+	int	x1;
+	int	y;
+	int	y1;
+	int	p_x = game->player.x;
+	int	p_y = game->player.y;
+
+	int	x_start = game->player.x - 10;
+	if (x_start < 0)
+		x_start = 0;
+	int	x_end = game->player.x + 10;
+	if (x_end > game->width)
+		x_end = game->width;
+	int	y_start = game->player.y - 10;
+	if (y_start < 0)
+		y_start = 0;
+	int	y_end = game->player.y + 10;
+	if (y_end > game->height)
+		y_end = game->height;
+
+	y = y_start;
+	y1 = 0;
+	while (y < y_end)
+	{
+		x = x_start;
+		x1 = 0;
+		while (x < x_end)
+		{
+			if (game->map[y][x] == '1')
+				draw_pixels(game, WALL, x1 * TILE, y1 * TILE);
+			else if (ft_strchr("0NSEW", game->map[y][x]))
+				draw_pixels(game, BASE, x1 * TILE, y1 * TILE);
+			x1++;
+			x++;
+		}
+		y1++;
+		y++;
+	}
+	draw_pixels(game, PLAYER, (x_start + game->player.x - 0.5) * TILE, (y_start + game->player.y - 0.5) * TILE);
+	draw_line(game, (x_start + game->player.x) * TILE, (y_start + game->player.y) * TILE);
+	if (mlx_image_to_window(game->mlx, game->minimapimage,
+			0, 0) < 0)
+		cleanup_and_exit(game, ERRIMG, 0, 1);
+}*/
+
 void	render_minimap(t_game *game)
 {
 	int	x;

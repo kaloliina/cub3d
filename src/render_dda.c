@@ -32,8 +32,8 @@ void	update_dda(t_dda *dda, t_game *game, int x)
 	dda->hor_side = 0; //indicates whether we hit a NS or a EW wall (0 if vertical ie. EW, x side)
 	//camera_x is the x-coordinate on the camera plane - -1 on the left side, 0 in the middle and 1 on the right side of screen
 	dda->camera_x = 2 * x / (double)MAX_SCREEN_WIDTH - 1;
-	dda->raydir_x = dda->dir_x + *(game->plane_x) * dda->camera_x; //position vector + specific part of camera plane (see lodev pic)
-	dda->raydir_y = dda->dir_y + *(game->plane_y) * dda->camera_x;
+	dda->raydir_x = dda->dir_x + *game->plane_x * dda->camera_x; //position vector + specific part of camera plane (see lodev pic)
+	dda->raydir_y = dda->dir_y + *game->plane_y * dda->camera_x;
 	/*we give squaredist a very big value in case of a straight vertical or horizontal line, so that
 	we avoid dividing by zero, and also after that we won't choose that direction when comparing sidedists.
 	squaredist indicates how much the value of x changes when y changes by one, and vice versa.*/

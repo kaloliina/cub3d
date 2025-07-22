@@ -113,7 +113,6 @@ void	make_textures(t_game *game)
 				mlx_delete_texture(game->textures[i--]);
 			cleanup_and_exit(game, ERRPNG, 0, 0);
 		}
-		printf("texture width %d height %d\n", game->textures[i]->width, game->textures[i]->height);
 		i++;
 	}
 }
@@ -126,6 +125,7 @@ void	init_plane(t_game *game)
 	game->plane_y = malloc(sizeof(double));
 	if (!game->plane_y)
 		cleanup_and_exit(game, ERRMEM, 0, 0);
+	printf("dir y %f\n", game->player.dir_y);
 	/*Plane of 0.66 or -0.66 makes the field of view 66 degrees. Seems to be standard but we can try other like 90 degrees*/
 	if (game->player.dir_y != 0) //if position is N or S, plane_x is set to 66 degrees and plane_y to 0
 	{
@@ -162,7 +162,6 @@ void	initialize_and_validate(t_game *game)
 	validation = (t_map_validation){true, 0, NULL};
 	game->player = (t_player){0};
 	game->mouse_lock = 1;
-	init_plane(game); //I moved init of plane_x and plane_y here before rendering since we need to update them if player rotates.
 	while (game->map[y] != NULL)
 	{
 		x = 0;
@@ -175,6 +174,7 @@ void	initialize_and_validate(t_game *game)
 			game->width = (int)ft_strlen(game->map[y]);
 		y++;
 	}
+	init_plane(game); //I moved init of plane_x and plane_y here before rendering since we need to update them if player rotates.
 	if (validation.player_count != 1)
 		cleanup_and_exit(game, ERRP, 0, 0);
 	game->height = y;

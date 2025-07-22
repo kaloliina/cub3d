@@ -125,7 +125,6 @@ void	init_plane(t_game *game)
 	game->plane_y = malloc(sizeof(double));
 	if (!game->plane_y)
 		cleanup_and_exit(game, ERRMEM, 0, 0);
-	printf("dir y %f\n", game->player.dir_y);
 	/*Plane of 0.66 or -0.66 makes the field of view 66 degrees. Seems to be standard but we can try other like 90 degrees*/
 	if (game->player.dir_y != 0) //if position is N or S, plane_x is set to 66 degrees and plane_y to 0
 	{

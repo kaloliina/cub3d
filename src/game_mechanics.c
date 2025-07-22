@@ -16,12 +16,12 @@ static void	rotate(t_game *game, double rotation_dir)
 	// printf("old plane_x is %f\n", old_plane_x);
 	game->player.dir_x = old_dir_x * cos(rotspeed) - old_dir_y * sin(rotspeed);
 	game->player.dir_y = old_dir_x * sin(rotspeed) + old_dir_y * cos(rotspeed);
-	*(game->plane_x) = *(game->plane_x) * cos(rotspeed) - *(game->plane_y)
+	*game->plane_x = *game->plane_x * cos(rotspeed) - *game->plane_y
 		* sin(rotspeed);
-	*(game->plane_y) = old_plane_x * sin(rotspeed) + *(game->plane_y)
+	*game->plane_y = old_plane_x * sin(rotspeed) + *game->plane_y
 		* cos(rotspeed);
 	// printf("After rotation: dir_x=%f, dir_y=%f plane_x=%f plane_y=%f\n", game->player.dir_x, game->player.dir_y,
-		// *(game->plane_x), *(game->plane_y));
+		// *game->plane_x, *game->plane_y);
 	render_map(game);
 	render_minimap(game);
 }

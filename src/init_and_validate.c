@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init_and_validate.c                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/29 13:00:59 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/27 12:46:39 by khiidenh         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "cub3D.h"
 
 /*
@@ -18,9 +6,9 @@ We run the flood fill for the map, basically we are checking if previous place w
 walkable spot and the current spot is not 1 (wall) and 0 (walkable path), then we
 know the map is not surrounded by walls. We also check if we have reached out of bounds
 and if the previous one was walkable path, we know the map is not surrounded by walls.
-*/
-static void	fill(int x, int y,
-t_map_validation *validation, char prev)
+
+If we want to be able to walk through walls, do we have to change something here?*/
+static void	fill(int x, int y, t_map_validation *validation, char prev)
 {
 	if (y < 0 || x < 0 || validation->map[y] == NULL
 		|| x >= (int)ft_strlen(validation->map[y]))
@@ -56,14 +44,14 @@ static void	flood_fill(t_game *game, t_map_validation *validation)
 	y = 0;
 	validation->map = malloc(sizeof(char *) * (game->height + 1));
 	if (validation->map == NULL)
-		cleanup_and_exit(game, ERRGEN, 0);
+		cleanup_and_exit(game, ERRGEN, 0, 0);
 	while (y < game->height)
 	{
 		validation->map[y] = ft_strdup(game->map[y]);
 		if (validation->map[y] == NULL)
 		{
 			free_array(validation->map, 1);
-			cleanup_and_exit(game, ERRGEN, 0);
+			cleanup_and_exit(game, ERRGEN, 0, 0);
 		}
 		y++;
 	}
@@ -71,7 +59,7 @@ static void	flood_fill(t_game *game, t_map_validation *validation)
 	fill(game->player.x, game->player.y, validation, '1');
 	free_array(validation->map, 1);
 	if (validation->is_enclosed == false)
-		cleanup_and_exit(game, ERRENC, 0);
+		cleanup_and_exit(game, ERRENC, 0, 0);
 }
 
 /*
@@ -83,7 +71,7 @@ After this we mark the players y and x direction.
 Lastly, we check if there is a character that is not 1, 0, , N, S, E, W, then there's an invalid character and we exit.
 */
 void	validate_map_elements(t_game *game, t_map_validation *validation,
-int x, int y)
+	int x, int y)
 {
 	if (ft_strchr("NSEW", game->map[y][x]))
 	{
@@ -100,7 +88,61 @@ int x, int y)
 			game->player.dir_x = 1;
 	}
 	if (!ft_strchr("10 NSEW", game->map[y][x]))
-		cleanup_and_exit(game, ERRCHARS, 0);
+		cleanup_and_exit(game, ERRCHARS, 0, 0);
+}
+
+/*This function makes the assets into textures to be used later when drawing the wall pixels.
+I took out the making of textures into images which was earlier in the render.c file (load images).
+When we draw the walls pixel by pixel, we do not need the image stage in between.
+
+We have to decide whether we will handle assets of various sizes (current stage) and whether we
+require them to be squares (atm we handle also non-square assets).
+The math is easy to change to only-square if we want - does the raycasting work as intended now if they are not squares?*/
+void	make_textures(t_game *game)
+{
+	int	i;
+
+	i = 0;
+	while (i < TEXTURE_COUNT)
+	{
+		game->textures[i] = mlx_load_png(game->asset_paths[i]);
+		if (!game->textures[i])
+		{
+			i--;
+			while (i >= 0)
+				mlx_delete_texture(game->textures[i--]);
+			cleanup_and_exit(game, ERRPNG, 0, 0);
+		}
+		printf("texture width %d height %d\n", game->textures[i]->width, game->textures[i]->height);
+		i++;
+	}
+}
+
+void	init_plane(t_game *game)
+{
+	game->plane_x = malloc(sizeof(double));
+	if (!game->plane_x)
+		cleanup_and_exit(game, ERRMEM, 0, 0);
+	game->plane_y = malloc(sizeof(double));
+	if (!game->plane_y)
+		cleanup_and_exit(game, ERRMEM, 0, 0);
+	/*Plane of 0.66 or -0.66 makes the field of view 66 degrees. Seems to be standard but we can try other like 90 degrees*/
+	if (game->player.dir_y != 0) //if position is N or S, plane_x is set to 66 degrees and plane_y to 0
+	{
+		if (game->player.dir_y == -1)
+			*game->plane_x = 0.66;
+		else //if dir_y is 1
+			*game->plane_x = -0.66;
+		*game->plane_y = 0;
+	}
+	else //if dir_x != 0
+	{
+		*game->plane_x = 0; //and if E or W, vice versa - plane_x needs to be 0 bc it has to be perpendicular to the ray
+		if (game->player.dir_x == -1)
+			*game->plane_y = -0.66;
+		else //if dir_x is 1
+			*game->plane_y = 0.66;
+	}
 }
 
 /*
@@ -116,10 +158,11 @@ void	initialize_and_validate(t_game *game)
 	int					y;
 	t_map_validation	validation;
 
-	x = 0;
 	y = 0;
 	validation = (t_map_validation){true, 0, NULL};
 	game->player = (t_player){0};
+	game->mouse_lock = 1;
+	init_plane(game); //I moved init of plane_x and plane_y here before rendering since we need to update them if player rotates.
 	while (game->map[y] != NULL)
 	{
 		x = 0;
@@ -133,7 +176,8 @@ void	initialize_and_validate(t_game *game)
 		y++;
 	}
 	if (validation.player_count != 1)
-		cleanup_and_exit(game, ERRP, 0);
+		cleanup_and_exit(game, ERRP, 0, 0);
 	game->height = y;
 	flood_fill(game, &validation);
+	make_textures(game);
 }

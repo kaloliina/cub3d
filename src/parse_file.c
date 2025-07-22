@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse_file.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/19 13:41:25 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/25 12:43:26 by khiidenh         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "cub3D.h"
 
 static bool	check_is_digit(char *str)
@@ -47,20 +35,20 @@ static void	extract_rgb_info(t_game *game, char **textures, int *rgb)
 		if (check_is_digit(textures[i]) == false)
 		{
 			free_array(textures, 1);
-			cleanup_and_exit(game, ERRRGBFORMAT, 0);
+			cleanup_and_exit(game, ERRRGBFORMAT, 0, 0);
 		}
 		rgb[i] = ft_atoi(textures[i]);
 		if (rgb[i] < 0 || rgb[i] > 255)
 		{
 			free_array(textures, 1);
-			cleanup_and_exit(game, ERRRGB, 0);
+			cleanup_and_exit(game, ERRRGB, 0, 0);
 		}
 		printf("Rgb: %d\n", rgb[i]);
 		i++;
 	}
 	free_array(textures, 1);
 	if (i != 3)
-		cleanup_and_exit(game, ERRTHREE, 0);
+		cleanup_and_exit(game, ERRTHREE, 0, 0);
 }
 
 static char	*skip_leading_spaces(t_game *game, char *info, int i)
@@ -75,7 +63,7 @@ static char	*skip_leading_spaces(t_game *game, char *info, int i)
 	if (info[j] != ' ')
 	{
 		free (info);
-		cleanup_and_exit(game, ERRFORMAT, 0);
+		cleanup_and_exit(game, ERRFORMAT, 0, 0);
 	}
 	while (info[j] != '\0' && info[j] == ' ')
 		j++;
@@ -97,20 +85,20 @@ static void	extract_line(t_game *game, char *temp, int i)
 	line = ft_substr(temp, 0, ft_strlen(temp)
 			- ft_strlen(ft_strchr(temp, '\n')));
 	if (line == NULL)
-		cleanup_and_exit(game, ERRMEM, 0);
+		cleanup_and_exit(game, ERRMEM, 0, 0);
 	if (i < 4)
 	{
 		game->asset_paths[i] = ft_strdup(skip_leading_spaces(game, line, i));
 		free (line);
 		if (game->asset_paths[i] == NULL)
-			cleanup_and_exit(game, ERRMEM, 0);
+			cleanup_and_exit(game, ERRMEM, 0, 0);
 		printf("Path: %s\n", game->asset_paths[i]);
 		return ;
 	}
 	textures = ft_split(skip_leading_spaces(game, line, i), ',');
 	free (line);
 	if (textures == NULL)
-		cleanup_and_exit(game, ERRMEM, 0);
+		cleanup_and_exit(game, ERRMEM, 0, 0);
 	if (temp[0] == 'F')
 		extract_rgb_info(game, textures, game->floor_rgb);
 	if (temp[0] == 'C')
@@ -156,19 +144,19 @@ char	*parse_file(t_game *game, char *buffer)
 	{
 		temp = ft_strnstr(buffer, information[i], MAX_BUFFER_SIZE);
 		if (temp == NULL)
-			cleanup_and_exit(game, ERRMISSINFO, 0);
+			cleanup_and_exit(game, ERRMISSINFO, 0, 0);
 		if (index == -1 || index > (int)ft_strlen(temp))
 			index = ft_strlen(ft_strchr(temp, '\n'));
 		extract_line(game, temp, i);
 	}
 	temp = ft_strtrim(&buffer[ft_strlen(buffer) - index], "\n");
 	if (temp == NULL)
-		cleanup_and_exit(game, ERRMEM, 0);
+		cleanup_and_exit(game, ERRMEM, 0, 0);
 	printf("The actual map:\n%s\n", temp);
 	if (ft_strnstr(temp, "\n\n", MAX_BUFFER_SIZE))
 	{
 		free (temp);
-		cleanup_and_exit(game, ERRMAPGAP, 0);
+		cleanup_and_exit(game, ERRMAPGAP, 0, 0);
 	}
 	return (temp);
 }

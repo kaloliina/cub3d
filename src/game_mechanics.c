@@ -1,37 +1,37 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   game_mechanics.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/01 18:07:53 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/06/27 14:08:07 by khiidenh         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "cub3D.h"
 
-/*This function rotates "the player", right now it's reflected only on minimap*/
+/*This function rotates "the player".*/
 static void	rotate(t_game *game, double rotation_dir)
 {
 	double	rotspeed;
 	double	old_dir_x;
 	double	old_dir_y;
+	double	old_plane_x;
 
-	printf("Before rotation: dir_x=%f, dir_y=%f\n", game->player.dir_x, game->player.dir_y);
+	// printf("Before rotation: dir_x=%f, dir_y=%f\n", game->player.dir_x, game->player.dir_y);
 	rotspeed = SPEED * rotation_dir;
 	old_dir_x = game->player.dir_x;
 	old_dir_y = game->player.dir_y;
+	old_plane_x = *game->plane_x;
+	// printf("old plane_x is %f\n", old_plane_x);
 	game->player.dir_x = old_dir_x * cos(rotspeed) - old_dir_y * sin(rotspeed);
 	game->player.dir_y = old_dir_x * sin(rotspeed) + old_dir_y * cos(rotspeed);
-	printf("After rotation: dir_x=%f, dir_y=%f\n", game->player.dir_x, game->player.dir_y);
+	*(game->plane_x) = *(game->plane_x) * cos(rotspeed) - *(game->plane_y)
+		* sin(rotspeed);
+	*(game->plane_y) = old_plane_x * sin(rotspeed) + *(game->plane_y)
+		* cos(rotspeed);
+	// printf("After rotation: dir_x=%f, dir_y=%f plane_x=%f plane_y=%f\n", game->player.dir_x, game->player.dir_y,
+		// *(game->plane_x), *(game->plane_y));
+	render_map(game);
 	render_minimap(game);
 }
 
 /*This function is responsible of moving the player in the maze. Right now it'set up in
 a way that it moves relative to the player's facing direction (so forward doesnt always mean up etc)
-The old version is commented out in the end of the file*/
+The old version is commented out in the end of the file
+
+If the we want the player to move through walls, we need to change this! Just taking out the wall check
+in the end kinda does it but not maybe the right way?*/
 static void	move(t_game *game, enum e_directions direction)
 {
 	double	old_y;
@@ -39,27 +39,27 @@ static void	move(t_game *game, enum e_directions direction)
 
 	old_y = game->player.y;
 	old_x = game->player.x;
-	printf("Old y: %f, old x: %f\n", game->player.y, game->player.x);
-	printf("Olds y: %d, old x: %d\n", (int)game->player.y, (int)game->player.x);
+	// printf("Old y: %f, old x: %f\n", game->player.y, game->player.x);
+	// printf("Olds y: %d, old x: %d\n", (int)game->player.y, (int)game->player.x);
 	if (direction == FORWARD)
 	{
-	game->player.y = game->player.y + (SPEED * game->player.dir_y);
-	game->player.x = game->player.x + (SPEED * game->player.dir_x);
+		game->player.y += SPEED * game->player.dir_y;
+		game->player.x += SPEED * game->player.dir_x;
 	}
 	if (direction == BACKWARD)
 	{
-	game->player.y = game->player.y - (SPEED * game->player.dir_y);
-	game->player.x = game->player.x - (SPEED * game->player.dir_x);
+		game->player.y -= SPEED * game->player.dir_y;
+		game->player.x -= SPEED * game->player.dir_x;
 	}
 	if (direction == LEFT)
 	{
-	game->player.y = game->player.y - (SPEED * game->player.dir_x);
-	game->player.x = game->player.x + (SPEED * game->player.dir_y);
+		game->player.y -= SPEED * game->player.dir_x;
+		game->player.x += SPEED * game->player.dir_y;
 	}
 	if (direction == RIGHT)
 	{
-	game->player.y = game->player.y + (SPEED * game->player.dir_x);
-	game->player.x = game->player.x - (SPEED * game->player.dir_y);
+		game->player.y += SPEED * game->player.dir_x;
+		game->player.x -= SPEED * game->player.dir_y;
 	}
 	if (game->map[(int)game->player.y][(int)game->player.x] == '1')
 	{
@@ -67,14 +67,29 @@ static void	move(t_game *game, enum e_directions direction)
 		game->player.x = old_x;
 		return ;
 	}
-	printf("New y: %f, new x: %f\n", game->player.y, game->player.x);
-	printf("News y: %d, old x: %d\n", (int)game->player.y, (int)game->player.x);
+	// printf("New y: %f, new x: %f\n", game->player.y, game->player.x);
+	// printf("News y: %d, old x: %d\n", (int)game->player.y, (int)game->player.x);
+	render_map(game);
 	render_minimap(game);
 }
 
-//Not sure if this is needed longer but keeping it here just in case
-void	key_hook(mlx_key_data_t keydata, t_game *game)
+/*This key hook now detects pressing M key. It controls whether we are in "normal"
+mode regarding mouse usage, or if we press M, cursor gets hidden and we can rotate
+by moving the mouse (without pressing left mouse button). Bonus stuff and only one
+possible way of doing it...*/
+void	key_hook(mlx_key_data_t keydata, void *param)
 {
+	t_game *game;
+
+	game = (t_game *)param;
+	if (keydata.key == MLX_KEY_M && keydata.action == MLX_PRESS)
+	{
+		game->mouse_lock = !game->mouse_lock;
+		if (!game->mouse_lock)
+			mlx_set_cursor_mode(game->mlx, MLX_MOUSE_HIDDEN);
+		else
+			mlx_set_cursor_mode(game->mlx, MLX_MOUSE_NORMAL);
+	}
 }
 
 /*
@@ -101,6 +116,26 @@ void	loop_hook(void *param)
 		rotate(game, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(game->mlx);
+}
+
+void	mouse_hook(void *param)
+{
+	t_game *game;
+	int		old_x, old_y;
+	float	sensitivity;
+	bool	mouse_lock;
+
+	game = param;
+	if (!game->mouse_lock)
+	{
+		mlx_get_mouse_pos(game->mlx, &old_x, &old_y);
+		sensitivity = (old_x - MAX_SCREEN_WIDTH / 2) * (1.0f / 100);
+		if (sensitivity < 0)
+			rotate(game, sensitivity);
+		else if (sensitivity > 0)
+			rotate(game, sensitivity);
+		mlx_set_mouse_pos(game->mlx, MAX_SCREEN_WIDTH / 2, MAX_SCREEN_HEIGHT / 2);
+	}
 }
 
 /*THIS IS THE OLD VERSION.

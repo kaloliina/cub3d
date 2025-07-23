@@ -24,7 +24,7 @@ static double	get_sidedist(double raydir, double pos, int map, double squaredist
 on the screen (= increase x), as we draw each vertical wall stripe.*/
 void	update_dda(t_dda *dda, t_game *game, int x)
 {
-	dda->map_x = (int)dda->pos_x;	//let's start from player position
+	dda->map_x = (int)dda->pos_x;//let's start from player position
 	dda->map_y = (int)dda->pos_y;
 	dda->step_x = 0;
 	dda->step_y = 0;

@@ -1,5 +1,8 @@
 #include "cub3D.h"
 
+/*Added freeing plane_x and plane_y, atm they have to be in struct as pointers
+bc they are used in different functions but to be decided if this is the
+smartest way*/
 void	cleanup_and_exit(t_game *game, char *str, bool success, bool textures)
 {
 	int	i;
@@ -7,9 +10,6 @@ void	cleanup_and_exit(t_game *game, char *str, bool success, bool textures)
 	i = 0;
 	free_array(game->map, 1);
 	free_array(game->asset_paths, 0);
-	/*Added freeing plane_x and plane_y, atm they have to be in struct as pointers
-	bc they are used in different functions but to be decided if this is the
-	smartest way*/
 	if (game->plane_x)
 		free (game->plane_x);
 	if (game->plane_y)

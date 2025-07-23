@@ -29,18 +29,12 @@ static void	draw_ceiling_floor(t_game *game)
 	}
 }
 
-/*--10--
-This function first draws the ceiling and floor, looping through the window width and height.
-Then it draws the walls by using the raycasting mathematics (will be better explained soon...)
-After we have filled the image, we put image to window.
-
-I took out putting image to window in between steps and only do it in the end, is it ok?*/
 void	render_map(t_game *game)
 {
 	int		x;
 	int		y;
 	t_dda	*dda;
-	double	wallhitpoint; //the exact spot where wall was hit - can be x or y coordinate depending on side, but in texture always x
+	double	wallhitpoint;
 
 	draw_ceiling_floor(game);
 	dda = malloc(sizeof(t_dda));
@@ -89,8 +83,6 @@ void	draw_minimap_base(t_game *game, int x_start, int y_start, int x_end)
 	}
 }
 
-/*
---9--*/
 void	render_minimap(t_game *game)
 {
 	int	x_start;
@@ -108,39 +100,28 @@ void	render_minimap(t_game *game)
 		cleanup_and_exit(game, ERRIMG, 0, 1);
 }
 
-/*void	render_minimap(t_game *game)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (game->map[y])
-	{
-		x = 0;
-		while (x < (int)ft_strlen(game->map[y]))
-		{
-			if (game->map[y][x] == '1')
-				draw_pixels(game, WALL, x * TILE, y * TILE);
-			else if (ft_strchr("0NSEW", game->map[y][x]))
-				draw_pixels(game, BASE, x * TILE, y * TILE);
-			x++;
-		}
-		y++;
-	}
-	draw_pixels(game, PLAYER, (game->player.x - 0.5) * TILE, (game->player.y - 0.5) * TILE);
-	draw_line(game, game->player.x * TILE, game->player.y * TILE);
-	if (mlx_image_to_window(game->mlx, game->minimapimage,
-			0, 0) < 0)
-		cleanup_and_exit(game, ERRIMG, 0, 1);
-}*/
-
 /*
---8--
-Here we are creating images for the actual map and the minimap.
-After this, we start rendering the maps.
-*/
+We have to decide whether we will handle assets of various sizes (current stage)
+and whether we  require them to be squares (atm we handle also non-square assets).
+The math is easy to change to only-square if we want - does the raycasting work as
+intended now if they are not squares?*/
 void	init_maps(t_game *game)
 {
+	int	i;
+
+	i = 0;
+	while (i < TEXTURE_COUNT)
+	{
+		game->textures[i] = mlx_load_png(game->asset_paths[i]);
+		if (!game->textures[i])
+		{
+			i--;
+			while (i >= 0)
+				mlx_delete_texture(game->textures[i--]);
+			cleanup_and_exit(game, ERRPNG, 0, 0);
+		}
+		i++;
+	}
 	game->image = mlx_new_image(game->mlx, MAX_SCREEN_WIDTH, MAX_SCREEN_HEIGHT);
 	if (!game->image)
 		cleanup_and_exit(game, ERRNEWIMG, 0, 1);

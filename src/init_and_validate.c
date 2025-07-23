@@ -1,13 +1,5 @@
 #include "cub3D.h"
 
-/*
---7--
-We run the flood fill for the map, basically we are checking if previous place was
-walkable spot and the current spot is not 1 (wall) and 0 (walkable path), then we
-know the map is not surrounded by walls. We also check if we have reached out of bounds
-and if the previous one was walkable path, we know the map is not surrounded by walls.
-
-If we want to be able to walk through walls, do we have to change something here?*/
 static void	fill(int x, int y, t_map_validation *validation, char prev)
 {
 	if (y < 0 || x < 0 || validation->map[y] == NULL
@@ -62,15 +54,7 @@ static void	flood_fill(t_game *game, t_map_validation *validation)
 		cleanup_and_exit(game, ERRENC, 0, 0);
 }
 
-/*
---6--
-If we encounter N,S,E,W characters in the map, we mark the player's y and x location
-We add 0.5 to player's location because player is meant to be centered in the middle of the tile.
-We also update the player count.
-After this we mark the players y and x direction.
-Lastly, we check if there is a character that is not 1, 0, , N, S, E, W, then there's an invalid character and we exit.
-*/
-void	validate_map_elements(t_game *game, t_map_validation *validation,
+static void	validate_map_elements(t_game *game, t_map_validation *validation,
 	int x, int y)
 {
 	if (ft_strchr("NSEW", game->map[y][x]))
@@ -91,33 +75,7 @@ void	validate_map_elements(t_game *game, t_map_validation *validation,
 		cleanup_and_exit(game, ERRCHARS, 0, 0);
 }
 
-/*This function makes the assets into textures to be used later when drawing the wall pixels.
-I took out the making of textures into images which was earlier in the render.c file (load images).
-When we draw the walls pixel by pixel, we do not need the image stage in between.
-
-We have to decide whether we will handle assets of various sizes (current stage) and whether we
-require them to be squares (atm we handle also non-square assets).
-The math is easy to change to only-square if we want - does the raycasting work as intended now if they are not squares?*/
-void	make_textures(t_game *game)
-{
-	int	i;
-
-	i = 0;
-	while (i < TEXTURE_COUNT)
-	{
-		game->textures[i] = mlx_load_png(game->asset_paths[i]);
-		if (!game->textures[i])
-		{
-			i--;
-			while (i >= 0)
-				mlx_delete_texture(game->textures[i--]);
-			cleanup_and_exit(game, ERRPNG, 0, 0);
-		}
-		i++;
-	}
-}
-
-void	init_plane(t_game *game)
+static void	init_plane(t_game *game)
 {
 	game->plane_x = malloc(sizeof(double));
 	if (!game->plane_x)
@@ -125,7 +83,6 @@ void	init_plane(t_game *game)
 	game->plane_y = malloc(sizeof(double));
 	if (!game->plane_y)
 		cleanup_and_exit(game, ERRMEM, 0, 0);
-	/*Plane of 0.66 or -0.66 makes the field of view 66 degrees. Seems to be standard but we can try other like 90 degrees*/
 	if (game->player.dir_y != 0) //if position is N or S, plane_x is set to 66 degrees and plane_y to 0
 	{
 		if (game->player.dir_y == -1)
@@ -144,13 +101,6 @@ void	init_plane(t_game *game)
 	}
 }
 
-/*
---5--
-This function basically iterates through the entire map. We call the function
-validate_map_elements to track information and we also mark the height of the map, as well as the max
-width we encounter.
-We also check if the player count is not 1 at the end, then we encounter an error.
-*/
 void	initialize_and_validate(t_game *game)
 {
 	int					x;
@@ -178,5 +128,4 @@ void	initialize_and_validate(t_game *game)
 		cleanup_and_exit(game, ERRP, 0, 0);
 	game->height = y;
 	flood_fill(game, &validation);
-	make_textures(game);
 }

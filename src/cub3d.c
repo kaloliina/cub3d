@@ -1,14 +1,5 @@
 #include "cub3D.h"
 
-/*
---1--
-In this function we are reading the file data to a buffer. We also cover the cases:
-- If file does not end in .cub extension
-- If file cannot be found or we don't have permissions to open
-- If file is bigger than screen size (we might need to adjust this)
-We then move to parsing the file and with the remaining buffer we split it into
-array of strings.
-*/
 static void	parse_map_file(t_game *game, char *str)
 {
 	int		len;
@@ -25,13 +16,10 @@ static void	parse_map_file(t_game *game, char *str)
 	if (fd == -1)
 		cleanup_and_exit(game, ERRFILE, 0, 0);
 	bytes_read = read(fd, buffer, MAX_BUFFER_SIZE);
-	if (bytes_read == -1 || bytes_read > MAX_BUFFER_SIZE - 1)
-	{
-		close (fd);
-		cleanup_and_exit(game, ERRFILE, 0, 0);
-	}
-	buffer[bytes_read] = '\0';
 	close (fd);
+	if (bytes_read == -1 || bytes_read > MAX_BUFFER_SIZE - 1)
+		cleanup_and_exit(game, ERRFILE, 0, 0);
+	buffer[bytes_read] = '\0';
 	map = parse_file(game, buffer);
 	game->map = ft_split(map, '\n');
 	free (map);

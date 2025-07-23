@@ -16,15 +16,6 @@ static bool	check_is_digit(char *str)
 	return (true);
 }
 
-/*
---4--
-This function expects either floor or ceiling array of strings. We do the following here:
-- We check if the string contains digits, if not, we encounter an error. (- or + signs is also considered as an error)
-- We convert the string to integer.
-- We check if the value is outside range 0-255, if yes, we encounter an error.
-- We check if the array contains 3 strings, if not, we encounter an error.
-As a result, we are saving the rgb info to int array both for ceiling and floor.
-*/
 static void	extract_rgb_info(t_game *game, char **textures, int *rgb)
 {
 	int		i;
@@ -70,13 +61,6 @@ static char	*skip_leading_spaces(t_game *game, char *info, int i)
 	return (&info[j]);
 }
 
-/*
---3--
-Here we are extracting the actual line from the file by creating a substring that ends in a newline.
-For the direction information, we duplicate the string but we also skip the leading characters (NO, SO, etc...) as well as the spaces.
-The information (NO, SO, etc...) has to be followed at least with one space, otherwise we encounter an error.
-For the textures, we also skip the leading characters, we split the string using ',' and we proceed to extract the info.
-*/
 static void	extract_line(t_game *game, char *temp, int i)
 {
 	char	*line;
@@ -118,18 +102,6 @@ static const char	**get_required_properties(void)
 	return (information);
 }
 
-/*
---2--
-Here we are searching for the information (NO, SO, WE, EA, F, C) in the buffer.
-If we don't find the info (file is lacking specific info or file is even empty), we exit.
-We are also tracking index so we are able to return the remainder of the buffer which is the map.
-The reason we are tracking it this way is because the information (except the map) can be in any
-order in the beginning of the file so we want to cut the buffer so it starts from the last info
-found on the file.
-After this, we then proceed to extract the actual line.
-Lastly, we trim the remaining buffer which is the map by cutting newlines from beginning
-and end and we check if the buffer contains two newlines, meaning there's an empty line in the map file.
-*/
 char	*parse_file(t_game *game, char *buffer)
 {
 	int			i;
@@ -139,13 +111,12 @@ char	*parse_file(t_game *game, char *buffer)
 
 	information = get_required_properties();
 	i = -1;
-	index = -1;
 	while (++i < 6)
 	{
 		temp = ft_strnstr(buffer, information[i], MAX_BUFFER_SIZE);
 		if (temp == NULL)
 			cleanup_and_exit(game, ERRMISSINFO, 0, 0);
-		if (index == -1 || index > (int)ft_strlen(temp))
+		if (i == 0 || index > (int)ft_strlen(temp))
 			index = ft_strlen(ft_strchr(temp, '\n'));
 		extract_line(game, temp, i);
 	}

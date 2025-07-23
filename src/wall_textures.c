@@ -5,11 +5,11 @@ void	get_wallhitpoint(t_dda *dda, double *wallhitpoint)
 {
 	double	temp;
 
-	if (dda->hor_side == 0)	//if we hit vertical wall
+	if (dda->hor_side == 0)//if we hit vertical wall
 		temp = dda->pos_y + dda->corr_length * dda->raydir_y;
 	else
 		temp = dda->pos_x + dda->corr_length * dda->raydir_x;
-	*wallhitpoint = temp - floor(temp);	//floor means taking the largest int value that is not greater than wallhitpoint
+	*wallhitpoint = temp - floor(temp);//floor means taking the largest int value that is not greater than wallhitpoint
 }
 
 /*This function finds out the direction of the wall we hit (= are drawing).*/
@@ -75,4 +75,3 @@ void	draw_wall_stripe(t_dda *dda, t_game *game, double wallhitpoint, int x)
 		dda->drawstart++;
 	}
 }
-

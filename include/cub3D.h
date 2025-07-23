@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/07/22 16:35:05 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/07/23 10:43:17 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ void	init_dda(t_dda *dda, t_game *game);
 void	update_dda(t_dda *dda, t_game *game, int x);
 void	get_line_properties(t_dda *dda, t_game *game);
 //render utils
+int		find_minimap_edges(double coordinate, bool start, int max);
 void	draw_line(t_game *game, double begin_x, double begin_y);
 void	draw_pixels(t_game *game, enum e_assets type, int x, int y);
 int		get_color(int *rgb);

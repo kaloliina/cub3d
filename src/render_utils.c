@@ -1,5 +1,24 @@
 #include "cub3D.h"
 
+int	find_minimap_edges(double coordinate, bool start, int max)
+{
+	int	point;
+
+	if (start)
+	{
+		point = coordinate - 10;
+		if (point < 0)
+			point = 0;
+	}
+	else
+	{
+		point = coordinate + 10;
+		if (point > max)
+			point = max;
+	}
+	return (point);
+}
+
 void	init_dda(t_dda *dda, t_game *game)
 {
 	dda->pos_x = game->player.x;

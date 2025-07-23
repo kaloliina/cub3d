@@ -6,7 +6,7 @@
 #    By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/24 12:16:09 by khiidenh          #+#    #+#              #
-#    Updated: 2025/07/22 17:05:44 by sojala           ###   ########.fr        #
+#    Updated: 2025/07/23 10:02:06 by sojala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ OBJS	= $(SRCS:.c=.o)
 all: $(MLX) libft $(NAME)
 
 $(MLX):
-	if [ ! -d $(MLX_DIR) ]; then \
+	@if [ ! -d $(MLX_DIR) ]; then \
 		git clone https://github.com/codam-coding-college/MLX42.git $(MLX_DIR); \
 		fi
 	cmake $(MLX_DIR) -B $(MLX_DIR)/build && make -C $(MLX_DIR)/build -j4
@@ -55,7 +55,7 @@ clean:
 fclean: clean
 	rm -rf $(NAME)
 	make -C libft fclean
-	if [ -d $(MLX_DIR) ]; then \
+	@if [ -d $(MLX_DIR) ]; then \
 		rm -rf $(MLX_DIR); \
 		fi
 

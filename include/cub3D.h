@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/07/23 13:14:35 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/07/23 15:22:07 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # define MAX_SCREEN_HEIGHT 2160
 # define MAX_BUFFER_SIZE 820
 # define TEXTURE_COUNT 4
-# define ASSET_COUNT 4
 # define TILE 20
 # define FILE_INFO_COUNT 6
 # define SPEED 0.05	//used to be 0.1, what will we decide on?

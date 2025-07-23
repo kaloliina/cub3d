@@ -26,13 +26,19 @@ static enum e_textures	get_tex_type(t_dda *dda)
 }
 
 /*Pixels of the texture are stored in a 1D array.*/
-static int	get_curr_color(t_game *game, enum e_textures type, int index)
+static int	get_curr_color(t_game *game, enum e_textures type, int index, t_dda *dda)
 {
 	int	color[3];
+	int	i;
 
-	color[0] = game->textures[type]->pixels[index];
-	color[1] = game->textures[type]->pixels[index + 1];
-	color[2] = game->textures[type]->pixels[index + 2];
+	i = 0;
+	while (i < 3)
+	{
+		color[i] = game->textures[type]->pixels[index + i];
+		if (dda->hor_side)	//let's make horizontal sides darker
+			color[i] = (color[i] >> 1) & 8355711;	//how does this math work?
+		i++;
+	}
 	return (get_color(color));
 }
 
@@ -71,7 +77,7 @@ void	draw_wall_stripe(t_dda *dda, t_game *game, double wallhitpoint, int x)
 		tex_y = (int)tex_pos & (tex_h - 1); //the bitwise & makes sure tex_y always is between 0 and 127 so it wraps it
 		index = 4 * (tex_h * tex_y + tex_x); //*4 because each pixel is represented in 4 bytes (in get_curr_color we access three of them rgb)
 		tex_pos += step; //moving along the texture
-		mlx_put_pixel(game->image, x, dda->drawstart, get_curr_color(game, type, index));
+		mlx_put_pixel(game->image, x, dda->drawstart, get_curr_color(game, type, index, dda));
 		dda->drawstart++;
 	}
 }

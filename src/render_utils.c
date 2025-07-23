@@ -78,14 +78,13 @@ void	draw_line(t_game *game, double begin_x, double begin_y)
 	delta_y /= pixels;
 	while (pixels)
 	{
-		mlx_put_pixel(game->minimapimage, begin_x, begin_y, 0x000099FF);
+		mlx_put_pixel(game->minimapimage, begin_x, begin_y, get_color(PLAYER_COLOR));
 		begin_x += delta_x;
 		begin_y += delta_y;
 		--pixels;
 	}
 }
 
-//There seems to be a bug with colours
 void	draw_pixels(t_game *game, enum e_assets type, int x, int y)
 {
 	int	y_tile;
@@ -101,11 +100,11 @@ void	draw_pixels(t_game *game, enum e_assets type, int x, int y)
 		while (x_tile < TILE)
 		{
 			if (type == BASE)
-				mlx_put_pixel(game->minimapimage, x, y, 0x00FFFFFF);
+				mlx_put_pixel(game->minimapimage, x, y, get_color(BASE_COLOR));
 			if (type == WALL)
-				mlx_put_pixel(game->minimapimage, x, y, 0x00CC00FF);
+				mlx_put_pixel(game->minimapimage, x, y, get_color(WALL_COLOR));
 			if (type == PLAYER && x_tile > 5 && x_tile < 14 && y_tile > 5 && y_tile < 14)
-				mlx_put_pixel(game->minimapimage, x, y, 0x009933FF);
+				mlx_put_pixel(game->minimapimage, x, y, get_color(PLAYER_COLOR));
 			x_tile++;
 			x++;
 		}

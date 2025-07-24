@@ -1,4 +1,4 @@
-#include "cub3D.h"
+#include "../include/cub3D.h"
 
 static void	draw_ceiling_floor(t_game *game)
 {
@@ -54,20 +54,20 @@ void	render_map(t_game *game)
 	mlx_image_to_window(game->mlx, game->image, 0, 0);
 }
 
-void	draw_minimap_base(t_game *game, int x_start, int y_start, int x_end)
+void	draw_minimap_base(t_game *game, int x_start, int y_start, int y_end)
 {
 	int	y;
 	int	y1;
 	int	x;
 	int	x1;
-	int	y_end;
+	int	x_end;
 
 	y = y_start;
 	y1 = 0;
-	y_end = find_minimap_edges(game->player.y, false, game->height);
 	while (y < y_end)
 	{
 		x = x_start;
+		x_end = find_minimap_edges(game->player.x, false, ft_strlen(game->map[y]));
 		x1 = 0;
 		while (x < x_end)
 		{
@@ -86,13 +86,13 @@ void	draw_minimap_base(t_game *game, int x_start, int y_start, int x_end)
 void	render_minimap(t_game *game)
 {
 	int	x_start;
-	int	x_end;
 	int	y_start;
+	int	y_end;
 
 	x_start = find_minimap_edges(game->player.x, true, 0);
-	x_end = find_minimap_edges(game->player.x, false, game->width);
 	y_start = find_minimap_edges(game->player.y, true, 0);
-	draw_minimap_base(game, x_start, y_start, x_end);
+	y_end = find_minimap_edges(game->player.x, false, game->height);
+	draw_minimap_base(game, x_start, y_start, y_end);
 	draw_pixels(game, PLAYER, (game->player.x - 0.5 - x_start) * TILE, (game->player.y - 0.5 - y_start) * TILE);
 	draw_line(game, (game->player.x - x_start) * TILE, (game->player.y - y_start) * TILE);
 	if (mlx_image_to_window(game->mlx, game->minimapimage,

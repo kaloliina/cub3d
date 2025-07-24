@@ -6,12 +6,12 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/07/23 15:22:07 by sojala           ###   ########.fr       */
+/*   Updated: 2025/07/24 14:05:42 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
+#ifndef CUB3D_H
+# define CUB3D_H
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/includes/libft.h"
 # include <stdlib.h>

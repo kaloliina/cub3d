@@ -1,4 +1,4 @@
-#include "cub3D.h"
+#include "../include/cub3D.h"
 
 /*This function calculates which way we move as we move along the ray to find the wall.
 We calculate it each time for both x and y, but each round of the find_raydist loop

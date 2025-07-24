@@ -1,4 +1,4 @@
-#include "cub3D.h"
+#include "../include/cub3D.h"
 
 /*Added freeing plane_x and plane_y, atm they have to be in struct as pointers
 bc they are used in different functions but to be decided if this is the

@@ -1,4 +1,4 @@
-#include "cub3D.h"
+#include "../include/cub3D.h"
 
 static void	rotate(t_game *game, double rotation_dir)
 {

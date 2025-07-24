@@ -1,4 +1,4 @@
-#include "cub3D.h"
+#include "../include/cub3D.h"
 
 int	find_minimap_edges(double coordinate, bool start, int max)
 {
@@ -13,7 +13,7 @@ int	find_minimap_edges(double coordinate, bool start, int max)
 	else
 	{
 		point = coordinate + 10;
-		if (point > max)
+		if (point >= max)
 			point = max;
 	}
 	return (point);

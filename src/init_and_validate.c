@@ -1,4 +1,4 @@
-#include "cub3D.h"
+#include "../include/cub3D.h"
 
 static void	fill(int x, int y, t_map_validation *validation, char prev)
 {

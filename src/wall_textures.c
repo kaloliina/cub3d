@@ -1,4 +1,4 @@
-#include "cub3D.h"
+#include "../include/cub3D.h"
 
 /*Here we calculate the exact point inside a square at which we hit a wall.*/
 void	get_wallhitpoint(t_dda *dda, double *wallhitpoint)
@@ -72,6 +72,7 @@ void	draw_wall_stripe(t_dda *dda, t_game *game, double wallhitpoint, int x)
 	tex_x = get_tex_x(wallhitpoint, dda, tex_w);
 	step = 1.0 * tex_h / dda->lineheight; //how much to increase the texture coordinate per screen pixel, has to be 1.0 * to make it a float
 	tex_pos = (dda->drawstart - MAX_SCREEN_HEIGHT / 2 + dda->lineheight / 2) * step; //starting coordinate of texture (y)
+	printf("texh %d lineheight %f step %f tex pos %f\n", tex_h, dda->lineheight, step, tex_pos);
 	while (dda->drawstart < dda->drawend) //drawing the vertical line one pixel at a time
 	{
 		tex_y = (int)tex_pos & (tex_h - 1); //the bitwise & makes sure tex_y always is between 0 and 127 so it wraps it

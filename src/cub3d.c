@@ -1,4 +1,4 @@
-#include "cub3D.h"
+#include "../include/cub3D.h"
 
 static void	parse_map_file(t_game *game, char *str)
 {

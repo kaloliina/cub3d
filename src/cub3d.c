@@ -23,7 +23,9 @@ static void	parse_map_file(t_game *game, char *str)
 	map = parse_file(game, buffer);
 	game->map = ft_split(map, '\n');
 	free (map);
-	if (game->map == NULL || game->map[0] == NULL)
+	if (game->map == NULL)
+		cleanup_and_exit(game, ERRMEM, 0, 0);
+	if (game->map[0] == NULL)
 		cleanup_and_exit(game, ERRMAPLAST, 0, 0);
 }
 

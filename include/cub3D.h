@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/07/24 14:05:42 by sojala           ###   ########.fr       */
+/*   Updated: 2025/07/24 17:12:01 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 
 # define ERRMSG "Error\n"
 # define ERRMEM "Memory allocation failed.\n"
-# define ERRBER "File needs to end in .ber extension.\n"
+# define ERRBER "File needs to end in .cub extension.\n"
 # define ERRFILE "Failed to open the specified file.\n"
 # define ERRSIZE "Game window is too large.\n"
 # define ERRARGC "Program expects one argument to a valid map.\n"

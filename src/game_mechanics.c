@@ -22,32 +22,23 @@ static void	rotate(t_game *game, double rotation_dir)
 	render_minimap(game);
 }
 
-static void	move(t_game *game, enum e_directions direction)
+static void	move(t_game *game, enum e_directions direction,
+int y_sign, int x_sign)
 {
 	double	old_y;
 	double	old_x;
 
 	old_y = game->player.y;
 	old_x = game->player.x;
-	if (direction == FORWARD)
+	if (direction == FORWARD || direction == BACKWARD)
 	{
-		game->player.y += SPEED * game->player.dir_y;
-		game->player.x += SPEED * game->player.dir_x;
+		game->player.y += y_sign * SPEED * game->player.dir_y;
+		game->player.x += x_sign * SPEED * game->player.dir_x;
 	}
-	if (direction == BACKWARD)
+	if (direction == LEFT || direction == RIGHT)
 	{
-		game->player.y -= SPEED * game->player.dir_y;
-		game->player.x -= SPEED * game->player.dir_x;
-	}
-	if (direction == LEFT)
-	{
-		game->player.y -= SPEED * game->player.dir_x;
-		game->player.x += SPEED * game->player.dir_y;
-	}
-	if (direction == RIGHT)
-	{
-		game->player.y += SPEED * game->player.dir_x;
-		game->player.x -= SPEED * game->player.dir_y;
+		game->player.y += y_sign * SPEED * game->player.dir_x;
+		game->player.x += x_sign * SPEED * game->player.dir_y;
 	}
 	if (game->map[(int)game->player.y][(int)game->player.x] == '1')
 	{
@@ -81,13 +72,13 @@ void	loop_hook(void *param)
 
 	game = param;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
-		move(game, FORWARD);
+		move(game, FORWARD, 1, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_S))
-		move(game, BACKWARD);
+		move(game, BACKWARD, -1, -1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_A))
-		move(game, LEFT);
+		move(game, LEFT, -1, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
-		move(game, RIGHT);
+		move(game, RIGHT, 1, -1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
 		rotate(game, -1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))

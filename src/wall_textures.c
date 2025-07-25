@@ -44,20 +44,19 @@ static int	get_curr_color(t_game *game, enum e_textures type, int index, t_dda *
 
 /*This function calculates the x coordinate of the texture needed. We multiply texture width
 with the exact point of the square that the ray hits the wall.*/
-static int	get_tex_x(double wallhitpoint, t_dda *dda, int tex_w)
+static int	get_tex_x(double wallhitpoint, t_dda *dda, int tex_size)
 {
 	int	temp;
 
-	temp = (int)(wallhitpoint * (double)tex_w);
+	temp = (int)(wallhitpoint * (double)tex_size);
 	if ((dda->hor_side == 0 && dda->raydir_x > 0) || (dda->hor_side == 1 && dda->raydir_y < 0)) //or raydir_x < 0 || raydir_y > 0?? diff sources
-		temp = tex_w - temp - 1; //we have to flip the texture if the wall is EW and ray comes from west, or if NS wall and ray comes from south
+		temp = tex_size - temp - 1; //we have to flip the texture if the wall is EW and ray comes from west, or if NS wall and ray comes from south
 	return (temp);
 }
 
 void	draw_wall_stripe(t_dda *dda, t_game *game, double wallhitpoint, int x)
 {
-	int				tex_w;
-	int				tex_h;
+	int				tex_size;
 	int				tex_x;
 	int				tex_y;
 	int				index;
@@ -67,16 +66,15 @@ void	draw_wall_stripe(t_dda *dda, t_game *game, double wallhitpoint, int x)
 	int				color[3];
 
 	type = get_tex_type(dda);
-	tex_w = game->textures[type]->width; //pixel size of the texture (we prefer a square)
-	tex_h = game->textures[type]->height;
-	tex_x = get_tex_x(wallhitpoint, dda, tex_w);
-	step = 1.0 * tex_h / dda->lineheight; //how much to increase the texture coordinate per screen pixel, has to be 1.0 * to make it a float
+	tex_size = game->textures[type]->width; //pixel size of the texture (we prefer a square)
+	tex_x = get_tex_x(wallhitpoint, dda, tex_size);
+	step = 1.0 * tex_size / dda->lineheight; //how much to increase the texture coordinate per screen pixel, has to be 1.0 * to make it a float
 	tex_pos = (dda->drawstart - MAX_SCREEN_HEIGHT / 2 + dda->lineheight / 2) * step; //starting coordinate of texture (y)
-	printf("texh %d lineheight %f step %f tex pos %f\n", tex_h, dda->lineheight, step, tex_pos);
+	// printf("texsize %d lineheight %f step %f tex pos %f\n", tex_size, dda->lineheight, step, tex_pos);
 	while (dda->drawstart < dda->drawend) //drawing the vertical line one pixel at a time
 	{
-		tex_y = (int)tex_pos & (tex_h - 1); //the bitwise & makes sure tex_y always is between 0 and 127 so it wraps it
-		index = 4 * (tex_h * tex_y + tex_x); //*4 because each pixel is represented in 4 bytes (in get_curr_color we access three of them rgb)
+		tex_y = ((int)tex_pos % tex_size + tex_size) % tex_size; //using modulo makes sure tex_y always is between 0 and tex_h so it wraps it
+		index = 4 * (tex_size * tex_y + tex_x); //*4 because each pixel is represented in 4 bytes (in get_curr_color we access three of them rgb)
 		tex_pos += step; //moving along the texture
 		mlx_put_pixel(game->image, x, dda->drawstart, get_curr_color(game, type, index, dda));
 		dda->drawstart++;

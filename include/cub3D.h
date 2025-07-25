@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/07/24 17:12:01 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/07/25 12:10:26 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@
 
 # define ERRPNG "Error loading PNG.\n"
 # define ERRCONV "Error converting texture to image.\n"
+# define ERRTEXT "Texture needs to be a square.\n"
 # define ERRRESIZE "Error resizing images.\n"
 # define ERRNEWIMG "Error creating a new image buffer.\n"
 # define ERRIMG "Error drawing image to window.\n"

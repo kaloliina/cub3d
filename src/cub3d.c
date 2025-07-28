@@ -38,9 +38,6 @@ int	main(int argc, char *argv[])
 	{
 		parse_map_file(&game, argv[1]);
 		initialize_and_validate(&game);
-		if ((game.width * TILE) > MAX_SCREEN_WIDTH
-			|| (game.height * TILE) > MAX_SCREEN_HEIGHT)
-			cleanup_and_exit(&game, ERRSIZE, 0, 1);
 		game.mlx = mlx_init(MAX_SCREEN_WIDTH, MAX_SCREEN_HEIGHT,
 				"cub3D", false);
 		if (game.mlx == NULL)

@@ -104,6 +104,7 @@ void	mouse_hook(void *param)
 			rotate(game, sensitivity);
 		else if (sensitivity > 0)
 			rotate(game, sensitivity);
-		mlx_set_mouse_pos(game->mlx, MAX_SCREEN_WIDTH / 2, MAX_SCREEN_HEIGHT / 2);
+		mlx_set_mouse_pos(game->mlx, MAX_SCREEN_WIDTH / 2,
+			MAX_SCREEN_HEIGHT / 2);
 	}
 }

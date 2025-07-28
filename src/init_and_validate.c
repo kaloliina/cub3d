@@ -115,10 +115,7 @@ void	initialize_and_validate(t_game *game)
 	{
 		x = 0;
 		while (game->map[y][x] != '\0')
-		{
-			validate_map_elements(game, &validation, x, y);
-			x++;
-		}
+			validate_map_elements(game, &validation, x++, y);
 		if ((int)ft_strlen(game->map[y]) > game->width)
 			game->width = (int)ft_strlen(game->map[y]);
 		y++;
@@ -127,5 +124,7 @@ void	initialize_and_validate(t_game *game)
 	if (validation.player_count != 1)
 		cleanup_and_exit(game, ERRP, 0, 0);
 	game->height = y;
+	if (game->width > 200 || game->height > 200)
+		cleanup_and_exit(game, ERRSIZE, 0, 0);
 	flood_fill(game, &validation);
 }

@@ -6,7 +6,7 @@
 /*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:22:03 by khiidenh          #+#    #+#             */
-/*   Updated: 2024/11/13 19:48:40 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/07/28 12:32:25 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	size_t	i;
 	char	*subs;
 	size_t	length;
+	size_t	string_length;
 
+	string_length = ft_strlen(s);
 	i = 0;
 	if (start >= ft_strlen(s))
 		return (subs = ft_calloc(1, 1));
@@ -36,7 +38,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	subs = ft_calloc(length + 1, sizeof(char));
 	if (subs == NULL)
 		return (NULL);
-	while (len > 0 && start < ft_strlen(s))
+	while (len > 0 && start < string_length)
 	{
 		subs[i++] = s[start++];
 		len--;

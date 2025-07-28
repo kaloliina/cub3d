@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/07/25 12:10:26 by sojala           ###   ########.fr       */
+/*   Updated: 2025/07/28 12:34:58 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <math.h>
 # define MAX_SCREEN_WIDTH 3840
 # define MAX_SCREEN_HEIGHT 2160
-# define MAX_BUFFER_SIZE 820
+# define MAX_BUFFER_SIZE 65536
 # define TEXTURE_COUNT 4
 # define TILE 20
 # define FILE_INFO_COUNT 6
@@ -35,7 +35,7 @@
 # define ERRMEM "Memory allocation failed.\n"
 # define ERRBER "File needs to end in .cub extension.\n"
 # define ERRFILE "Failed to open the specified file.\n"
-# define ERRSIZE "Game window is too large.\n"
+# define ERRSIZE "Game map is too large.\n"
 # define ERRARGC "Program expects one argument to a valid map.\n"
 # define ERRGEN "Operation failed.\n"
 # define ERRFORMAT "Type identifier (NO, SO, WE, EA, F, C) is expected to be followed up by one or more spaces.\n"

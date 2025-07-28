@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/07/28 12:34:58 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/07/28 16:14:29 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,15 @@ enum e_directions
 	LEFT,
 	RIGHT,
 };
+
+typedef struct s_texture
+{
+	int		size;
+	int		x;
+	int		y;
+	double	step;
+	double	pos;
+}			t_texture;
 
 typedef struct s_player
 {
@@ -156,6 +165,7 @@ int		find_minimap_edges(double coordinate, bool start, int max);
 void	draw_line(t_game *game, double begin_x, double begin_y);
 void	draw_pixels(t_game *game, enum e_assets type, int x, int y);
 int		get_color(int *rgb);
+void	texture_square_checker(t_game *game, int i);
 //wall textures
 void	get_wallhitpoint(t_dda *dda, double *wallhitpoint);
 void	draw_wall_stripe(t_dda *dda, t_game *game, double wallhitpoint, int x);

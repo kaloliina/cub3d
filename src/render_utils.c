@@ -1,5 +1,7 @@
 #include "../include/cub3D.h"
 
+/*This function calculates the starting and end points of the portion of the minimap
+that we render to be visible at the moment, focusing on the player.*/
 int	find_minimap_edges(double coordinate, bool start, int max)
 {
 	int	point;
@@ -17,31 +19,6 @@ int	find_minimap_edges(double coordinate, bool start, int max)
 			point = max;
 	}
 	return (point);
-}
-
-void	init_dda(t_dda *dda, t_game *game)
-{
-	dda->pos_x = game->player.x;
-	dda->pos_y = game->player.y;
-	dda->dir_x = game->player.dir_x;
-	dda->dir_y = game->player.dir_y;
-	dda->raydir_x = 0.0;
-	dda->raydir_y = 0.0;
-	dda->sidedist_x = 0.0;
-	dda->sidedist_y = 0.0;
-	dda->squaredist_x = 0.0;
-	dda->squaredist_y = 0.0;
-	dda->camera_x = 0.0;
-	dda->corr_length = 0.0;
-	dda->lineheight = 0.0;
-	dda->map_x = dda->pos_x;
-	dda->map_y = dda->pos_y;
-	dda->step_x = 0;
-	dda->step_y = 0;
-	dda->hit = 0;
-	dda->hor_side = 0;
-	dda->drawstart = 0;
-	dda->drawend = 0;
 }
 
 /*
@@ -110,5 +87,17 @@ void	draw_pixels(t_game *game, enum e_assets type, int x, int y)
 		}
 		y++;
 		y_tile++;
+	}
+}
+
+/*This function checks whether the texture being created is a square.*/
+void	texture_square_checker(t_game *game, int i)
+{
+	if (game->textures[i]->width != game->textures[i]->height)
+	{
+		i--;
+		while (i >= 0)
+			mlx_delete_texture(game->textures[i--]);
+		cleanup_and_exit(game, ERRTEXT, 0, 0);
 	}
 }

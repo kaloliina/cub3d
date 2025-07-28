@@ -101,12 +101,8 @@ void	render_minimap(t_game *game)
 }
 
 /*
-We have to decide whether we will handle assets of various sizes (current stage)
-and whether we  require them to be squares (atm we handle also non-square assets).
-The math is easy to change to only-square if we want - does the raycasting work as
-intended now if they are not squares?
-
-NOW WE CHECK AND EXIT IF TEXTURE IS NOT A SQUARE - BUT IT ALREADY HAS OPENED THE WINDOW!*/
+NOW WE CHECK AND EXIT IF TEXTURE IS NOT A SQUARE - BUT IT ALREADY HAS OPENED THE WINDOW!
+*/
 void	init_maps(t_game *game)
 {
 	int	i;
@@ -122,14 +118,7 @@ void	init_maps(t_game *game)
 				mlx_delete_texture(game->textures[i--]);
 			cleanup_and_exit(game, ERRPNG, 0, 0);
 		}
-		// printf("width %d height %d\n", game->textures[i]->width, game->textures[i]->height);
-		if (game->textures[i]->width != game->textures[i]->height)
-		{
-			i--;
-			while (i >= 0)
-				mlx_delete_texture(game->textures[i--]);
-			cleanup_and_exit(game, ERRTEXT, 0, 0);
-		}
+		texture_square_checker(game, i);
 		i++;
 	}
 	game->image = mlx_new_image(game->mlx, MAX_SCREEN_WIDTH, MAX_SCREEN_HEIGHT);

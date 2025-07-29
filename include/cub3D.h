@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/07/28 16:14:29 by sojala           ###   ########.fr       */
+/*   Updated: 2025/07/29 16:17:21 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@
 # define TEXTURE_COUNT 4
 # define TILE 20
 # define FILE_INFO_COUNT 6
-# define SPEED 0.05	//used to be 0.1, what will we decide on?
-# define PLAYER_COLOR (int[3]){255, 0, 0}
-# define BASE_COLOR (int[3]){205, 195, 210}
-# define WALL_COLOR (int[3]){0, 0, 0}
+# define SPEED 0.1	//used to be 0.05 for a while, what will we decide on?
+# define PLAYER_CLR (int[3]){255, 0, 0}
+# define BASE_CLR (int[3]){205, 195, 210}
+# define WALL_CLR (int[3]){0, 0, 0}
 
 # define ERRMSG "Error\n"
 # define ERRMEM "Memory allocation failed.\n"
@@ -161,7 +161,7 @@ void	init_dda(t_dda *dda, t_game *game);
 void	update_dda(t_dda *dda, t_game *game, int x);
 void	get_line_properties(t_dda *dda, t_game *game);
 //render utils
-int		find_minimap_edges(double coordinate, bool start, int max);
+int		minimap_edge(double coordinate, bool start, int max);
 void	draw_line(t_game *game, double begin_x, double begin_y);
 void	draw_pixels(t_game *game, enum e_assets type, int x, int y);
 int		get_color(int *rgb);
@@ -173,7 +173,7 @@ void	draw_wall_stripe(t_dda *dda, t_game *game, double wallhitpoint, int x);
 //game mechanics
 void	key_hook(mlx_key_data_t keydata, void *param);
 void	loop_hook(void *param);
-void	mouse_hook(void *param);
+void	cursor_hook(void *param);
 
 //errors and exits
 void	free_array(char **array, int entirety);

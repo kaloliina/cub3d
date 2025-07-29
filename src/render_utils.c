@@ -1,8 +1,9 @@
 #include "../include/cub3D.h"
 
-/*This function calculates the starting and end points of the portion of the minimap
-that we render to be visible at the moment, focusing on the player.*/
-int	find_minimap_edges(double coordinate, bool start, int max)
+/*This function calculates the starting and end points of the portion
+of the minimap that we render to be visible at the moment, focusing on
+the player.*/
+int	minimap_edge(double coordinate, bool start, int max)
 {
 	int	point;
 
@@ -24,8 +25,8 @@ int	find_minimap_edges(double coordinate, bool start, int max)
 /*
 --11--
 This function "combines" the different rgb values together into one integer.
-By shifting r 24 bits left, g 16 bits left, g 8 bits left and leaving a (alpha channel)
-where it is.
+By shifting r 24 bits left, g 16 bits left, g 8 bits left and leaving a
+(alpha channel) where it is.
 */
 int	get_color(int *rgb)
 {
@@ -55,7 +56,8 @@ void	draw_line(t_game *game, double begin_x, double begin_y)
 	delta_y /= pixels;
 	while (pixels)
 	{
-		mlx_put_pixel(game->minimapimage, begin_x, begin_y, get_color(PLAYER_COLOR));
+		mlx_put_pixel(game->minimapimage, begin_x, begin_y,
+			get_color(PLAYER_CLR));
 		begin_x += delta_x;
 		begin_y += delta_y;
 		--pixels;
@@ -77,11 +79,12 @@ void	draw_pixels(t_game *game, enum e_assets type, int x, int y)
 		while (x_tile < TILE)
 		{
 			if (type == BASE)
-				mlx_put_pixel(game->minimapimage, x, y, get_color(BASE_COLOR));
+				mlx_put_pixel(game->minimapimage, x, y, get_color(BASE_CLR));
 			if (type == WALL)
-				mlx_put_pixel(game->minimapimage, x, y, get_color(WALL_COLOR));
-			if (type == PLAYER && x_tile > 5 && x_tile < 14 && y_tile > 5 && y_tile < 14)
-				mlx_put_pixel(game->minimapimage, x, y, get_color(PLAYER_COLOR));
+				mlx_put_pixel(game->minimapimage, x, y, get_color(WALL_CLR));
+			if (type == PLAYER && x_tile > 5 && x_tile < 14 && y_tile > 5
+				&& y_tile < 14)
+				mlx_put_pixel(game->minimapimage, x, y, get_color(PLAYER_CLR));
 			x_tile++;
 			x++;
 		}

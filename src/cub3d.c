@@ -42,10 +42,11 @@ int	main(int argc, char *argv[])
 				"cub3D", false);
 		if (game.mlx == NULL)
 			cleanup_and_exit(&game, ERRGEN, 0, 1);
+		// print_info();
 		init_maps(&game);
 		mlx_key_hook(game.mlx, (void *) key_hook, &game);
 		mlx_loop_hook(game.mlx, (void *) loop_hook, &game);
-		mlx_cursor_hook(game.mlx, (void *) mouse_hook, &game);
+		mlx_cursor_hook(game.mlx, (void *) cursor_hook, &game);
 		mlx_loop(game.mlx);
 		cleanup_and_exit(&game, NULL, 1, 1);
 	}

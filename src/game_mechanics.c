@@ -87,22 +87,26 @@ void	loop_hook(void *param)
 		mlx_close_window(game->mlx);
 }
 
-void	mouse_hook(void *param)
+/*Cursor hook does the rotation if we use mouse instead of
+left/right arrow key.
+Sensitivity tracks how far from the center is the current mouse
+position, and gives that (multiplied with 0.01) to rotation
+function as the "amount" of rotation. After each rotate call, it
+sets mouse position back to the center of the screen.*/
+void	cursor_hook(void *param)
 {
 	t_game	*game;
 	int		old_x;
 	int		old_y;
-	float	sensitivity;
+	double	sensitivity;
 	bool	mouse_lock;
 
 	game = param;
 	if (!game->mouse_lock)
 	{
 		mlx_get_mouse_pos(game->mlx, &old_x, &old_y);
-		sensitivity = (old_x - MAX_SCREEN_WIDTH / 2) * (1.0f / 100);
-		if (sensitivity < 0)
-			rotate(game, sensitivity);
-		else if (sensitivity > 0)
+		sensitivity = (old_x - MAX_SCREEN_WIDTH / 2) * 0.01;
+		if (sensitivity != 0)
 			rotate(game, sensitivity);
 		mlx_set_mouse_pos(game->mlx, MAX_SCREEN_WIDTH / 2,
 			MAX_SCREEN_HEIGHT / 2);

@@ -75,6 +75,9 @@ static void	validate_map_elements(t_game *game, t_map_validation *validation,
 		cleanup_and_exit(game, ERRCHARS, 0, 0);
 }
 
+/*If player position is N or S, plane_x is set to 66 degrees and plane_y to 0.
+If the position is E or W, vice versa - then plane_x needs to be 0, since it
+has to be perpendicular to the ray.*/
 static void	init_plane(t_game *game)
 {
 	game->plane_x = malloc(sizeof(double));
@@ -83,20 +86,20 @@ static void	init_plane(t_game *game)
 	game->plane_y = malloc(sizeof(double));
 	if (!game->plane_y)
 		cleanup_and_exit(game, ERRMEM, 0, 0);
-	if (game->player.dir_y != 0) //if position is N or S, plane_x is set to 66 degrees and plane_y to 0
+	if (game->player.dir_y != 0)
 	{
 		if (game->player.dir_y == -1)
 			*game->plane_x = 0.66;
-		else //if dir_y is 1
+		else
 			*game->plane_x = -0.66;
 		*game->plane_y = 0;
 	}
-	else //if dir_x != 0
+	else
 	{
-		*game->plane_x = 0; //and if E or W, vice versa - plane_x needs to be 0 bc it has to be perpendicular to the ray
+		*game->plane_x = 0;
 		if (game->player.dir_x == -1)
 			*game->plane_y = -0.66;
-		else //if dir_x is 1
+		else
 			*game->plane_y = 0.66;
 	}
 }
@@ -120,7 +123,7 @@ void	initialize_and_validate(t_game *game)
 			game->width = (int)ft_strlen(game->map[y]);
 		y++;
 	}
-	init_plane(game); //I moved init of plane_x and plane_y here before rendering since we need to update them if player rotates.
+	init_plane(game);
 	if (validation.player_count != 1)
 		cleanup_and_exit(game, ERRP, 0, 0);
 	game->height = y;

@@ -1,5 +1,49 @@
 #include "../include/cub3D.h"
 
+static void	find_sprites(t_game *game)
+{
+	int	y;
+	int	x;
+	int	i;
+
+	game->sprite_amt = 0;
+	y = 0;
+	while (game->map[y])
+	{
+		x = 0;
+		while (game->map[y][x])
+		{
+			if (game->map[y][x] == 'T')
+				game->sprite_amt++;
+			x++;
+		}
+		y++;
+	}
+	if (game->sprite_amt == 0)
+		return ;
+	game->sprites = malloc(sizeof(t_sprite) * game->sprite_amt);
+	if (!game->sprites)
+		cleanup_and_exit(game, ERRMEM, 0, 0);
+	i = 0;
+	y = 0;
+	while (game->map[y])
+	{
+		x = 0;
+		while (game->map[y][x])
+		{
+			if (game->map[y][x] == 'T')
+			{
+				game->sprites[i].x = x;
+				game->sprites[i].y = y;
+				game->sprites[i].dist = -1;
+				i++;
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
 static void	parse_map_file(t_game *game, char *str)
 {
 	int		len;
@@ -23,6 +67,7 @@ static void	parse_map_file(t_game *game, char *str)
 	map = parse_file(game, buffer);
 	game->map = ft_split(map, '\n');
 	free (map);
+	find_sprites(game);
 	if (game->map == NULL)
 		cleanup_and_exit(game, ERRMEM, 0, 0);
 	if (game->map[0] == NULL)

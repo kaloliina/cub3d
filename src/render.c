@@ -39,6 +39,7 @@ void	render_map(t_game *game)
 	int		y;
 	t_dda	*dda;
 	double	wallhitpoint;
+	double	z_buffer[MAX_SCREEN_WIDTH];
 
 	draw_ceiling_floor(game);
 	dda = malloc(sizeof(t_dda));
@@ -52,9 +53,12 @@ void	render_map(t_game *game)
 		get_line_properties(dda, game);
 		get_wallhitpoint(dda, &wallhitpoint);
 		draw_wall_stripe(dda, game, wallhitpoint, x);
+		z_buffer[x] = dda->corr_length;
 		x++;
 	}
+	render_sprites(game, dda, z_buffer);
 	free (dda);
+	dda = NULL;
 	mlx_image_to_window(game->mlx, game->image, 0, 0);
 }
 
@@ -77,7 +81,7 @@ void	draw_minimap_base(t_game *game, int x_start, int y_start, int y_end)
 		{
 			if (game->map[y][x] == '1')
 				draw_pixels(game, WALL, x1 * TILE, y1 * TILE);
-			else if (ft_strchr("0NSEW", game->map[y][x]))
+			else if (ft_strchr("0NSEWT", game->map[y][x]))
 				draw_pixels(game, BASE, x1 * TILE, y1 * TILE);
 			x1++;
 			x++;
@@ -114,6 +118,7 @@ void	init_maps(t_game *game)
 	int	i;
 
 	i = 0;
+	game->asset_paths[TEXTURE_COUNT - 1] = ft_strdup("assets/spritetest.png");
 	while (i < TEXTURE_COUNT)
 	{
 		game->textures[i] = mlx_load_png(game->asset_paths[i]);
@@ -131,7 +136,7 @@ void	init_maps(t_game *game)
 	if (!game->image)
 		cleanup_and_exit(game, ERRNEWIMG, 0, 1);
 	game->minimapimage = mlx_new_image(game->mlx, game->width * TILE,
-			game->height * TILE);
+		game->height * TILE);
 	if (!game->minimapimage)
 		cleanup_and_exit(game, ERRNEWIMG, 0, 1);
 	render_map(game);

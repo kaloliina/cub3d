@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/07/29 16:17:21 by sojala           ###   ########.fr       */
+/*   Updated: 2025/07/31 14:29:17 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define MAX_SCREEN_WIDTH 3840
 # define MAX_SCREEN_HEIGHT 2160
 # define MAX_BUFFER_SIZE 65536
-# define TEXTURE_COUNT 4
+# define TEXTURE_COUNT 5
 # define TILE 20
 # define FILE_INFO_COUNT 6
 # define SPEED 0.1	//used to be 0.05 for a while, what will we decide on?
@@ -62,7 +62,8 @@ enum e_textures
 	NORTH,
 	SOUTH,
 	WEST,
-	EAST
+	EAST,
+	SPRITE
 };
 
 enum e_assets
@@ -97,6 +98,33 @@ typedef struct s_player
 	double	dir_x;
 	double	dir_y;
 }	t_player;
+
+typedef struct s_sprite
+{
+	double	x;
+	double	y;
+	double	dist;
+}			t_sprite;
+
+typedef struct s_render_sprite
+{
+	double	sprite_x;
+	double	sprite_y;
+	double	inv_det;
+	double	transf_x;
+	double	transf_y;
+	int		sprite_screen_x;
+	int		sprite_size;
+	int		drawstart_x;
+	int		drawstart_y;
+	int		drawend_x;
+	int		drawend_y;
+	int		d;
+	int		tex_x;
+	int		tex_y;
+	int		index;
+	int		color;
+}			t_render_sprite;
 
 typedef struct s_dda
 {
@@ -133,9 +161,11 @@ typedef struct s_game
 	double			*plane_y;
 	bool			mouse_lock;
 	t_player		player;
-	char			*asset_paths[5];
+	char			*asset_paths[6];
 	int				ceiling_rgb[3];
 	int				floor_rgb[3];
+	int				sprite_amt;
+	struct s_sprite	*sprites;
 	mlx_image_t 	*image;
 	mlx_image_t 	*minimapimage;
 	mlx_texture_t	*textures[TEXTURE_COUNT];
@@ -156,6 +186,11 @@ void	initialize_and_validate(t_game *game);
 void	init_maps(t_game *game);
 void	render_minimap(t_game *game);
 void	render_map(t_game *game);
+//sprites
+void	render_sprites(t_game *game, t_dda *dda, double *z_buffer);
+double	find_sprite_dist(t_game *game, t_dda *dda, int i);
+void	sort_sprites(t_game *game, t_dda *dda, int i);
+int		find_drawedges(t_render_sprite *data, int flag, int max);
 //dda
 void	init_dda(t_dda *dda, t_game *game);
 void	update_dda(t_dda *dda, t_game *game, int x);
@@ -168,6 +203,7 @@ int		get_color(int *rgb);
 void	texture_square_checker(t_game *game, int i);
 //wall textures
 void	get_wallhitpoint(t_dda *dda, double *wallhitpoint);
+int		get_curr_color(t_game *game, enum e_textures type, int index, t_dda *dda);
 void	draw_wall_stripe(t_dda *dda, t_game *game, double wallhitpoint, int x);
 
 //game mechanics

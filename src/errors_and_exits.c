@@ -10,6 +10,8 @@ void	cleanup_and_exit(t_game *game, char *str, bool success, bool textures)
 	i = 0;
 	free_array(game->map, 1);
 	free_array(game->asset_paths, 0);
+	if (game->sprites)
+		free (game->sprites);
 	if (game->plane_x)
 		free (game->plane_x);
 	if (game->plane_y)

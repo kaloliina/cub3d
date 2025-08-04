@@ -1,5 +1,7 @@
 #include "cub3D.h"
 
+/*D tells us how far vertically inside the sprite this pixel is.
+We use it to calculate the y position in the texture of this pixel.*/
 static void	draw_sprite_helper(t_render_sprite *data, t_game *game, t_dda *dda, int tex_x)
 {
 	int	d;
@@ -22,6 +24,13 @@ static void	draw_sprite_helper(t_render_sprite *data, t_game *game, t_dda *dda, 
 	}
 }
 
+/*We will only draw the vertical line in question, if
+- it's in front of the camera plane (depth is positive)
+- it's on the screen (drawstart x between 0 and screen width)
+- it is not behind a wall (corr_dist is bigger than sprite's dist).
+Tex x converts the current screen column to corresponding x coordinate
+on sprite texture. We multiply and divide with 256 to maintain int
+precision. 32 is set manually as the tex size (width and height).*/
 static void	draw_sprite(t_render_sprite *data, t_game *game, t_dda *dda,
 	double *z_buffer)
 {
@@ -41,6 +50,15 @@ static void	draw_sprite(t_render_sprite *data, t_game *game, t_dda *dda,
 	}
 }
 
+/*We need to calculate the x and y location of the sprite in relation to
+the player.
+Inverse of determinant is used to correctly transform the sprite's location
+in the map("world") to camera space. Determinant means the area limited by
+two direction vectors (dir and plane).
+Transform x and y tell us how far in x and y is the sprite from player's
+view center. transf_y is actually the sprites's "depth in screen".
+Sprite screen x tells us exactly where on the screen the sprite's
+vertical center will be drawn.*/
 static void	set_sprite_values(t_render_sprite *data, t_game *game,
 	t_dda *dda, int i)
 {

@@ -46,13 +46,14 @@ that draws the sprite.*/
 int	find_drawedges(t_render_sprite *data, int flag, int max)
 {
 	int	value;
+	int	scaler = (int)(436 / data->sprite_depth);
 
 	if (flag < 2)
 	{
 		if (flag == 0)
 			value = -data->sprite_size / 2 + data->sprite_screen_x;
 		else
-			value = -data->sprite_size / 2 + MAX_SCREEN_HEIGHT / 2;
+			value = -data->sprite_size / 2 + MAX_SCREEN_HEIGHT / 2 + scaler;
 		if (value < 0)
 			value = 0;
 	}
@@ -61,7 +62,7 @@ int	find_drawedges(t_render_sprite *data, int flag, int max)
 		if (flag == 2)
 			value = data->sprite_size / 2 + data->sprite_screen_x;
 		else
-			value = data->sprite_size / 2 + MAX_SCREEN_HEIGHT / 2;
+			value = data->sprite_size / 2 + MAX_SCREEN_HEIGHT / 2 + scaler;
 		if (value >= max)
 			value = max - 1;
 	}

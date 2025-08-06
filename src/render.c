@@ -118,7 +118,7 @@ void	init_maps(t_game *game)
 	int	i;
 
 	i = 0;
-	game->asset_paths[TEXTURE_COUNT - 1] = ft_strdup("assets/unnameds.png");
+	game->asset_paths[TEXTURE_COUNT - 1] = ft_strdup("assets/FINAL.png");
 	if (!game->asset_paths[TEXTURE_COUNT - 1])
 		cleanup_and_exit(game, ERRMEM, 0, 0);
 	while (i < TEXTURE_COUNT)

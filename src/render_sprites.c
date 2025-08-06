@@ -11,12 +11,12 @@ static void	draw_sprite_helper(t_render_sprite *data, t_game *game, t_dda *dda, 
 
 	while (data->drawstart_y < data->drawend_y)
 	{
-		tex_y_helper = data->drawstart_y * 256 - MAX_SCREEN_HEIGHT
-			* 128 + data->sprite_size * 128;
-		tex_y = ((tex_y_helper * 256) / data->sprite_size) / 256;
-		index = 4 * (256 * tex_y + tex_x);
+		tex_y_helper = (data->drawstart_y - (int)(436 / data->sprite_depth))
+			* 256 - MAX_SCREEN_HEIGHT * 128 + data->sprite_size * 128;
+		tex_y = ((tex_y_helper * 218) / data->sprite_size) / 256;
+		index = 4 * (218 * tex_y + tex_x);
 		color = get_curr_color(game, SPRITE, index, dda);
-		if (color != 255)
+		if (game->textures[SPRITE]->pixels[index + 3] != 0)
 			mlx_put_pixel(game->image, data->drawstart_x,
 				data->drawstart_y, color);
 		data->drawstart_y++;
@@ -40,7 +40,7 @@ static void	draw_sprite(t_render_sprite *data, t_game *game, t_dda *dda,
 		data->drawstart_y = find_drawedges(data, 1, 0);
 		tex_x = (int)(256
 				* (data->drawstart_x - (-data->sprite_size / 2 + data->sprite_screen_x))
-				* 256 / data->sprite_size) / 256;
+				* 218 / data->sprite_size) / 256;
 		if (data->sprite_depth > 0 && data->drawstart_x > 0
 			&& data->drawstart_x < MAX_SCREEN_WIDTH
 			&& data->sprite_depth < z_buffer[data->drawstart_x] + 0.0001)
@@ -71,10 +71,10 @@ static void	set_sprite_values(t_render_sprite *data, t_game *game,
 			* data->sprite_x + (*game->plane_x) * data->sprite_y);
 	data->sprite_screen_x = (int)((MAX_SCREEN_WIDTH / 2)
 			* (1 + data->corr_x / data->sprite_depth));
-	data->sprite_size = abs((int)(MAX_SCREEN_HEIGHT / data->sprite_depth));
-	data->drawend_y = find_drawedges(data, 3, MAX_SCREEN_HEIGHT);
+	data->sprite_size = abs((int)(MAX_SCREEN_HEIGHT / data->sprite_depth)) * 0.5;
 	data->drawstart_x = find_drawedges(data, 0, 0);
 	data->drawend_x = find_drawedges(data, 2, MAX_SCREEN_WIDTH);
+	data->drawend_y = find_drawedges(data, 3, MAX_SCREEN_HEIGHT);
 }
 
 void	render_sprites(t_game *game, t_dda *dda, double	*z_buffer)

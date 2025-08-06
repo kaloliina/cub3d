@@ -1,31 +1,16 @@
 #include "../include/cub3D.h"
 
-static void	find_sprites(t_game *game)
+static void	find_sprites_helper(t_game *game)
 {
+	int	i;
 	int	y;
 	int	x;
-	int	i;
 
-	game->sprite_amt = 0;
+	i = 0;
 	y = 0;
-	while (game->map[y])
-	{
-		x = 0;
-		while (game->map[y][x])
-		{
-			if (game->map[y][x] == 'T')
-				game->sprite_amt++;
-			x++;
-		}
-		y++;
-	}
-	if (game->sprite_amt == 0)
-		return ;
 	game->sprites = malloc(sizeof(t_sprite) * game->sprite_amt);
 	if (!game->sprites)
 		cleanup_and_exit(game, ERRMEM, 0, 0);
-	i = 0;
-	y = 0;
 	while (game->map[y])
 	{
 		x = 0;
@@ -43,6 +28,29 @@ static void	find_sprites(t_game *game)
 		y++;
 	}
 }
+
+static void	find_sprites(t_game *game)
+{
+	int	y;
+	int	x;
+
+	game->sprite_amt = 0;
+	y = 0;
+	while (game->map[y])
+	{
+		x = 0;
+		while (game->map[y][x])
+		{
+			if (game->map[y][x] == 'T')
+				game->sprite_amt++;
+			x++;
+		}
+		y++;
+	}
+	if (game->sprite_amt > 0)
+		find_sprites_helper(game);
+}
+
 
 static void	parse_map_file(t_game *game, char *str)
 {
@@ -67,7 +75,6 @@ static void	parse_map_file(t_game *game, char *str)
 	map = parse_file(game, buffer);
 	game->map = ft_split(map, '\n');
 	free (map);
-	find_sprites(game);
 	if (game->map == NULL)
 		cleanup_and_exit(game, ERRMEM, 0, 0);
 	if (game->map[0] == NULL)
@@ -82,6 +89,7 @@ int	main(int argc, char *argv[])
 	if (argc == 2)
 	{
 		parse_map_file(&game, argv[1]);
+		find_sprites(&game);
 		initialize_and_validate(&game);
 		game.mlx = mlx_init(MAX_SCREEN_WIDTH, MAX_SCREEN_HEIGHT,
 				"cub3D", false);

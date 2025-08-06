@@ -3,8 +3,8 @@ SO assets/tile_so.png
 WE assets/tile_we.png
 EA assets/tile_ea.png
 
-F 168,235,52
-C 225,255,10
+F 105,105,105
+C 40,75,160
 
         1111111111111111111111111
         1000000000110000000000001

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/07/31 14:29:17 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/06 11:24:11 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define TEXTURE_COUNT 5
 # define TILE 20
 # define FILE_INFO_COUNT 6
-# define SPEED 0.1	//used to be 0.05 for a while, what will we decide on?
+# define SPEED 0.6	//used to be 0.05 for a while, what will we decide on?
 # define PLAYER_CLR (int[3]){255, 0, 0}
 # define BASE_CLR (int[3]){205, 195, 210}
 # define WALL_CLR (int[3]){0, 0, 0}

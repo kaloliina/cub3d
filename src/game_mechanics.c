@@ -7,7 +7,7 @@ static void	rotate(t_game *game, double rotation_dir)
 	double	old_dir_y;
 	double	old_plane_x;
 
-	rotspeed = SPEED * rotation_dir;
+	rotspeed = SPEED * rotation_dir * game->mlx->delta_time;
 	old_dir_x = game->player.dir_x;
 	old_dir_y = game->player.dir_y;
 	old_plane_x = *game->plane_x;
@@ -32,13 +32,13 @@ int y_sign, int x_sign)
 	old_x = game->player.x;
 	if (direction == FORWARD || direction == BACKWARD)
 	{
-		game->player.y += y_sign * SPEED * game->player.dir_y;
-		game->player.x += x_sign * SPEED * game->player.dir_x;
+		game->player.y += y_sign * SPEED * game->player.dir_y * game->mlx->delta_time;
+		game->player.x += x_sign * SPEED * game->player.dir_x * game->mlx->delta_time;
 	}
 	if (direction == LEFT || direction == RIGHT)
 	{
-		game->player.y += y_sign * SPEED * game->player.dir_x;
-		game->player.x += x_sign * SPEED * game->player.dir_y;
+		game->player.y += y_sign * SPEED * game->player.dir_x * game->mlx->delta_time;
+		game->player.x += x_sign * SPEED * game->player.dir_y * game->mlx->delta_time;
 	}
 	if (game->map[(int)game->player.y][(int)game->player.x] == '1')
 	{

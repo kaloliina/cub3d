@@ -1,4 +1,4 @@
-#include "cub3D.h"
+#include "../include/cub3D.h"
 
 /*Because we only use this distance to sort the sprites,
 we will save some time and energy by not calculating the square root

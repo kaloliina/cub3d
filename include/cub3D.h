@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/08/06 11:24:11 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/08/06 12:09:38 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,19 +111,15 @@ typedef struct s_render_sprite
 	double	sprite_x;
 	double	sprite_y;
 	double	inv_det;
-	double	transf_x;
-	double	transf_y;
+	double	corr_x;
+	double	sprite_depth;
 	int		sprite_screen_x;
 	int		sprite_size;
 	int		drawstart_x;
 	int		drawstart_y;
 	int		drawend_x;
 	int		drawend_y;
-	int		d;
 	int		tex_x;
-	int		tex_y;
-	int		index;
-	int		color;
 }			t_render_sprite;
 
 typedef struct s_dda

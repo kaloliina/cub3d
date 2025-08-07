@@ -39,7 +39,7 @@ int	get_color(int *rgb)
 }
 
 //The number 20 here represents the length of the line
-void	draw_line(t_game *game, double begin_x, double begin_y)
+void	draw_line(t_game *game, double start_x, double start_y)
 {
 	double	end_x;
 	double	end_y;
@@ -47,19 +47,19 @@ void	draw_line(t_game *game, double begin_x, double begin_y)
 	double	delta_y;
 	int		pixels;
 
-	end_x = begin_x + game->player.dir_x * 20;
-	end_y = begin_y + game->player.dir_y * 20;
-	delta_x = end_x - begin_x;
-	delta_y = end_y - begin_y;
+	end_x = start_x + game->player.dir_x * 20;
+	end_y = start_y + game->player.dir_y * 20;
+	delta_x = end_x - start_x;
+	delta_y = end_y - start_y;
 	pixels = sqrt((delta_x * delta_x) + (delta_y * delta_y));
 	delta_x /= pixels;
 	delta_y /= pixels;
 	while (pixels)
 	{
-		mlx_put_pixel(game->minimapimage, begin_x, begin_y,
+		mlx_put_pixel(game->minimapimage, start_x, start_y,
 			get_color(PLAYER_CLR));
-		begin_x += delta_x;
-		begin_y += delta_y;
+		start_x += delta_x;
+		start_y += delta_y;
 		--pixels;
 	}
 }

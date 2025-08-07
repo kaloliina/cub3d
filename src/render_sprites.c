@@ -9,23 +9,23 @@ static void	draw_sprite_helper(t_render_sprite *data, t_game *game, t_dda *dda, 
 	int	index;
 	int	color;
 
-	while (data->drawstart_y < data->drawend_y)
+	while (data->y_start < data->y_end)
 	{
-		tex_y_helper = (data->drawstart_y - (int)(436 / data->sprite_depth))
+		tex_y_helper = (data->y_start - (int)(436 / data->sprite_depth))
 			* 256 - MAX_SCREEN_HEIGHT * 128 + data->sprite_size * 128;
 		tex_y = ((tex_y_helper * 218) / data->sprite_size) / 256;
 		index = 4 * (218 * tex_y + tex_x);
 		color = get_curr_color(game, SPRITE, index, dda);
 		if (game->textures[SPRITE]->pixels[index + 3] != 0)
-			mlx_put_pixel(game->image, data->drawstart_x,
-				data->drawstart_y, color);
-		data->drawstart_y++;
+			mlx_put_pixel(game->image, data->x_start,
+				data->y_start, color);
+		data->y_start++;
 	}
 }
 
 /*We will only draw the vertical line in question, if
 - it's in front of the camera plane (depth is positive)
-- it's on the screen (drawstart x between 0 and screen width)
+- it's on the screen (x_start x between 0 and screen width)
 - it is not behind a wall (corr_dist is bigger than sprite's dist).
 Tex x converts the current screen column to corresponding x coordinate
 on sprite texture. We multiply and divide with 256 to maintain int
@@ -35,17 +35,17 @@ static void	draw_sprite(t_render_sprite *data, t_game *game, t_dda *dda,
 {
 	int	tex_x;
 
-	while (data->drawstart_x < data->drawend_x)
+	while (data->x_start < data->x_end)
 	{
-		data->drawstart_y = find_drawedges(data, 1, 0);
+		data->y_start = find_drawedges(data, 1, 0);
 		tex_x = (int)(256
-				* (data->drawstart_x - (-data->sprite_size / 2 + data->sprite_screen_x))
+				* (data->x_start - (-data->sprite_size / 2 + data->sprite_screen_x))
 				* 218 / data->sprite_size) / 256;
-		if (data->sprite_depth > 0 && data->drawstart_x > 0
-			&& data->drawstart_x < MAX_SCREEN_WIDTH
-			&& data->sprite_depth < z_buffer[data->drawstart_x] + 0.0001)
+		if (data->sprite_depth > 0 && data->x_start > 0
+			&& data->x_start < MAX_SCREEN_WIDTH
+			&& data->sprite_depth < z_buffer[data->x_start] + 0.0001)
 			draw_sprite_helper(data, game, dda, tex_x);
-		data->drawstart_x++;
+		data->x_start++;
 	}
 }
 
@@ -72,9 +72,9 @@ static void	set_sprite_values(t_render_sprite *data, t_game *game,
 	data->sprite_screen_x = (int)((MAX_SCREEN_WIDTH / 2)
 			* (1 + data->corr_x / data->sprite_depth));
 	data->sprite_size = abs((int)(MAX_SCREEN_HEIGHT / data->sprite_depth)) * 0.5;
-	data->drawstart_x = find_drawedges(data, 0, 0);
-	data->drawend_x = find_drawedges(data, 2, MAX_SCREEN_WIDTH);
-	data->drawend_y = find_drawedges(data, 3, MAX_SCREEN_HEIGHT);
+	data->x_start = find_drawedges(data, 0, 0);
+	data->x_end = find_drawedges(data, 2, MAX_SCREEN_WIDTH);
+	data->y_end = find_drawedges(data, 3, MAX_SCREEN_HEIGHT);
 }
 
 void	render_sprites(t_game *game, t_dda *dda, double	*z_buffer)

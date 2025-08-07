@@ -38,7 +38,8 @@ the middle, and 1 on the right side of screen).
 In case of a straight vertical or horizontal line, we give squaredist a
 very big value, so we won't divide with zero, and after that we won't
 choose that direction when comparing sidedists.
-Squaredist indicates how much x changes when y changes by one, and vice versa.*/
+Squaredist indicates the distance the ray has to travel to get from one
+x or y edge to the next.*/
 void	update_dda(t_dda *dda, t_game *game, int x)
 {
 	dda->map_x = (int)dda->pos_x;
@@ -100,14 +101,14 @@ void	get_line_properties(t_dda *dda, t_game *game)
 {
 	find_raydist(dda, game);
 	if (dda->hor_side == 0)
-		dda->corr_length = (dda->sidedist_x - dda->squaredist_x);
+		dda->corr_dist = (dda->sidedist_x - dda->squaredist_x);
 	else
-		dda->corr_length = (dda->sidedist_y - dda->squaredist_y);
-	dda->lineheight = MAX_SCREEN_HEIGHT / dda->corr_length;
-	dda->drawstart = (MAX_SCREEN_HEIGHT / 2) - (dda->lineheight / 2);
-	if (dda->drawstart < 0)
-		dda->drawstart = 0;
-	dda->drawend = (MAX_SCREEN_HEIGHT / 2) + (dda->lineheight / 2);
-	if (dda->drawend >= MAX_SCREEN_HEIGHT)
-		dda->drawend = MAX_SCREEN_HEIGHT - 1;
+		dda->corr_dist = (dda->sidedist_y - dda->squaredist_y);
+	dda->lineheight = MAX_SCREEN_HEIGHT / dda->corr_dist;
+	dda->y_start = (MAX_SCREEN_HEIGHT / 2) - (dda->lineheight / 2);
+	if (dda->y_start < 0)
+		dda->y_start = 0;
+	dda->y_end = (MAX_SCREEN_HEIGHT / 2) + (dda->lineheight / 2);
+	if (dda->y_end >= MAX_SCREEN_HEIGHT)
+		dda->y_end = MAX_SCREEN_HEIGHT - 1;
 }

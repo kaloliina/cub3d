@@ -8,9 +8,9 @@ void	get_wallhitpoint(t_dda *dda, double *wallhitpoint)
 	double	temp;
 
 	if (dda->hor_side == 0)
-		temp = dda->pos_y + dda->corr_length * dda->raydir_y;
+		temp = dda->pos_y + dda->corr_dist * dda->raydir_y;
 	else
-		temp = dda->pos_x + dda->corr_length * dda->raydir_x;
+		temp = dda->pos_x + dda->corr_dist * dda->raydir_x;
 	*wallhitpoint = temp - floor(temp);
 }
 
@@ -82,15 +82,15 @@ void	draw_wall_stripe(t_dda *dda, t_game *game, double wallhitpoint, int x)
 	tex.size = game->textures[type]->width;
 	tex.x = get_tex_x(wallhitpoint, dda, tex.size);
 	tex.step = 1.0 * tex.size / dda->lineheight;
-	tex.pos = (dda->drawstart - MAX_SCREEN_HEIGHT / 2 + dda->lineheight / 2)
+	tex.pos = (dda->y_start - MAX_SCREEN_HEIGHT / 2 + dda->lineheight / 2)
 		* tex.step;
-	while (dda->drawstart < dda->drawend)
+	while (dda->y_start < dda->y_end)
 	{
 		tex.y = ((int)tex.pos % tex.size + tex.size) % tex.size;
 		index = 4 * (tex.size * tex.y + tex.x);
 		tex.pos += tex.step;
-		mlx_put_pixel(game->image, x, dda->drawstart,
+		mlx_put_pixel(game->image, x, dda->y_start,
 			get_curr_color(game, type, index, dda));
-		dda->drawstart++;
+		dda->y_start++;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: sonjaojala <sonjaojala@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/08/06 12:09:38 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/07 14:26:11 by sonjaojala       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,10 @@ typedef struct s_render_sprite
 	double	sprite_depth;
 	int		sprite_screen_x;
 	int		sprite_size;
-	int		drawstart_x;
-	int		drawstart_y;
-	int		drawend_x;
-	int		drawend_y;
+	int		x_start;
+	int		y_start;
+	int		x_end;
+	int		y_end;
 	int		tex_x;
 }			t_render_sprite;
 
@@ -135,7 +135,7 @@ typedef struct s_dda
 	double	squaredist_x;
 	double	squaredist_y;
 	double	camera_x;
-	double	corr_length;
+	double	corr_dist;
 	double	lineheight;
 	int		map_x;
 	int		map_y;
@@ -143,8 +143,8 @@ typedef struct s_dda
 	int		step_y;
 	int		hit;
 	int		hor_side;
-	int		drawstart;
-	int		drawend;
+	int		y_start;
+	int		y_end;
 }			t_dda;
 
 typedef struct s_game
@@ -193,7 +193,7 @@ void	update_dda(t_dda *dda, t_game *game, int x);
 void	get_line_properties(t_dda *dda, t_game *game);
 //render utils
 int		minimap_edge(double coordinate, bool start, int max);
-void	draw_line(t_game *game, double begin_x, double begin_y);
+void	draw_line(t_game *game, double start_x, double start_y);
 void	draw_pixels(t_game *game, enum e_assets type, int x, int y);
 int		get_color(int *rgb);
 void	texture_square_checker(t_game *game, int i);

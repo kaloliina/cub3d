@@ -13,7 +13,7 @@ void	init_dda(t_dda *dda, t_game *game)
 	dda->squaredist_x = 0.0;
 	dda->squaredist_y = 0.0;
 	dda->camera_x = 0.0;
-	dda->corr_length = 0.0;
+	dda->corr_dist = 0.0;
 	dda->lineheight = 0.0;
 	dda->map_x = dda->pos_x;
 	dda->map_y = dda->pos_y;
@@ -21,6 +21,6 @@ void	init_dda(t_dda *dda, t_game *game)
 	dda->step_y = 0;
 	dda->hit = 0;
 	dda->hor_side = 0;
-	dda->drawstart = 0;
-	dda->drawend = 0;
+	dda->y_start = 0;
+	dda->y_end = 0;
 }

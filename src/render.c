@@ -53,7 +53,7 @@ void	render_map(t_game *game)
 		get_line_properties(dda, game);
 		get_wallhitpoint(dda, &wallhitpoint);
 		draw_wall_stripe(dda, game, wallhitpoint, x);
-		z_buffer[x] = dda->corr_length;
+		z_buffer[x] = dda->corr_dist;
 		x++;
 	}
 	render_sprites(game, dda, z_buffer);

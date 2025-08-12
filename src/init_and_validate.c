@@ -80,27 +80,21 @@ If the position is E or W, vice versa - then plane_x needs to be 0, since it
 has to be perpendicular to the ray.*/
 static void	init_plane(t_game *game)
 {
-	game->plane_x = malloc(sizeof(double));
-	if (!game->plane_x)
-		cleanup_and_exit(game, ERRMEM, 0, 0);
-	game->plane_y = malloc(sizeof(double));
-	if (!game->plane_y)
-		cleanup_and_exit(game, ERRMEM, 0, 0);
 	if (game->player.dir_y != 0)
 	{
 		if (game->player.dir_y == -1)
-			*game->plane_x = 0.66;
+			game->plane_x = 0.66;
 		else
-			*game->plane_x = -0.66;
-		*game->plane_y = 0;
+			game->plane_x = -0.66;
+		game->plane_y = 0;
 	}
 	else
 	{
-		*game->plane_x = 0;
+		game->plane_x = 0;
 		if (game->player.dir_x == -1)
-			*game->plane_y = -0.66;
+			game->plane_y = -0.66;
 		else
-			*game->plane_y = 0.66;
+			game->plane_y = 0.66;
 	}
 }
 

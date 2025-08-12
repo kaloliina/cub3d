@@ -13,22 +13,23 @@ static void	rotate(t_game *game, double rotation_dir)
 	rotspeed = SPEED * rotation_dir * game->mlx->delta_time;
 	old_dir_x = game->player.dir_x;
 	old_dir_y = game->player.dir_y;
-	old_plane_x = *game->plane_x;
+	old_plane_x = game->plane_x;
 	game->player.dir_x = old_dir_x * cos(rotspeed) - old_dir_y * sin(rotspeed);
 	game->player.dir_y = old_dir_x * sin(rotspeed) + old_dir_y * cos(rotspeed);
-	*game->plane_x = *game->plane_x * cos(rotspeed) - *game->plane_y
+	game->plane_x = game->plane_x * cos(rotspeed) - game->plane_y
 		* sin(rotspeed);
-	*game->plane_y = old_plane_x * sin(rotspeed) + *game->plane_y
+	game->plane_y = old_plane_x * sin(rotspeed) + game->plane_y
 		* cos(rotspeed);
 	render_minimap(game);
 	render_map(game);
 	render_minimap(game);
 }
 
-/*This function handles movement. If the direction is either forward or backwards,
-the movement either goes forward or backwards relative to the player's direction.
-If the movement is left or right, we are utilising the other axis and strafing
-left or right relative to the player's direction.*/
+/*This function handles movement. If the direction is either forward or
+backwards, the movement either goes forward or backwards relative to the
+player's direction. If the movement is left or right, we are utilising
+the other axis and strafing left or right relative to the player's
+direction.*/
 static void	move(t_game *game, enum e_directions direction,
 int y_sign, int x_sign)
 {
@@ -39,13 +40,17 @@ int y_sign, int x_sign)
 	old_x = game->player.x;
 	if (direction == FORWARD || direction == BACKWARD)
 	{
-		game->player.y += y_sign * SPEED * game->player.dir_y * game->mlx->delta_time;
-		game->player.x += x_sign * SPEED * game->player.dir_x * game->mlx->delta_time;
+		game->player.y += y_sign * SPEED * game->player.dir_y
+			* game->mlx->delta_time;
+		game->player.x += x_sign * SPEED * game->player.dir_x
+			* game->mlx->delta_time;
 	}
 	if (direction == LEFT || direction == RIGHT)
 	{
-		game->player.y += y_sign * SPEED * game->player.dir_x * game->mlx->delta_time;
-		game->player.x += x_sign * SPEED * game->player.dir_y * game->mlx->delta_time;
+		game->player.y += y_sign * SPEED * game->player.dir_x
+			* game->mlx->delta_time;
+		game->player.x += x_sign * SPEED * game->player.dir_y
+			* game->mlx->delta_time;
 	}
 	if (game->map[(int)game->player.y][(int)game->player.x] == '1')
 	{
@@ -106,7 +111,6 @@ void	cursor_hook(void *param)
 	int		old_x;
 	int		old_y;
 	double	sensitivity;
-	bool	mouse_lock;
 
 	game = param;
 	if (!game->mouse_lock)

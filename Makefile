@@ -6,12 +6,12 @@
 #    By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/24 12:16:09 by khiidenh          #+#    #+#              #
-#    Updated: 2025/07/31 14:28:20 by sojala           ###   ########.fr        #
+#    Updated: 2025/08/12 15:55:35 by sojala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= cub3D
-CFLAGS	=
+CFLAGS	= -Wall -Wextra -Werror -O2
 MLX_DIR	= ./MLX42
 MLX = $(LIBMLX)/build/libmlx42.a
 LIBFT = libft/libft.a
@@ -26,6 +26,7 @@ SRCS = 	$(SRCS_DIR)cub3d.c\
 	$(SRCS_DIR)parse_file.c\
 	$(SRCS_DIR)render_dda.c\
 	$(SRCS_DIR)render_dda_utils.c\
+	$(SRCS_DIR)render_minimap.c\
 	$(SRCS_DIR)render_sprites.c\
 	$(SRCS_DIR)render_sprites_utils.c\
 	$(SRCS_DIR)render_utils.c\

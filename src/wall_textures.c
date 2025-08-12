@@ -27,27 +27,6 @@ static enum e_textures	get_tex_type(t_dda *dda)
 		return (NORTH);
 }
 
-/*Pixels of the texture are stored in a 1D array. Horizontal sides are made
-darker by shifting the bits to "divide by 2" ie. removing the last digit,
-and then setting the first bit of every bite to zero by calling AND with
-0111 1111 0111 1111 0111 1111.*/
-int	get_curr_color(t_game *game, enum e_textures type, int index,
-	t_dda *dda)
-{
-	int	color[3];
-	int	i;
-
-	i = 0;
-	while (i < 3)
-	{
-		color[i] = game->textures[type]->pixels[index + i];
-		if (type != SPRITE && dda->hor_side)
-			color[i] = (color[i] >> 1) & 8355711;
-		i++;
-	}
-	return (get_color(color));
-}
-
 /*This function calculates the x coordinate of the texture needed. We multiply
 texture width with the exact point of the square that the ray hits the wall.
 In case of EW wall and ray coming from west, or NS wall and ray comes from
@@ -76,7 +55,6 @@ void	draw_wall_stripe(t_dda *dda, t_game *game, double wallhitpoint, int x)
 	t_texture		tex;
 	int				index;
 	enum e_textures	type;
-	int				color[3];
 
 	type = get_tex_type(dda);
 	tex.size = game->textures[type]->width;

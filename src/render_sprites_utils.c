@@ -3,7 +3,7 @@
 /*Because we only use this distance to sort the sprites,
 we will save some time and energy by not calculating the square root
 in this Pythagorean formula*/
-double	find_sprite_dist(t_game *game, t_dda *dda, int i)
+static double	find_sprite_dist(t_game *game, t_dda *dda, int i)
 {
 	return ((dda->pos_x - game->sprites[i].x)
 		* (dda->pos_x - game->sprites[i].x)
@@ -41,19 +41,34 @@ void	sort_sprites(t_game *game, t_dda *dda, int i)
 	}
 }
 
+bool	set_behind_wall(t_render_sprite *data, double *z_buffer)
+{
+	int		x;
+
+	x = data->x_start;
+	while (x < data->x_end)
+	{
+		if (data->sprite_depth >= z_buffer[x] + 0.0001f)
+			return (true);
+		x++;
+	}
+	return (false);
+}
+
 /*Here we calculate the starting and ending points of the line
 that draws the sprite.*/
 int	find_drawedges(t_render_sprite *data, int flag, int max)
 {
 	int	value;
-	int	scaler = (int)(436 / data->sprite_depth);
+	int	scaler;
 
+	scaler = (int)(436 / data->sprite_depth);
 	if (flag < 2)
 	{
 		if (flag == 0)
 			value = -data->sprite_size / 2 + data->sprite_screen_x;
 		else
-			value = -data->sprite_size / 2 + MAX_SCREEN_HEIGHT / 2 + scaler;
+			value = (-data->sprite_size) / 2 + MAX_SCREEN_HEIGHT / 2 + scaler;
 		if (value < 0)
 			value = 0;
 	}

@@ -1,27 +1,5 @@
 #include "../include/cub3D.h"
 
-/*This function calculates the starting and end points of the portion
-of the minimap that we render to be visible at the moment, focusing on
-the player.*/
-int	minimap_edge(double coordinate, bool start, int max)
-{
-	int	point;
-
-	if (start)
-	{
-		point = coordinate - 10;
-		if (point < 0)
-			point = 0;
-	}
-	else
-	{
-		point = coordinate + 10;
-		if (point >= max)
-			point = max;
-	}
-	return (point);
-}
-
 /*
 This function "combines" the different rgb values together into one integer.
 By shifting r 24 bits left, g 16 bits left, g 8 bits left and leaving a
@@ -35,6 +13,27 @@ int	get_color(int *rgb)
 	a = 255;
 	color = rgb[0] << 24 | rgb[1] << 16 | rgb[2] << 8 | a;
 	return (color);
+}
+
+/*Pixels of the texture are stored in a 1D array. Horizontal sides are made
+darker by shifting the bits to "divide by 2" ie. removing the last digit,
+and then setting the first bit of every bite to zero by calling AND with
+0111 1111 0111 1111 0111 1111.*/
+int	get_curr_color(t_game *game, enum e_textures type, int index,
+	t_dda *dda)
+{
+	int	color[3];
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		color[i] = game->textures[type]->pixels[index + i];
+		if (type != SPRITE && dda->hor_side)
+			color[i] = (color[i] >> 1) & 8355711;
+		i++;
+	}
+	return (get_color(color));
 }
 
 /*This function is used for drawing the line in minimap. In order to do so,

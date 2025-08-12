@@ -12,10 +12,6 @@ void	cleanup_and_exit(t_game *game, char *str, bool success, bool textures)
 	free_array(game->asset_paths, 0);
 	if (game->sprites)
 		free (game->sprites);
-	if (game->plane_x)
-		free (game->plane_x);
-	if (game->plane_y)
-		free (game->plane_y);
 	if (game->mlx != NULL)
 		mlx_terminate(game->mlx);
 	while (textures && i < TEXTURE_COUNT)

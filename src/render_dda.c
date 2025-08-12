@@ -44,13 +44,11 @@ void	update_dda(t_dda *dda, t_game *game, int x)
 {
 	dda->map_x = (int)dda->pos_x;
 	dda->map_y = (int)dda->pos_y;
-	dda->step_x = 0;
-	dda->step_y = 0;
 	dda->hit = 0;
 	dda->hor_side = 0;
 	dda->camera_x = 2 * x / (double)MAX_SCREEN_WIDTH - 1;
-	dda->raydir_x = dda->dir_x + *game->plane_x * dda->camera_x;
-	dda->raydir_y = dda->dir_y + *game->plane_y * dda->camera_x;
+	dda->raydir_x = dda->dir_x + game->plane_x * dda->camera_x;
+	dda->raydir_y = dda->dir_y + game->plane_y * dda->camera_x;
 	if (dda->raydir_x == 0)
 		dda->squaredist_x = 1e30;
 	else
@@ -104,7 +102,7 @@ void	get_line_properties(t_dda *dda, t_game *game)
 		dda->corr_dist = (dda->sidedist_x - dda->squaredist_x);
 	else
 		dda->corr_dist = (dda->sidedist_y - dda->squaredist_y);
-	dda->lineheight = MAX_SCREEN_HEIGHT / dda->corr_dist;
+	dda->lineheight = (int)(MAX_SCREEN_HEIGHT / dda->corr_dist);
 	dda->y_start = (MAX_SCREEN_HEIGHT / 2) - (dda->lineheight / 2);
 	if (dda->y_start < 0)
 		dda->y_start = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sonjaojala <sonjaojala@student.42.fr>      +#+  +:+       +#+        */
+/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/08/07 14:26:11 by sonjaojala       ###   ########.fr       */
+/*   Updated: 2025/08/12 15:59:54 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,14 @@
 # define ERRSIZE "Game map is too large.\n"
 # define ERRARGC "Program expects one argument to a valid map.\n"
 # define ERRGEN "Operation failed.\n"
-# define ERRFORMAT "Type identifier (NO, SO, WE, EA, F, C) is expected to be followed up by one or more spaces.\n"
-# define ERRRGBFORMAT "RGB values must be provided as <F/C> <R>,<G>,<B> with numbers only (no signs: + or - allowed).\n"
+# define ERRFORMAT "Type identifier (NO, SO, WE, EA, F, C) is \
+expected to be followed up by one or more spaces.\n"
+# define ERRRGBFORMAT "RGB values must be provided as <F/C> <R>,<G>,<B> \
+with numbers only (no signs: + or - allowed).\n"
 # define ERRTHREE "Expected 3 numbers for RGB values.\n"
 # define ERRRGB "RGB values expected in the range of 0 - 255.\n"
-# define ERRMISSINFO "Could not find the required information in the specified file.\n"
+# define ERRMISSINFO "Could not find the required information in the \
+specified file.\n"
 # define ERRMAPGAP "The map should not contain empty rows in between!\n"
 # define ERRMAPLAST "The map should be last in the file.\n"
 
@@ -136,7 +139,7 @@ typedef struct s_dda
 	double	squaredist_y;
 	double	camera_x;
 	double	corr_dist;
-	double	lineheight;
+	int		lineheight;
 	int		map_x;
 	int		map_y;
 	int		step_x;
@@ -153,8 +156,8 @@ typedef struct s_game
 	char			**map;
 	int				width;
 	int				height;
-	double			*plane_x;
-	double			*plane_y;
+	double			plane_x;
+	double			plane_y;
 	bool			mouse_lock;
 	t_player		player;
 	char			*asset_paths[6];
@@ -162,8 +165,8 @@ typedef struct s_game
 	int				floor_rgb[3];
 	int				sprite_amt;
 	struct s_sprite	*sprites;
-	mlx_image_t 	*image;
-	mlx_image_t 	*minimapimage;
+	mlx_image_t		*image;
+	mlx_image_t		*minimapimage;
 	mlx_texture_t	*textures[TEXTURE_COUNT];
 }	t_game;
 
@@ -184,8 +187,8 @@ void	render_minimap(t_game *game);
 void	render_map(t_game *game);
 //sprites
 void	render_sprites(t_game *game, t_dda *dda, double *z_buffer);
-double	find_sprite_dist(t_game *game, t_dda *dda, int i);
 void	sort_sprites(t_game *game, t_dda *dda, int i);
+bool	set_behind_wall(t_render_sprite *data, double *z_buffer);
 int		find_drawedges(t_render_sprite *data, int flag, int max);
 //dda
 void	init_dda(t_dda *dda, t_game *game);
@@ -199,7 +202,8 @@ int		get_color(int *rgb);
 void	texture_square_checker(t_game *game, int i);
 //wall textures
 void	get_wallhitpoint(t_dda *dda, double *wallhitpoint);
-int		get_curr_color(t_game *game, enum e_textures type, int index, t_dda *dda);
+int		get_curr_color(t_game *game, enum e_textures type,
+			int index, t_dda *dda);
 void	draw_wall_stripe(t_dda *dda, t_game *game, double wallhitpoint, int x);
 
 //game mechanics

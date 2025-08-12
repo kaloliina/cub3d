@@ -51,7 +51,6 @@ static void	find_sprites(t_game *game)
 		find_sprites_helper(game);
 }
 
-
 static void	parse_map_file(t_game *game, char *str)
 {
 	int		len;
@@ -81,6 +80,17 @@ static void	parse_map_file(t_game *game, char *str)
 		cleanup_and_exit(game, ERRMAPLAST, 0, 0);
 }
 
+static void	print_info(void)
+{
+	printf("* * * * * * * * * * * * * * * * * * * * *\n");
+	printf("* * * * * WELCOME TO NEW YORK * * * * * *\n");
+	printf("* * * * * * * * * * * * * * * * * * * * *\n");
+	printf("* * * * * * move: W, A, S, D  * * * * * *\n");
+	printf("* * * rotate: left and right arrow  * * *\n");
+	printf("* * * enable rotation with mouse: M * * *\n");
+	printf("* * * * * * * * * * * * * * * * * * * * *\n");
+}
+
 int	main(int argc, char *argv[])
 {
 	t_game	game;
@@ -95,7 +105,7 @@ int	main(int argc, char *argv[])
 				"cub3D", false);
 		if (game.mlx == NULL)
 			cleanup_and_exit(&game, ERRGEN, 0, 1);
-		// print_info();
+		print_info();
 		init_maps(&game);
 		mlx_key_hook(game.mlx, (void *) key_hook, &game);
 		mlx_loop_hook(game.mlx, (void *) loop_hook, &game);

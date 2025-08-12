@@ -1,5 +1,8 @@
 #include "../include/cub3D.h"
 
+/*This function handles rotation. Cos tells how much of axis x direction is
+left when rotated. Sin tells how much y-axis is part of the rotation and together
+used they can get the result of the new direction.*/
 static void	rotate(t_game *game, double rotation_dir)
 {
 	double	rotspeed;
@@ -22,6 +25,10 @@ static void	rotate(t_game *game, double rotation_dir)
 	render_minimap(game);
 }
 
+/*This function handles movement. If the direction is either forward or backwards,
+the movement either goes forward or backwards relative to the player's direction.
+If the movement is left or right, we are utilising the other axis and strafing
+left or right relative to the player's direction.*/
 static void	move(t_game *game, enum e_directions direction,
 int y_sign, int x_sign)
 {

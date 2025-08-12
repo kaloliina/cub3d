@@ -23,7 +23,6 @@ int	minimap_edge(double coordinate, bool start, int max)
 }
 
 /*
---11--
 This function "combines" the different rgb values together into one integer.
 By shifting r 24 bits left, g 16 bits left, g 8 bits left and leaving a
 (alpha channel) where it is.
@@ -38,7 +37,10 @@ int	get_color(int *rgb)
 	return (color);
 }
 
-//The number 20 here represents the length of the line
+/*This function is used for drawing the line in minimap. In order to do so,
+we get end x and y coordinates, the delta distance between start and end.
+We use the "Pythagoran lause" to find the straight line and we begin filling
+it one by one*/
 void	draw_line(t_game *game, double start_x, double start_y)
 {
 	double	end_x;

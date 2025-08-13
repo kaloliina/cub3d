@@ -6,14 +6,15 @@
 #    By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/24 12:16:09 by khiidenh          #+#    #+#              #
-#    Updated: 2025/08/12 15:55:35 by sojala           ###   ########.fr        #
+#    Updated: 2025/08/13 10:58:01 by sojala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= cub3D
+NAME_BONUS	= cub3D_bonus
 CFLAGS	= -Wall -Wextra -Werror -O2
 MLX_DIR	= ./MLX42
-MLX = $(LIBMLX)/build/libmlx42.a
+MLX = $(MLX_DIR)/build/libmlx42.a
 LIBFT = libft/libft.a
 
 HEADERS	= -I ./include -I $(MLX_DIR)/include -I libft/includes
@@ -36,6 +37,8 @@ OBJS	= $(SRCS:.c=.o)
 
 all: $(MLX) libft $(NAME)
 
+bonus: $(MLX) libft $(NAME_BONUS)
+
 $(MLX):
 	@if [ ! -d $(MLX_DIR) ]; then \
 		git clone https://github.com/codam-coding-college/MLX42.git $(MLX_DIR); \
@@ -51,13 +54,16 @@ $(SRCS_DIR)%.o: $(SRCS_DIR)%.c
 $(NAME): $(OBJS) $(MLX)
 	$(CC) $(OBJS) $(LIBS) $(LIBFT) $(HEADERS) -o $(NAME)
 
+$(NAME_BONUS): $(OBJS) $(MLX)
+	$(CC) $(OBJS) $(LIBS) $(LIBFT) $(HEADERS) -o $(NAME_BONUS)
+
 clean:
 	rm -rf $(OBJS)
-	rm -rf $(LIBMLX)/build
+	rm -rf $(MLX_DIR)/build
 	make -C libft clean
 
 fclean: clean
-	rm -rf $(NAME)
+	rm -rf $(NAME) $(NAME_BONUS)
 	make -C libft fclean
 	@if [ -d $(MLX_DIR) ]; then \
 		rm -rf $(MLX_DIR); \
@@ -66,4 +72,3 @@ fclean: clean
 re: clean all
 
 .PHONY: all, clean, fclean, re, libmlx, libft
-

@@ -1,5 +1,27 @@
 #include "../include/cub3D_bonus.h"
 
+/*This function calculates the starting and end points of the portion
+of the minimap that we render to be visible at the moment, focusing on
+the player.*/
+static int	minimap_edge(double coordinate, bool start, int max)
+{
+	int	point;
+
+	if (start)
+	{
+		point = coordinate - 10;
+		if (point < 0)
+			point = 0;
+	}
+	else
+	{
+		point = coordinate + 10;
+		if (point >= max)
+			point = max;
+	}
+	return (point);
+}
+
 static void	draw_minimap_base(t_game *game, int x_start, int y_start, int y_end)
 {
 	int	y;
@@ -29,28 +51,6 @@ static void	draw_minimap_base(t_game *game, int x_start, int y_start, int y_end)
 	}
 }
 
-/*This function calculates the starting and end points of the portion
-of the minimap that we render to be visible at the moment, focusing on
-the player.*/
-int	minimap_edge(double coordinate, bool start, int max)
-{
-	int	point;
-
-	if (start)
-	{
-		point = coordinate - 10;
-		if (point < 0)
-			point = 0;
-	}
-	else
-	{
-		point = coordinate + 10;
-		if (point >= max)
-			point = max;
-	}
-	return (point);
-}
-
 void	render_minimap(t_game *game)
 {
 	int	x_start;
@@ -65,7 +65,4 @@ void	render_minimap(t_game *game)
 		(game->player.y - 0.5 - y_start) * TILE);
 	draw_line(game, (game->player.x - x_start) * TILE,
 		(game->player.y - y_start) * TILE);
-	if (mlx_image_to_window(game->mlx, game->minimapimage,
-			0, 0) < 0)
-		cleanup_and_exit(game, ERRIMG, 0, 1);
 }

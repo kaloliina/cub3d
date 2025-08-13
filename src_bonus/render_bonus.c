@@ -58,7 +58,6 @@ void	render_map(t_game *game)
 	render_sprites(game, dda, z_buffer);
 	free (dda);
 	dda = NULL;
-	mlx_image_to_window(game->mlx, game->image, 0, 0);
 	render_minimap(game);
 }
 
@@ -67,10 +66,15 @@ static void	init_images(t_game *game)
 	game->image = mlx_new_image(game->mlx, MAX_SCREEN_WIDTH, MAX_SCREEN_HEIGHT);
 	if (!game->image)
 		cleanup_and_exit(game, ERRNEWIMG, 0, 1);
+	if (mlx_image_to_window(game->mlx, game->image, 0, 0) < 0)
+		cleanup_and_exit(game, ERRIMG, 0, 1);
 	game->minimapimage = mlx_new_image(game->mlx, game->width * TILE,
 			game->height * TILE);
 	if (!game->minimapimage)
 		cleanup_and_exit(game, ERRNEWIMG, 0, 1);
+	if (mlx_image_to_window(game->mlx, game->minimapimage,
+			0, 0) < 0)
+		cleanup_and_exit(game, ERRIMG, 0, 1);
 }
 
 /*Here we make and store the textures and check whether they are squares.

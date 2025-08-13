@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/08/13 12:06:16 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/13 14:24:10 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <math.h>
-# define MAX_SCREEN_WIDTH 3840
-# define MAX_SCREEN_HEIGHT 2160
+# define MAX_SCREEN_WIDTH 1920
+# define MAX_SCREEN_HEIGHT 1080
 # define MAX_BUFFER_SIZE 65536
 # define TEXTURE_COUNT 4
 # define TILE 20
 # define FILE_INFO_COUNT 6
-# define SPEED 0.6	//used to be 0.05 for a while, what will we decide on?
+# define SPEED 1.0	//used to be 0.05 for a while, what will we decide on?
 # define PLAYER_CLR (int[3]){255, 0, 0}
 # define BASE_CLR (int[3]){205, 195, 210}
 # define WALL_CLR (int[3]){0, 0, 0}

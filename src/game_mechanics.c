@@ -7,21 +7,19 @@ static void	rotate(t_game *game, double rotation_dir)
 {
 	double	rotspeed;
 	double	old_dir_x;
-	double	old_dir_y;
 	double	old_plane_x;
 
 	rotspeed = SPEED * rotation_dir * game->mlx->delta_time;
 	old_dir_x = game->player.dir_x;
-	old_dir_y = game->player.dir_y;
 	old_plane_x = game->plane_x;
-	game->player.dir_x = old_dir_x * cos(rotspeed) - old_dir_y * sin(rotspeed);
-	game->player.dir_y = old_dir_x * sin(rotspeed) + old_dir_y * cos(rotspeed);
+	game->player.dir_x = game->player.dir_x * cos(rotspeed)
+		- game->player.dir_y * sin(rotspeed);
+	game->player.dir_y = old_dir_x * sin(rotspeed)
+		+ game->player.dir_y * cos(rotspeed);
 	game->plane_x = game->plane_x * cos(rotspeed) - game->plane_y
 		* sin(rotspeed);
 	game->plane_y = old_plane_x * sin(rotspeed) + game->plane_y
 		* cos(rotspeed);
-	render_minimap(game);
-	render_map(game);
 }
 
 /*This function handles movement. If the direction is either forward or
@@ -55,8 +53,6 @@ int y_sign, int x_sign)
 		return ;
 	game->player.y = new_y;
 	game->player.x = new_x;
-	render_minimap(game);
-	render_map(game);
 }
 
 void	key_hook(mlx_key_data_t keydata, void *param)
@@ -93,6 +89,8 @@ void	loop_hook(void *param)
 		rotate(game, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(game->mlx);
+	render_map(game);
+	printf("%f\n", 1 / game->mlx->delta_time);
 }
 
 /*Cursor hook does the rotation if we use mouse instead of

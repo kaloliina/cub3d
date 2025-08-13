@@ -6,12 +6,12 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/08/13 12:13:54 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/13 14:44:25 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H_BONUS
-# define CUB3D_H_BONUS
+#ifndef CUB3D_BONUS_H
+# define CUB3D_BONUS_H
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/includes/libft.h"
 # include <stdlib.h>
@@ -20,13 +20,13 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <math.h>
-# define MAX_SCREEN_WIDTH 3840
-# define MAX_SCREEN_HEIGHT 2160
+# define MAX_SCREEN_WIDTH 1920
+# define MAX_SCREEN_HEIGHT 1080
 # define MAX_BUFFER_SIZE 65536
 # define TEXTURE_COUNT 5
 # define TILE 20
 # define FILE_INFO_COUNT 6
-# define SPEED 0.6	//used to be 0.05 for a while, what will we decide on?
+# define SPEED 0.9	//used to be 0.05 for a while, what will we decide on?
 # define PLAYER_CLR (int[3]){255, 0, 0}
 # define BASE_CLR (int[3]){205, 195, 210}
 # define WALL_CLR (int[3]){0, 0, 0}
@@ -196,7 +196,6 @@ void	init_dda(t_dda *dda, t_game *game);
 void	update_dda(t_dda *dda, t_game *game, int x);
 void	get_line_properties(t_dda *dda, t_game *game);
 //render utils
-int		minimap_edge(double coordinate, bool start, int max);
 void	draw_line(t_game *game, double start_x, double start_y);
 void	draw_pixels(t_game *game, enum e_assets type, int x, int y);
 int		get_color(int *rgb);

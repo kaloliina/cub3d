@@ -65,7 +65,4 @@ void	render_minimap(t_game *game)
 		(game->player.y - 0.5 - y_start) * TILE);
 	draw_line(game, (game->player.x - x_start) * TILE,
 		(game->player.y - y_start) * TILE);
-	if (mlx_image_to_window(game->mlx, game->minimapimage,
-			0, 0) < 0)
-		cleanup_and_exit(game, ERRIMG, 0, 1);
 }

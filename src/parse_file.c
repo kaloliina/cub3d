@@ -1,21 +1,5 @@
 #include "../include/cub3D.h"
 
-static bool	check_is_digit(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] == '\0')
-		return (false);
-	while (str[i] != '\0')
-	{
-		if (!(str[i] >= 48 && str[i] <= 57))
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
 static void	extract_rgb_info(t_game *game, char **textures, int *rgb)
 {
 	int		i;
@@ -123,7 +107,6 @@ char	*parse_file(t_game *game, char *buffer)
 	temp = ft_strtrim(&buffer[ft_strlen(buffer) - index], "\n");
 	if (temp == NULL)
 		cleanup_and_exit(game, ERRMEM, 0, 0);
-	printf("The actual map:\n%s\n", temp);
 	if (ft_strnstr(temp, "\n\n", MAX_BUFFER_SIZE))
 	{
 		free (temp);

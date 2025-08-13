@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/08/12 15:59:54 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/13 11:53:42 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ typedef struct s_map_validation
 //parsing and validation
 char	*parse_file(t_game *game, char *buffer);
 void	initialize_and_validate(t_game *game);
+bool	check_is_digit(char *str);
 
 //render
 void	init_maps(t_game *game);

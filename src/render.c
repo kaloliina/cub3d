@@ -59,6 +59,7 @@ void	render_map(t_game *game)
 	free (dda);
 	dda = NULL;
 	mlx_image_to_window(game->mlx, game->image, 0, 0);
+	render_minimap(game);
 }
 
 static void	init_images(t_game *game)
@@ -80,7 +81,7 @@ void	init_maps(t_game *game)
 	int	i;
 
 	i = 0;
-	game->asset_paths[TEXTURE_COUNT - 1] = ft_strdup("assets/FINAL.png");
+	game->asset_paths[TEXTURE_COUNT - 1] = ft_strdup("assets/sprite.png");
 	if (!game->asset_paths[TEXTURE_COUNT - 1])
 		cleanup_and_exit(game, ERRMEM, 0, 0);
 	while (i < TEXTURE_COUNT)
@@ -98,5 +99,4 @@ void	init_maps(t_game *game)
 	}
 	init_images(game);
 	render_map(game);
-	render_minimap(game);
 }

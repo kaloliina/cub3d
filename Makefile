@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+         #
+#    By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/24 12:16:09 by khiidenh          #+#    #+#              #
-#    Updated: 2025/08/13 10:58:01 by sojala           ###   ########.fr        #
+#    Updated: 2025/08/13 11:54:02 by khiidenh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS = 	$(SRCS_DIR)cub3d.c\
 	$(SRCS_DIR)game_mechanics.c\
 	$(SRCS_DIR)init_and_validate.c\
 	$(SRCS_DIR)parse_file.c\
+	$(SRCS_DIR)parse_utils.c\
 	$(SRCS_DIR)render_dda.c\
 	$(SRCS_DIR)render_dda_utils.c\
 	$(SRCS_DIR)render_minimap.c\

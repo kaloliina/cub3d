@@ -1,8 +1,8 @@
 #include "../include/cub3D.h"
 
-/*This function handles rotation. Cos tells how much of axis x direction is
-left when rotated. Sin tells how much y-axis is part of the rotation and together
-used they can get the result of the new direction.*/
+/*This function handles rotation. Cos gives us the part that stays
+on the same axis while sin gives us the section that leaks to the other axis.
+This 2D rotation formula uses both of these to capture the new directions.*/
 static void	rotate(t_game *game, double rotation_dir)
 {
 	double	rotspeed;
@@ -22,7 +22,6 @@ static void	rotate(t_game *game, double rotation_dir)
 		* cos(rotspeed);
 	render_minimap(game);
 	render_map(game);
-	render_minimap(game);
 }
 
 /*This function handles movement. If the direction is either forward or
@@ -33,34 +32,31 @@ direction.*/
 static void	move(t_game *game, enum e_directions direction,
 int y_sign, int x_sign)
 {
-	double	old_y;
-	double	old_x;
+	double	new_y;
+	double	new_x;
 
-	old_y = game->player.y;
-	old_x = game->player.x;
+	new_y = game->player.y;
+	new_x = game->player.x;
 	if (direction == FORWARD || direction == BACKWARD)
 	{
-		game->player.y += y_sign * SPEED * game->player.dir_y
+		new_y += y_sign * SPEED * game->player.dir_y
 			* game->mlx->delta_time;
-		game->player.x += x_sign * SPEED * game->player.dir_x
+		new_x += x_sign * SPEED * game->player.dir_x
 			* game->mlx->delta_time;
 	}
 	if (direction == LEFT || direction == RIGHT)
 	{
-		game->player.y += y_sign * SPEED * game->player.dir_x
+		new_y += y_sign * SPEED * game->player.dir_x
 			* game->mlx->delta_time;
-		game->player.x += x_sign * SPEED * game->player.dir_y
+		new_x += x_sign * SPEED * game->player.dir_y
 			* game->mlx->delta_time;
 	}
-	if (game->map[(int)game->player.y][(int)game->player.x] == '1')
-	{
-		game->player.y = old_y;
-		game->player.x = old_x;
+	if (game->map[(int)new_y][(int)new_x] == '1')
 		return ;
-	}
+	game->player.y = new_y;
+	game->player.x = new_x;
 	render_minimap(game);
 	render_map(game);
-	render_minimap(game);
 }
 
 void	key_hook(mlx_key_data_t keydata, void *param)

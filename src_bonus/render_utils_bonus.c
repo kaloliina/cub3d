@@ -58,7 +58,7 @@ void	draw_line(t_game *game, double start_x, double start_y)
 	while (pixels)
 	{
 		mlx_put_pixel(game->minimapimage, start_x, start_y,
-			get_color(PLAYER_CLR));
+			PLAYER_CLR);
 		start_x += delta_x;
 		start_y += delta_y;
 		--pixels;
@@ -80,12 +80,12 @@ void	draw_pixels(t_game *game, enum e_assets type, int x, int y)
 		while (x_tile < TILE)
 		{
 			if (type == BASE)
-				mlx_put_pixel(game->minimapimage, x, y, get_color(BASE_CLR));
+				mlx_put_pixel(game->minimapimage, x, y, BASE_CLR);
 			if (type == WALL)
-				mlx_put_pixel(game->minimapimage, x, y, get_color(WALL_CLR));
+				mlx_put_pixel(game->minimapimage, x, y, WALL_CLR);
 			if (type == PLAYER && x_tile > 5 && x_tile < 14 && y_tile > 5
 				&& y_tile < 14)
-				mlx_put_pixel(game->minimapimage, x, y, get_color(PLAYER_CLR));
+				mlx_put_pixel(game->minimapimage, x, y, PLAYER_CLR);
 			x_tile++;
 			x++;
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/08/13 14:44:25 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/13 14:57:26 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@
 # define TILE 20
 # define FILE_INFO_COUNT 6
 # define SPEED 0.9	//used to be 0.05 for a while, what will we decide on?
-# define PLAYER_CLR (int[3]){255, 0, 0}
-# define BASE_CLR (int[3]){205, 195, 210}
-# define WALL_CLR (int[3]){0, 0, 0}
+# define PLAYER_CLR 0xFF0000FF
+# define BASE_CLR 0xCDC3D2FF
+# define WALL_CLR 0x000000FF
 
 # define ERRMSG "Error\n"
 # define ERRMEM "Memory allocation failed.\n"

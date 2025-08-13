@@ -1,4 +1,4 @@
-#include "../include/cub3D.h"
+#include "../include/cub3D_bonus.h"
 
 static void	draw_minimap_base(t_game *game, int x_start, int y_start, int y_end)
 {
@@ -19,7 +19,7 @@ static void	draw_minimap_base(t_game *game, int x_start, int y_start, int y_end)
 		{
 			if (game->map[y][x] == '1')
 				draw_pixels(game, WALL, x1 * TILE, y1 * TILE);
-			else if (ft_strchr("0NSEW", game->map[y][x]))
+			else if (ft_strchr("0NSEWH", game->map[y][x]))
 				draw_pixels(game, BASE, x1 * TILE, y1 * TILE);
 			x1++;
 			x++;

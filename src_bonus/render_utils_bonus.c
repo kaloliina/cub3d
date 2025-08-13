@@ -1,4 +1,4 @@
-#include "../include/cub3D.h"
+#include "../include/cub3D_bonus.h"
 
 /*
 This function "combines" the different rgb values together into one integer.
@@ -29,7 +29,7 @@ int	get_curr_color(t_game *game, enum e_textures type, int index,
 	while (i < 3)
 	{
 		color[i] = game->textures[type]->pixels[index + i];
-		if (dda->hor_side)
+		if (type != SPRITE && dda->hor_side)
 			color[i] = (color[i] >> 1) & 8355711;
 		i++;
 	}

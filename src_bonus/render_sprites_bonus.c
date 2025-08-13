@@ -1,4 +1,4 @@
-#include "../include/cub3D.h"
+#include "../include/cub3D_bonus.h"
 
 /*Tex y helper tells us how far vertically inside the sprite this pixel is.
 We use it to calculate the y position in the texture of this pixel.*/

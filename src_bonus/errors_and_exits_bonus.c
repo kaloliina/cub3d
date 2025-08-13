@@ -1,4 +1,4 @@
-#include "../include/cub3D.h"
+#include "../include/cub3D_bonus.h"
 
 /*Added freeing plane_x and plane_y, atm they have to be in struct as pointers
 bc they are used in different functions but to be decided if this is the
@@ -10,6 +10,8 @@ void	cleanup_and_exit(t_game *game, char *str, bool success, bool textures)
 	i = 0;
 	free_array(game->map, 1);
 	free_array(game->asset_paths, 0);
+	if (game->sprites)
+		free (game->sprites);
 	if (game->mlx != NULL)
 		mlx_terminate(game->mlx);
 	while (textures && i < TEXTURE_COUNT)

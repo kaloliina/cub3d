@@ -1,4 +1,4 @@
-#include "../include/cub3D.h"
+#include "../include/cub3D_bonus.h"
 
 static void	draw_ceiling_floor(t_game *game)
 {
@@ -38,6 +38,7 @@ void	render_map(t_game *game)
 	int		x;
 	t_dda	*dda;
 	double	wallhitpoint;
+	double	z_buffer[MAX_SCREEN_WIDTH];
 
 	draw_ceiling_floor(game);
 	dda = malloc(sizeof(t_dda));
@@ -51,8 +52,10 @@ void	render_map(t_game *game)
 		get_line_properties(dda, game);
 		get_wallhitpoint(dda, &wallhitpoint);
 		draw_wall_stripe(dda, game, wallhitpoint, x);
+		z_buffer[x] = dda->corr_dist;
 		x++;
 	}
+	render_sprites(game, dda, z_buffer);
 	free (dda);
 	dda = NULL;
 	mlx_image_to_window(game->mlx, game->image, 0, 0);
@@ -78,6 +81,9 @@ void	init_maps(t_game *game)
 	int	i;
 
 	i = 0;
+	game->asset_paths[TEXTURE_COUNT - 1] = ft_strdup("assets/sprite.png");
+	if (!game->asset_paths[TEXTURE_COUNT - 1])
+		cleanup_and_exit(game, ERRMEM, 0, 0);
 	while (i < TEXTURE_COUNT)
 	{
 		game->textures[i] = mlx_load_png(game->asset_paths[i]);

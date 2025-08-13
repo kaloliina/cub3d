@@ -1,4 +1,4 @@
-#include "../include/cub3D.h"
+#include "../include/cub3D_bonus.h"
 
 static void	fill(int x, int y, t_map_validation *validation, char prev)
 {
@@ -12,14 +12,14 @@ static void	fill(int x, int y, t_map_validation *validation, char prev)
 	if (validation->map[y][x] == 'v' || validation->map[y][x] == 'w')
 		return ;
 	if (prev == 'v' && (validation->map[y][x] != '1'
-		&& validation->map[y][x] != '0'))
+		&& validation->map[y][x] != '0' && validation->map[y][x] != 'H'))
 	{
 		validation->is_enclosed = false;
 		return ;
 	}
 	if (validation->map[y][x] == '1')
 		validation->map[y][x] = 'w';
-	else if (ft_strchr("NSEW0", validation->map[y][x]))
+	else if (ft_strchr("NSEW0H", validation->map[y][x]))
 		validation->map[y][x] = 'v';
 	else
 		return ;
@@ -71,7 +71,7 @@ static void	validate_map_elements(t_game *game, t_map_validation *validation,
 		if (game->map[y][x] == 'E')
 			game->player.dir_x = 1;
 	}
-	if (!ft_strchr("10 NSEW", game->map[y][x]))
+	if (!ft_strchr("10 NSEWH", game->map[y][x]))
 		cleanup_and_exit(game, ERRCHARS, 0, 0);
 }
 

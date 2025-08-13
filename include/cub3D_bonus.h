@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
+/*   cub3D_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/08/13 12:06:16 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/13 12:13:54 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef CUB3D_H_BONUS
+# define CUB3D_H_BONUS
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/includes/libft.h"
 # include <stdlib.h>
@@ -23,7 +23,7 @@
 # define MAX_SCREEN_WIDTH 3840
 # define MAX_SCREEN_HEIGHT 2160
 # define MAX_BUFFER_SIZE 65536
-# define TEXTURE_COUNT 4
+# define TEXTURE_COUNT 5
 # define TILE 20
 # define FILE_INFO_COUNT 6
 # define SPEED 0.6	//used to be 0.05 for a while, what will we decide on?
@@ -66,6 +66,7 @@ enum e_textures
 	SOUTH,
 	WEST,
 	EAST,
+	SPRITE
 };
 
 enum e_assets
@@ -100,6 +101,29 @@ typedef struct s_player
 	double	dir_x;
 	double	dir_y;
 }	t_player;
+
+typedef struct s_sprite
+{
+	double	x;
+	double	y;
+	double	dist;
+}			t_sprite;
+
+typedef struct s_render_sprite
+{
+	double	sprite_x;
+	double	sprite_y;
+	double	inv_det;
+	double	corr_x;
+	double	sprite_depth;
+	int		sprite_screen_x;
+	int		sprite_size;
+	int		x_start;
+	int		y_start;
+	int		x_end;
+	int		y_end;
+	int		tex_x;
+}			t_render_sprite;
 
 typedef struct s_dda
 {
@@ -139,6 +163,8 @@ typedef struct s_game
 	char			*asset_paths[6];
 	int				ceiling_rgb[3];
 	int				floor_rgb[3];
+	int				sprite_amt;
+	struct s_sprite	*sprites;
 	mlx_image_t		*image;
 	mlx_image_t		*minimapimage;
 	mlx_texture_t	*textures[TEXTURE_COUNT];
@@ -160,6 +186,11 @@ bool	check_is_digit(char *str);
 void	init_maps(t_game *game);
 void	render_minimap(t_game *game);
 void	render_map(t_game *game);
+//sprites
+void	render_sprites(t_game *game, t_dda *dda, double *z_buffer);
+void	sort_sprites(t_game *game, t_dda *dda, int i);
+bool	set_behind_wall(t_render_sprite *data, double *z_buffer);
+int		find_drawedges(t_render_sprite *data, int flag, int max);
 //dda
 void	init_dda(t_dda *dda, t_game *game);
 void	update_dda(t_dda *dda, t_game *game, int x);

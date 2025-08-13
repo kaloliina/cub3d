@@ -68,8 +68,8 @@ static void	init_images(t_game *game)
 		cleanup_and_exit(game, ERRNEWIMG, 0, 1);
 	if (mlx_image_to_window(game->mlx, game->image, 0, 0) < 0)
 		cleanup_and_exit(game, ERRIMG, 0, 1);
-	game->minimapimage = mlx_new_image(game->mlx, game->width * TILE,
-			game->height * TILE);
+	game->minimapimage = mlx_new_image(game->mlx, 21 * TILE,
+			21 * TILE);
 	if (!game->minimapimage)
 		cleanup_and_exit(game, ERRNEWIMG, 0, 1);
 	if (mlx_image_to_window(game->mlx, game->minimapimage,

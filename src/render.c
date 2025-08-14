@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:02:03 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 12:02:04 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/14 16:05:49 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,7 @@ static void	draw_ceiling_floor(t_game *game)
 	}
 }
 
-/*In the loop, we go through the screen, drawing the walls one vertical stripe
-at a time.
-Get_line_properties finds the upcoming wall as we move along the ray, and
-get_wallhitpoint tells us the exact wall hitting point of the ray.*/
+/*Loops through the screen to draw the walls one vertical stripe at a time.*/
 void	render_map(t_game *game)
 {
 	int		x;
@@ -77,17 +74,14 @@ static void	init_images(t_game *game)
 		cleanup_and_exit(game, ERRNEWIMG, 0, 1);
 	if (mlx_image_to_window(game->mlx, game->image, 0, 0) < 0)
 		cleanup_and_exit(game, ERRIMG, 0, 1);
-	game->minimapimage = mlx_new_image(game->mlx, 20 * TILE,
-			20 * TILE);
+	game->minimapimage = mlx_new_image(game->mlx, 21 * TILE,
+			13 * TILE);
 	if (!game->minimapimage)
 		cleanup_and_exit(game, ERRNEWIMG, 0, 1);
 	if (mlx_image_to_window(game->mlx, game->minimapimage, 0, 0) < 0)
 		cleanup_and_exit(game, ERRIMG, 0, 1);
 }
 
-/*Here we make and store the textures and check whether they are squares.
-If not, the window has already been opened, but it closes right away and an error
-message is displayed. Otherwise, the starting view and minimap are rendered.*/
 void	init_maps(t_game *game)
 {
 	int	i;

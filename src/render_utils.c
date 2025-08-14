@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:01:59 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 13:15:33 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/08/14 16:04:06 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ void	draw_pixels(t_game *game, enum e_assets type, int x, int y)
 	}
 }
 
-/*This function checks whether the texture being created is a square.*/
 void	texture_square_checker(t_game *game, int i)
 {
 	if (game->textures[i]->width != game->textures[i]->height)

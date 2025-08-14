@@ -6,12 +6,14 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:02:11 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 12:02:12 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/14 15:48:26 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3D_bonus.h"
 
+/*Saves the x and y coordinate of each sprite on the map. Dist will later store
+the distance from the player.*/
 static void	find_sprites_helper(t_game *game)
 {
 	int	i;

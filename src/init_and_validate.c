@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:01:35 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 12:01:36 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/14 15:52:55 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ static void	validate_map_elements(t_game *game, t_map_validation *validation,
 		cleanup_and_exit(game, ERRCHARS, 0, 0);
 }
 
-/*If player position is N or S, plane_x is set to 66 degrees and plane_y to 0.
-If the position is E or W, vice versa - then plane_x needs to be 0, since it
-has to be perpendicular to the ray.*/
+/*If player position is N or S, plane_x is set to 0.66 (creating a 66 degree
+field of view) and plane_y to 0. If the position is E or W, vice versa
+- then plane_x needs to be 0, since it has to be perpendicular to the ray.*/
 static void	init_plane(t_game *game)
 {
 	if (game->player.dir_y != 0)

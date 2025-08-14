@@ -6,15 +6,14 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:02:06 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 12:02:07 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/14 16:07:48 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3D.h"
 
-/*Here we calculate the exact point inside a square at which we hit a wall.
-We subtract by floor(temp) which leaves us with the decimal part of the result,
-so the exact point inside the square and not which square.*/
+/*Calculates the exact point inside a square at which we hit a wall.
+Subtracting by floor(temp) leaves us with the decimal part of the result.*/
 void	get_wallhitpoint(t_dda *dda, double *wallhitpoint)
 {
 	double	temp;
@@ -26,7 +25,7 @@ void	get_wallhitpoint(t_dda *dda, double *wallhitpoint)
 	*wallhitpoint = temp - floor(temp);
 }
 
-/*This function finds out the direction of the wall we hit (= are drawing).*/
+/*Finds out the direction of the wall we are drawing.*/
 static enum e_textures	get_tex_type(t_dda *dda)
 {
 	if (dda->hor_side == 0 && dda->raydir_x > 0)
@@ -39,10 +38,8 @@ static enum e_textures	get_tex_type(t_dda *dda)
 		return (NORTH);
 }
 
-/*This function calculates the x coordinate of the texture needed. We multiply
-texture width with the exact point of the square that the ray hits the wall.
-In case of EW wall and ray coming from west, or NS wall and ray comes from
-south, we will flip the texture.*/
+/*In case of east/west wall and ray coming from west, or north/south wall
+and ray comes from south, the texture will be flipped.*/
 static int	get_tex_x(double wallhitpoint, t_dda *dda, int tex_size)
 {
 	int	temp;
@@ -54,12 +51,8 @@ static int	get_tex_x(double wallhitpoint, t_dda *dda, int tex_size)
 	return (temp);
 }
 
-/*This function calculates the correct pixel from the texture to draw it in
-the calculated position on the screen. We draw one vertical stripe at a time,
-looping through y-axis start position to end position and moving along the
-texture at the same time.
-Tex.step: How much to increase the texture coordinate per screen pixel
-Tex.pos = Starting coordinate of texture (y)
+/*Calculates the correct pixel from the texture to draw it in the right
+position on the screen.
 Tex.y: we use modulo to ensure the value is always between 0 and tex_size
 Index: we multiply by 4 because each pixel color is represented in 4 bytes*/
 void	draw_wall_stripe(t_dda *dda, t_game *game, double wallhitpoint, int x)

@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   render_minimap.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:01:55 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 14:20:04 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/08/14 14:32:54 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3D.h"
 
-/*This function calculates the starting and end points of the portion
-of the minimap that we render to be visible at the moment, focusing on
-the player.*/
 static int	x_edges(double player, bool start, int max, int start_point)
 {
 	int	point;

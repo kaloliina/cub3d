@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_mechanics.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:01:31 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 13:03:35 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/08/14 15:51:36 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,15 +106,13 @@ void	loop_hook(void *param)
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(game->mlx);
 	render_map(game);
-	printf("%f\n", 1 / game->mlx->delta_time);
 }
 
-/*Cursor hook does the rotation if we use mouse instead of
-left/right arrow key.
-Sensitivity tracks how far from the center is the current mouse
-position, and gives that (multiplied with 0.01) to rotation
-function as the "amount" of rotation. After each rotate call, it
-sets mouse position back to the center of the screen.*/
+/*Handles the rotation if we use mouse instead of left/right keys.
+Sensitivity tracks the current mouse position's dist from screen
+center, and gives that (multiplied with 0.01) to rotate
+function. After each rotate call, it sets mouse position back
+to the center of the screen.*/
 void	cursor_hook(void *param)
 {
 	t_game	*game;

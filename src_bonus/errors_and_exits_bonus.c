@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_and_exits_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:02:14 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 13:04:14 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/08/14 14:32:17 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ void	cleanup_and_exit(t_game *game, char *str, bool success, bool textures)
 	while (textures && i < TEXTURE_COUNT)
 		mlx_delete_texture(game->textures[i++]);
 	if (success == true)
-	{
 		exit (0);
-	}
 	if (success == false)
 	{
 		ft_putstr_fd(ERRMSG, 2);

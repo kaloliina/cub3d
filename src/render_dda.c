@@ -6,18 +6,13 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:01:52 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 12:01:53 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/14 16:00:58 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3D.h"
 
-/*This function calculates which way we move as we move along the ray to find
-the wall. We calculate it each time for both x and y, but each round of the
-find_raydist loop we take only one of these steps.
-If ray is moving left (raydir_x) or up (raydir_y), we take one step left/up,
-decreasing x/y, and if ray is moving right/down, we step that way.
-If raydir == 0, this step will be unused.*/
+/*In case of raydir == 0, that step will not be used.*/
 static int	get_ray_step(double raydir)
 {
 	if (raydir < 0)
@@ -26,10 +21,9 @@ static int	get_ray_step(double raydir)
 		return (1);
 }
 
-/*Sidedist indicates the distance from start position to next x/y-side.
-If raydir is negative, the distance will be player position - left/up edge
-of current square. Else, it will be right/down edge of curr square
-+ player position.*/
+/*Calculates the distance from starting position to next x/y side.
+If raydir < 0, sidedist is player position - left/up edge of current
+square. Else, it's player position + right/down edge of curr square.*/
 static double	get_sidedist(double raydir, double pos, int map,
 	double squaredist)
 {
@@ -39,19 +33,14 @@ static double	get_sidedist(double raydir, double pos, int map,
 		return ((map + 1.0 - pos) * squaredist);
 }
 
-/*This function refreshes and updates dda variable values each time we
-move forward to the right on the screen (= increase x), as we draw each
-vertical wall stripe.
-Hit tracks whether we have hit a wall while calculating ray length.
-Hor_side indicates whether we hit a NS or a EW wall
+/*- Hor_side indicates whether we hit a NS or a EW wall
 (0 if vertical = EW = "x" side).
-Camera_x is the x-coordinate on the camera plane (-1 on the left, 0 in
-the middle, and 1 on the right side of screen).
-In case of a straight vertical or horizontal line, we give squaredist a
-very big value, so we won't divide with zero, and after that we won't
-choose that direction when comparing sidedists.
-Squaredist indicates the distance the ray has to travel to get from one
-x or y edge to the next.*/
+- Camera_x: the x-coordinate on the camera plane (-1 on the left,
+0 in the middle, and 1 on the right side of screen).
+- Squaredist: the distance the ray has to travel to get from one
+x or y edge to the next. In case of raydir == 0, we give it a
+very large value to prevent moving in that direction and dividing
+with 0.*/
 void	update_dda(t_dda *dda, t_game *game, int x)
 {
 	dda->map_x = (int)dda->pos_x;
@@ -77,7 +66,7 @@ void	update_dda(t_dda *dda, t_game *game, int x)
 			dda->squaredist_y);
 }
 
-/*Here we travel along the ray to find the point where it hits a wall.
+/*Travels along the ray to find the point where it hits a wall.
 If the distance to next x-side is shorter than to the next y-side, we move
 in x direction to the next x_side, so sidedist_x is now the whole way so far.
 Simultaneously, we move in map squares with step_x.*/
@@ -102,11 +91,8 @@ static void	find_raydist(t_dda *dda, t_game *game)
 	}
 }
 
-/*Here we first call find_raydist to get the length of the ray until a wall.
-Then we correct that length to avoid fisheye effect. We then calculate the
-height of the current line, and the y coordinates at which the line starts
-and ends. We want to center the line, so half is below and half above middle
-of the screen (y-axis).*/
+/*Corr_dist gives us the perpendicular distance to wall
+to avoid fisheye effect.*/
 void	get_line_properties(t_dda *dda, t_game *game)
 {
 	find_raydist(dda, game);

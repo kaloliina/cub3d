@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_minimap_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:02:48 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 12:02:49 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/14 14:21:33 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	draw_minimap_base(t_game *game, int x_start, int y_start, int y_end)
 		x1 = 0;
 		while (x < x_end)
 		{
-			if (game->map[y][x] == '1')
+			if (game->map[y][x] == '1' || game->map[y][x] == ' ')
 				draw_pixels(game, WALL, x1 * TILE, y1 * TILE);
 			else if (ft_strchr("0NSEWH", game->map[y][x]))
 				draw_pixels(game, BASE, x1 * TILE, y1 * TILE);

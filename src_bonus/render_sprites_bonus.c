@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:02:52 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 17:16:56 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/14 17:48:57 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ will be drawn.*/
 static void	set_sprite_values(t_render_sprite *data, t_game *game,
 	t_dda *dda, int i)
 {
-	data->sprite_x = game->sprites[i].x - dda->pos_x;
-	data->sprite_y = game->sprites[i].y - dda->pos_y;
+	data->sprite_x = (game->sprites[i].x + 0.5) - dda->pos_x;
+	data->sprite_y = (game->sprites[i].y + 0.5) - dda->pos_y;
 	data->inv_det = 1.0 / (game->plane_x
 			* dda->dir_y - dda->dir_x * game->plane_y);
 	data->corr_x = data->inv_det * (dda->dir_y * data->sprite_x - dda->dir_x
@@ -86,6 +86,7 @@ static void	set_sprite_values(t_render_sprite *data, t_game *game,
 			* data->sprite_x + game->plane_x * data->sprite_y);
 	data->sprite_screen_x = (int)((MAX_SCREEN_WIDTH / 2)
 			* (1 + data->corr_x / data->sprite_depth));
+	printf("spritescreenx %d sprite x %f\n", data->sprite_screen_x, game->sprites[i].x);
 	data->sprite_size = abs((int)(MAX_SCREEN_HEIGHT / data->sprite_depth))
 		* 0.5;
 	data->x_start = find_drawedges(data, 0, 0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:01:40 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 12:01:41 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/14 13:06:24 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static void	extract_rgb_info(t_game *game, char **textures, int *rgb)
 			free_array(textures, 1);
 			cleanup_and_exit(game, ERRRGB, 0, 0);
 		}
-		printf("Rgb: %d\n", rgb[i]);
 		i++;
 	}
 	free_array(textures, 1);
@@ -72,7 +71,6 @@ static void	extract_line(t_game *game, char *temp, int i)
 		free (line);
 		if (game->asset_paths[i] == NULL)
 			cleanup_and_exit(game, ERRMEM, 0, 0);
-		printf("Path: %s\n", game->asset_paths[i]);
 		return ;
 	}
 	textures = ft_split(skip_leading_spaces(game, line, i), ',');

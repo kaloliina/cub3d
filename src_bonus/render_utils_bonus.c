@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   render_utils_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:03:01 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 12:03:02 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/14 13:16:03 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3D_bonus.h"
 
-/*
-This function "combines" the different rgb values together into one integer.
-By shifting r 24 bits left, g 16 bits left, g 8 bits left and leaving a
-(alpha channel) where it is.
+/* Stores RGB values into integer by performing bitshifting.
+- Red is shifted 24 bits left
+- Green is shifted 16 bits left
+- Blue is shifted 8 bits left
+- Alpha channel is left where it is (255 signifies no transparency)
 */
 int	get_color(int *rgb)
 {
@@ -48,10 +49,13 @@ int	get_curr_color(t_game *game, enum e_textures type, int index,
 	return (get_color(color));
 }
 
-/*This function is used for drawing the line in minimap. In order to do so,
-we get end x and y coordinates, the delta distance between start and end.
-We use the "Pythagoran lause" to find the straight line and we begin filling
-it one by one*/
+/*Draws the orientation line in the minimap.
+- end_y, end_x = establishes where the line should end
+- delta_y, delta_x = the space between the start and the end point
+- pixels = by using pythagorean theorem, we find the straight line between
+start and end.
+- delta_y, delta_x / pixels = provides the increments where the line is
+gradually being drawn.*/
 void	draw_line(t_game *game, double start_x, double start_y)
 {
 	double	end_x;

@@ -3,18 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   game_mechanics.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:01:31 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 12:01:32 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/14 13:03:35 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3D.h"
 
-/*This function handles rotation. Cos gives us the part that stays
-on the same axis while sin gives us the section that leaks to the other axis.
-This 2D rotation formula uses both of these to capture the new directions.*/
+/* Adjusts the player's y and x direction vector as prepares for rotation
+- rotspeed is a combination of the speed, the direction in which we will rotate
+and deltatime (which standardizes the rotation according to the framerate)
+
+2D rotation formula is used to get the new direction vectors. Cos gives provides
+the part that stays on the same axis while sin signals how much the rotation
+leaks into the other axis.*/
 static void	rotate(t_game *game, double rotation_dir)
 {
 	double	rotspeed;
@@ -34,11 +38,11 @@ static void	rotate(t_game *game, double rotation_dir)
 		* cos(rotspeed);
 }
 
-/*This function handles movement. If the direction is either forward or
-backwards, the movement either goes forward or backwards relative to the
-player's direction. If the movement is left or right, we are utilising
-the other axis and strafing left or right relative to the player's
-direction.*/
+/*Adjusts the player's y and x position.
+- If the direction is either forward or backwards, the player moves
+according to their direction axis.
+- If the direction is left or right, the player moves into perpendicular
+direction according the other axis.*/
 static void	move(t_game *game, enum e_directions direction,
 int y_sign, int x_sign)
 {

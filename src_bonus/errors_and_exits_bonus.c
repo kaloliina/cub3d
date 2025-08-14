@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   errors_and_exits_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:02:14 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 12:02:15 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/14 13:04:14 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3D_bonus.h"
 
-/*Added freeing plane_x and plane_y, atm they have to be in struct as pointers
-bc they are used in different functions but to be decided if this is the
-smartest way*/
 void	cleanup_and_exit(t_game *game, char *str, bool success, bool textures)
 {
 	int	i;
@@ -51,7 +48,6 @@ void	free_array(char **array, int entirety)
 		{
 			while (array[i] != NULL)
 			{
-				printf("Freeing %s\n", array[i]);
 				free (array[i]);
 				i++;
 			}
@@ -62,7 +58,6 @@ void	free_array(char **array, int entirety)
 	{
 		while (array[i] != NULL)
 		{
-			printf("Freeing %s\n", array[i]);
 			free (array[i]);
 			i++;
 		}

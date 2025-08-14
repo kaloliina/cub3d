@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render_minimap_bonus.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/14 12:02:48 by sojala            #+#    #+#             */
+/*   Updated: 2025/08/14 12:02:49 by sojala           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3D_bonus.h"
 
 /*This function calculates the starting and end points of the portion
 of the minimap that we render to be visible at the moment, focusing on
 the player.*/
-static int	minimap_x_edge(double player, bool start, int max, int start_point)
+static int	x_edges(double player, bool start, int max, int start_point)
 {
 	int	point;
 
@@ -24,7 +36,7 @@ static int	minimap_x_edge(double player, bool start, int max, int start_point)
 	return (point);
 }
 
-static int	minimap_y_edge(double player, int start, int max, int start_point)
+static int	y_edges(double player, int start, int max, int start_point)
 {
 	int	point;
 
@@ -58,7 +70,7 @@ static void	draw_minimap_base(t_game *game, int x_start, int y_start, int y_end)
 	while (y < y_end)
 	{
 		x = x_start;
-		x_end = minimap_x_edge(game->player.x, false, ft_strlen(game->map[y]), x_start);
+		x_end = x_edges(game->player.x, 0, ft_strlen(game->map[y]), x_start);
 		x1 = 0;
 		while (x < x_end)
 		{
@@ -80,9 +92,9 @@ void	render_minimap(t_game *game)
 	int	y_start;
 	int	y_end;
 
-	x_start = minimap_x_edge(game->player.x, true, game->width, 0);
-	y_start = minimap_y_edge(game->player.y, true, game->height, 0);
-	y_end = minimap_y_edge(game->player.y, false, game->height, y_start);
+	x_start = x_edges(game->player.x, 1, game->width, 0);
+	y_start = y_edges(game->player.y, 1, game->height, 0);
+	y_end = y_edges(game->player.y, 0, game->height, y_start);
 	draw_minimap_base(game, x_start, y_start, y_end);
 	draw_pixels(game, PLAYER, (game->player.x - 0.5 - x_start) * TILE,
 		(game->player.y - 0.5 - y_start) * TILE);

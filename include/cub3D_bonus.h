@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/08/14 14:31:16 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/14 16:23:14 by khiidenh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 # define CUB3D_BONUS_H
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/includes/libft.h"
-# include <stdlib.h>
-# include <unistd.h>
-# include <string.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <math.h>
@@ -25,7 +22,7 @@
 # define MAX_BUFFER_SIZE 65536
 # define TILE 20
 # define FILE_INFO_COUNT 6
-# define SPEED 1.0	//used to be 0.05 for a while, what will we decide on?
+# define SPEED 1.0
 # define PLAYER_CLR 0xFF0000FF
 # define BASE_CLR 0xCDC3D2FF
 # define WALL_CLR 0x000000FF

@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:02:52 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 16:11:19 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/14 17:08:17 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	draw_sprite_helper(t_render_sprite *data, t_game *game,
 
 	while (data->y_start < data->y_end)
 	{
-		tex_y_helper = (data->y_start - (int)(436 / data->sprite_depth))
+		tex_y_helper = (data->y_start - ((int)(218 / data->sprite_depth)))
 			* 256 - MAX_SCREEN_HEIGHT * 128 + data->sprite_size * 128;
 		tex_y = ((tex_y_helper * 218) / data->sprite_size) / 256;
 		index = 4 * (218 * tex_y + tex_x);
@@ -48,9 +48,6 @@ static void	draw_sprite(t_render_sprite *data, t_game *game, t_dda *dda,
 	double *z_buffer)
 {
 	int		tex_x;
-	bool	behind_wall;
-
-	behind_wall = set_behind_wall(data, z_buffer);
 	while (data->x_start < data->x_end)
 	{
 		data->y_start = find_drawedges(data, 1, 0);
@@ -60,7 +57,7 @@ static void	draw_sprite(t_render_sprite *data, t_game *game, t_dda *dda,
 				* 218 / data->sprite_size) / 256;
 		if (data->sprite_depth > 0 && data->x_start > 0
 			&& data->x_start < MAX_SCREEN_WIDTH
-			&& !behind_wall)
+			&& data->sprite_depth < z_buffer[data->x_start] + 0.0001f)
 			draw_sprite_helper(data, game, dda, tex_x);
 		data->x_start++;
 	}

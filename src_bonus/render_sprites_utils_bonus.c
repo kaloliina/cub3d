@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:02:57 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 12:02:58 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/14 17:11:01 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,28 +53,18 @@ void	sort_sprites(t_game *game, t_dda *dda, int i)
 	}
 }
 
-bool	set_behind_wall(t_render_sprite *data, double *z_buffer)
-{
-	int		x;
-
-	x = data->x_start;
-	while (x < data->x_end)
-	{
-		if (data->sprite_depth >= z_buffer[x] + 0.0001f)
-			return (true);
-		x++;
-	}
-	return (false);
-}
-
 /*Here we calculate the starting and ending points of the line
-that draws the sprite.*/
+that draws the sprite.
+
+We scale the y start and end points with the size of sprite texture,
+because we draw it as half of its original size, and we don't want
+it to float but to stand on ground.*/
 int	find_drawedges(t_render_sprite *data, int flag, int max)
 {
 	int	value;
 	int	scaler;
 
-	scaler = (int)(436 / data->sprite_depth);
+	scaler = (int)(218 / data->sprite_depth);
 	if (flag < 2)
 	{
 		if (flag == 0)

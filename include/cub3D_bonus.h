@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/08/14 16:23:14 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/08/14 17:08:33 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,6 @@ void	render_map(t_game *game);
 //sprites
 void	render_sprites(t_game *game, t_dda *dda, double *z_buffer);
 void	sort_sprites(t_game *game, t_dda *dda, int i);
-bool	set_behind_wall(t_render_sprite *data, double *z_buffer);
 int		find_drawedges(t_render_sprite *data, int flag, int max);
 //dda
 void	init_dda(t_dda *dda, t_game *game);

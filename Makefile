@@ -6,7 +6,7 @@
 #    By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/24 12:16:09 by khiidenh          #+#    #+#              #
-#    Updated: 2025/08/13 17:20:58 by sojala           ###   ########.fr        #
+#    Updated: 2025/08/14 16:40:52 by sojala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,9 +51,9 @@ SRCS_BONUS = 	$(SRCS_BONUS_DIR)cub3d_bonus.c\
 OBJS	= $(SRCS:.c=.o)
 OBJS_BONUS	= $(SRCS_BONUS:.c=.o)
 
-all: $(MLX) libft $(NAME)
+all: $(MLX) $(LIBFT) $(NAME)
 
-bonus: $(MLX) libft $(NAME_BONUS)
+bonus: $(MLX) $(LIBFT) $(NAME_BONUS)
 
 $(MLX):
 	@if [ ! -d $(MLX_DIR) ]; then \
@@ -61,7 +61,7 @@ $(MLX):
 		fi
 	cmake $(MLX_DIR) -B $(MLX_DIR)/build && make -C $(MLX_DIR)/build -j4
 
-libft:
+$(LIBFT):
 	make -C libft
 
 $(SRCS_DIR)%.o: $(SRCS_DIR)%.c

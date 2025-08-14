@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:02:52 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 17:08:17 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/14 17:16:56 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static void	draw_sprite(t_render_sprite *data, t_game *game, t_dda *dda,
 	double *z_buffer)
 {
 	int		tex_x;
+
 	while (data->x_start < data->x_end)
 	{
 		data->y_start = find_drawedges(data, 1, 0);

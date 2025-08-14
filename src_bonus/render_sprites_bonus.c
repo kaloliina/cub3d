@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:02:52 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 17:48:57 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/14 18:02:17 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	draw_sprite_helper(t_render_sprite *data, t_game *game,
 
 	while (data->y_start < data->y_end)
 	{
-		tex_y_helper = (data->y_start - ((int)(218 / data->sprite_depth)))
+		tex_y_helper = (data->y_start - ((int)(268 / data->sprite_depth)))
 			* 256 - MAX_SCREEN_HEIGHT * 128 + data->sprite_size * 128;
 		tex_y = ((tex_y_helper * 218) / data->sprite_size) / 256;
 		index = 4 * (218 * tex_y + tex_x);
@@ -86,7 +86,6 @@ static void	set_sprite_values(t_render_sprite *data, t_game *game,
 			* data->sprite_x + game->plane_x * data->sprite_y);
 	data->sprite_screen_x = (int)((MAX_SCREEN_WIDTH / 2)
 			* (1 + data->corr_x / data->sprite_depth));
-	printf("spritescreenx %d sprite x %f\n", data->sprite_screen_x, game->sprites[i].x);
 	data->sprite_size = abs((int)(MAX_SCREEN_HEIGHT / data->sprite_depth))
 		* 0.5;
 	data->x_start = find_drawedges(data, 0, 0);

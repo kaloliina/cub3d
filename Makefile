@@ -6,7 +6,7 @@
 #    By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/24 12:16:09 by khiidenh          #+#    #+#              #
-#    Updated: 2025/08/15 11:22:46 by sojala           ###   ########.fr        #
+#    Updated: 2025/08/15 12:28:52 by sojala           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,9 @@ MLX = $(MLX_DIR)/build/libmlx42.a
 LIBFT = libft/libft.a
 
 HEADERS	= -I ./include/cub3D.h -I $(MLX_DIR)/include -I libft/includes
-HEADERS_BONUS	= -I ./include/cub3d_bonus.h -I $(MLX_DIR)/include -I libft/includes
+HEADERFILES = ./include/cub3D.h
+HEADERS_BONUS	= -I ./include/cub3D_bonus.h -I $(MLX_DIR)/include -I libft/includes
+HEADERFILES_BONUS = ./include/cub3D_bonus.h
 LIBS	= $(MLX_DIR)/build/libmlx42.a -ldl -lglfw -pthread -lm
 SRCS_DIR	= src/
 SRCS_BONUS_DIR	= src_bonus/
@@ -64,16 +66,16 @@ $(MLX):
 $(LIBFT):
 	make -C libft
 
-$(SRCS_DIR)%.o: $(SRCS_DIR)%.c
+$(SRCS_DIR)%.o: $(SRCS_DIR)%.c $(HEADERFILES)
 	$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS)
 
-$(SRCS_BONUS_DIR)%.o: $(SRCS_BONUS_DIR)%.c
+$(SRCS_BONUS_DIR)%.o: $(SRCS_BONUS_DIR)%.c $(HEADERFILES_BONUS)
 	$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS_BONUS)
 
-$(NAME): $(OBJS) $(MLX)
+$(NAME): $(OBJS) $(MLX) $(HEADERFILES)
 	$(CC) $(OBJS) $(LIBS) $(LIBFT) $(HEADERS) -o $(NAME)
 
-$(NAME_BONUS): $(OBJS_BONUS) $(MLX)
+$(NAME_BONUS): $(OBJS_BONUS) $(MLX) $(HEADERFILES_BONUS)
 	$(CC) $(OBJS_BONUS) $(LIBS) $(LIBFT) $(HEADERS_BONUS) -o $(NAME_BONUS)
 
 clean:

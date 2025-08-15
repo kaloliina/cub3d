@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:02:52 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/15 10:48:08 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/15 11:45:20 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static void	draw_sprite_helper(t_render_sprite *data, t_game *game,
 
 	while (data->y_start < data->y_end)
 	{
-		tex_y_helper = (data->y_start - (int)(0.25 * MAX_SCREEN_HEIGHT / data->sprite_depth))
+		tex_y_helper = (data->y_start
+				- (int)(0.25 * MAX_SCREEN_HEIGHT / data->sprite_depth))
 			* 256 - MAX_SCREEN_HEIGHT * 128 + data->sprite_size * 128;
 		tex_y = ((tex_y_helper * 218) / data->sprite_size) / 256;
 		index = 4 * (218 * tex_y + tex_x);

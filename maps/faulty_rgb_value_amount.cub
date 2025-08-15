@@ -1,7 +1,7 @@
-NO assets/tile_no.png
-SO assets/tile_so.png
-WE assets/tile_we.png
-EA assets/tile_ea.png
+NO textures/tile_no.png
+SO textures/tile_so.png
+WE textures/tile_we.png
+EA textures/tile_ea.png
 
 F 168,235,52
 C 225,255

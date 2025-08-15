@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:02:35 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 16:05:53 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/15 11:49:16 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	init_maps(t_game *game)
 	int	i;
 
 	i = 0;
-	game->asset_paths[SPRITE] = ft_strdup("assets/sprite.png");
+	game->asset_paths[SPRITE] = ft_strdup("textures/sprite.png");
 	if (!game->asset_paths[SPRITE])
 		cleanup_and_exit(game, ERRMEM, 0, 0);
 	while (i < TEXTURE_COUNT)

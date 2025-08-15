@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/08/14 17:08:33 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/15 11:29:28 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,10 +196,10 @@ void	draw_line(t_game *game, double start_x, double start_y);
 void	draw_pixels(t_game *game, enum e_assets type, int x, int y);
 int		get_color(int *rgb);
 void	texture_square_checker(t_game *game, int i);
-//wall textures
-void	get_wallhitpoint(t_dda *dda, double *wallhitpoint);
 int		get_curr_color(t_game *game, enum e_textures type,
 			int index, t_dda *dda);
+//wall textures
+void	get_wallhitpoint(t_dda *dda, double *wallhitpoint);
 void	draw_wall_stripe(t_dda *dda, t_game *game, double wallhitpoint, int x);
 
 //game mechanics

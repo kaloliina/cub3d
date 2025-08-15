@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:02:57 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 18:01:38 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/15 10:48:16 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,21 @@ void	sort_sprites(t_game *game, t_dda *dda, int i)
 /*Calculates the starting and ending points of the line
 that draws the sprite.
 
-We scale the y start and end points with the size of sprite texture
-+ 50, because we draw it as half of its original size, and we don't
-want it to float but to stand on ground.*/
+We scale the y start and end points, because we draw it as
+half of its original size, and we don't want it to float
+but to stand on ground.*/
 int	find_drawedges(t_render_sprite *data, int flag, int max)
 {
 	int	value;
 	int	scaler;
 
-	scaler = (int)(268 / data->sprite_depth);
+	scaler = (int)(0.25 * MAX_SCREEN_HEIGHT / data->sprite_depth);
 	if (flag < 2)
 	{
 		if (flag == 0)
 			value = -data->sprite_size / 2 + data->sprite_screen_x;
 		else
-			value = (-data->sprite_size) / 2 + MAX_SCREEN_HEIGHT / 2 + scaler;
+			value = -data->sprite_size / 2 + MAX_SCREEN_HEIGHT / 2 + scaler;
 		if (value < 0)
 			value = 0;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khiidenh <khiidenh@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 12:48:44 by khiidenh          #+#    #+#             */
-/*   Updated: 2025/08/14 16:23:30 by khiidenh         ###   ########.fr       */
+/*   Updated: 2025/08/15 11:28:48 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,14 +169,10 @@ int		get_color(int *rgb);
 void	texture_square_checker(t_game *game, int i);
 //wall textures
 void	get_wallhitpoint(t_dda *dda, double *wallhitpoint);
-int		get_curr_color(t_game *game, enum e_textures type,
-			int index, t_dda *dda);
 void	draw_wall_stripe(t_dda *dda, t_game *game, double wallhitpoint, int x);
 
 //game mechanics
-void	key_hook(mlx_key_data_t keydata, void *param);
 void	loop_hook(void *param);
-void	cursor_hook(void *param);
 
 //errors and exits
 void	free_array(char **array, int entirety);

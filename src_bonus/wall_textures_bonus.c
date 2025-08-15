@@ -6,7 +6,7 @@
 /*   By: sojala <sojala@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:03:05 by sojala            #+#    #+#             */
-/*   Updated: 2025/08/14 16:08:03 by sojala           ###   ########.fr       */
+/*   Updated: 2025/08/15 11:28:29 by sojala           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,27 @@ static int	get_tex_x(double wallhitpoint, t_dda *dda, int tex_size)
 		|| (dda->hor_side == 1 && dda->raydir_y < 0))
 		temp = tex_size - temp - 1;
 	return (temp);
+}
+
+/*Pixels of the texture are stored in a 1D array. Horizontal sides are made
+darker by shifting the bits to "divide by 2" ie. removing the last digit,
+and then setting the first bit of every bite to zero by calling AND with
+0111 1111 0111 1111 0111 1111.*/
+int	get_curr_color(t_game *game, enum e_textures type, int index,
+	t_dda *dda)
+{
+	int	color[3];
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		color[i] = game->textures[type]->pixels[index + i];
+		if (type != SPRITE && dda->hor_side)
+			color[i] = (color[i] >> 1) & 8355711;
+		i++;
+	}
+	return (get_color(color));
 }
 
 /*Calculates the correct pixel from the texture to draw it in the right
